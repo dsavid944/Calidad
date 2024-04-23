@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <div class="row">
+    <h1 class="text-center titulo pb-2">Reporte Auditoria Calidad</h1>
+  </div>
+
+  <div class="row mt-4 pt-2 pb-2 shadow pl-5" [formGroup]="formFilter">
+    <div class="row flex justify-content-end flex-wrap">
+      <div class="col-1 flex justify-content-end flex-wrap">
+        <i class='bx bx-filter-alt' style="font-size: 3rem; cursor: pointer;" (click)="resetFilters()"></i>
+      <!--         <i class="pi pi-filter-slash"  ></i> -->
+      </div>
+      <div class="col-1 flex justify-content-center flex-wrap">
+        <i class="fa-regular fa-file-excel" style="font-size: 3rem; cursor: pointer;" (click)="exportExcel()"></i>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <p-calendar view="year" dateFormat="yy" placeholder="Año" styleClass="w-12" formControlName="año"
+          (onSelect)="getDatosDefecto()"></p-calendar>
+      </div>
+      <div class="col-3">
+        <p-calendar view="month" dateFormat="MM" placeholder="Mes" styleClass="w-12" formControlName="mes"
+          (onSelect)="getDatosDefecto()"></p-calendar>
+      </div>
+      <div class="col-3">
+        <p-dropdown [options]="opcionesDropDownSemana" formControlName="semana" (onChange)="getDatosDefecto()"
+          placeholder="Semana" styleClass="w-12">
+        </p-dropdown>
+      </div>
+      <div class="col-3">
+        <p-dropdown [options]="opcionesDropDownPlanta" formControlName="planta" (onChange)="getDatosDefecto()"
+          placeholder="Planta" styleClass="w-12">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 pt-2 pb-2 shadow">
+    <div class="card">
+      <p-table [value]="datosDefecto" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+        [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [breakpoint]="'960px'"
+        styleClass="p-datatable-sm p-datatable-striped text-center text-xs align-items-center">
+        <ng-template pTemplate="header">
+          <tr style="font-size: 12px ;">
+            <th class="text-center">Mes</th>
+            <th class="text-center">Semana</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Módulo</th>
+            <th class="text-center">Referencia</th>
+            <th class="text-center">Prenda</th>
+            <th class="text-center">Tipo Defecto</th>
+            <th class="text-center">Parte Defecto</th>
+            <th class="text-center">Defecto</th>
+            <th class="text-center">Orden Corte</th>
+            <th class="text-center">Número Arte</th>
+            <th class="text-center">Cantidad</th>
+            <th class="text-center">Revisadas</th>
+            <th class="text-center">Porcentaje </th>
+            <th class="text-center">Nombre Planta</th>
+            <th class="text-center">Auditor</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-datosDefecto>
+          <tr style="font-size: 12px ;">
+            <td class="text-center">{{datosDefecto.mes}}</td>
+            <td class="text-center">{{datosDefecto.semana}}</td>
+            <td class="text-center">{{datosDefecto.fecha | date:'dd/MM/yyyy'}}</td>
+            <td class="text-center">{{datosDefecto.modulo}}</td>
+            <td class="text-center">{{datosDefecto.referencia}}</td>
+            <td class="text-center">{{datosDefecto.descripcion}}</td>
+            <td class="text-center">{{datosDefecto.nombre}}</td>
+            <td class="text-center">{{datosDefecto.parteDefecto}}</td>
+            <td class="text-center">{{datosDefecto.nombreDefecto}}</td>
+            <td class="text-center">{{datosDefecto.ordenCorte}}</td>
+            <td class="text-center">{{datosDefecto.numeroArte}}</td>
+            <td class="text-center">{{datosDefecto.cantidad}}</td>
+            <td class="text-center">{{datosDefecto.undRevisadas}}</td>
+            <td class="text-center">{{datosDefecto.porcentajeDef}}</td>
+            <td class="text-center">{{datosDefecto.nombrePlanta}}</td>
+            <td class="text-center">{{datosDefecto.usuario}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Cargando Información...</p>
+</ngx-spinner>

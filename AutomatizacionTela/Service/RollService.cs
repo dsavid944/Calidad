@@ -1,11 +1,12 @@
 ﻿using AutomatizacionTela.Model.SetModel;
-using AutomatizacionTela.Model.ViewModel;
 using AutomatizacionTela.Service.Interface;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using System;
+using AutomatizacionTela.Model.ViewModel.AuditpriaRollo;
+using AutomatizacionTela.Model.ViewModel.AuditoriaRollo;
 
 namespace AutomatizacionTela.Service
 {
@@ -28,10 +29,10 @@ namespace AutomatizacionTela.Service
             return response;
         }
 
-        public List<Defect> GetAllDefects()
+        public List<GetDefect> GetAllDefects()
         {
             var sql = "Select IdRows, Descripcion, Proveedor from AutoTel_tblDefecto";
-            var response = _dapperDedalo2008.GetAll<Defect>(sql, null, commandType: CommandType.Text);
+            var response = _dapperDedalo2008.GetAll<GetDefect>(sql, null, commandType: CommandType.Text);
             return response;
         }
 

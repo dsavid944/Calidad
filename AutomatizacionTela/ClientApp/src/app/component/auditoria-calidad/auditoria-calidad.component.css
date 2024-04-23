@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+.static1 {
+    position: sticky;
+    top: 75px;
+    background-color: white;
+    display: inline-block;
+    /* z-index: 3; */    
+    width: 100%;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.titulo {
+    color: white;
+    background-color: rgb(39, 49, 59);
+    -webkit-border-top-left-radius: 50px;
+    -webkit-border-bottom-right-radius: 50px;
+    -moz-border-radius-topleft: 50px;
+    -moz-border-radius-bottomright: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}

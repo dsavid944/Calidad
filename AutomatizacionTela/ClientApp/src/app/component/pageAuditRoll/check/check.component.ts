@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
-import { Defect, IGetCheck, IRollCheck, IUIRollCheck } from '../../../model/interfaces';
+import { Defect, IGetCheck, IRollCheck, IUIRollCheck } from '../../../../model/interfaces';
 
 
 

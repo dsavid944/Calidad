@@ -1,4 +1,5 @@
 using AutomatizacionTela.Context;
+using AutomatizacionTela.Models.Interfaces;
 using AutomatizacionTela.Service.DapperService;
 using AutomatizacionTela.Service.Interface;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +29,7 @@ namespace AutomatizacionTela
                 options.AddPolicy("AllowOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder.WithOrigins("http://localhost:4300")
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                     });
@@ -43,9 +44,33 @@ namespace AutomatizacionTela
 
             services.AddDbContext<AppContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("Dedalo2008"))
-              );
+            );
+
+            services.AddDbContext<AppContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Dedalo"))
+            );
+
+            services.AddDbContext<AppContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ConsultasUnoeeE"))
+            );
+
+            services.AddDbContext<AppContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ConsultasUnoeeC"))
+            );
+
+            services.AddDbContext<AppContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ConsultasIcg"))
+            );
 
             services.AddScoped<IDapperDedalo2008, DapperDedalo2008>();
+
+            services.AddScoped<IDapperDedalo, Services.DapperServices.DapperDedalo>();
+
+            services.AddScoped<IDapperConsultasIcg, Services.DapperServices.DapperConsultasIcg>();
+
+            services.AddScoped<IDapperConsultasUnoeeC, Services.DapperServices.DapperConsultasUnoeeC>();
+
+            services.AddScoped<IDapperConsultasUnoeeE, Services.DapperServices.DapperConsultasUnoeeE>();
 
         }
 
