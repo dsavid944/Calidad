@@ -58,10 +58,12 @@ export class RollComponent {
           ...roll,
           checked: roll.state,
           pending: roll.state ? 0 : roll.quantityRoll,
+
         }));
         this.updatePercentage();
       },
       error: (error) => console.error('Error al buscar el rollo:', error),
+
     });
   }
   changeState(rollNumber: number): void {
@@ -70,7 +72,6 @@ export class RollComponent {
 
     roll.checked = !roll.checked;
     this.updatePercentage();
-
     // Si se cambia a revisado y no estaba previamente guardado, reducir pending
     if (roll.checked) {
       roll.pending = Math.max(0, roll.pending - 1);
@@ -120,6 +121,7 @@ export class RollComponent {
         this.dataRevision = [...storedRolls, ...pendingRolls];
         this.selectedItem = item;
         this.selectedRow = null;
+
       },
       error: (error) => {
         console.error('Error al obtener detalles del documento:', error);

@@ -18,5 +18,6 @@ namespace AutomatizacionTela.Model.ViewModel
         public string Request { get; set; }
         public string Reference { get; set; }
         public string Remision { get; set; }
+        public int QuantityRoll { get; set; }
     }
 }

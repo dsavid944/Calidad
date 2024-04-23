@@ -20,7 +20,7 @@ export interface IGetRoll{
     percentaje?:boolean;
     nameProvider : string;
   }
-  
+
   export interface IRollData {
     idRowUsuario?: number;
     idRowProvider: number;
@@ -42,7 +42,7 @@ export interface IGetRoll{
     observation: string | null;
     isStored? : boolean;
   }
-  
+
   export interface IGetCheck{
     idRowsRevision :number;
     nameProvider : string;
@@ -57,7 +57,7 @@ export interface IGetRoll{
     remision :string;
     quantityRoll : number;
   }
-  
+
   export interface IRollCheck {
     idRowsRevision: number;
     idRowUsuario?: number;
@@ -72,15 +72,15 @@ export interface IGetRoll{
     observacion: string | null;
     estado: boolean;
   }
-  
+
   export interface IUIRollCheck extends IRollCheck {
     roll: number;
+    isStored? : boolean;
   }
-  
+
   export interface Defect {
     idRows: number;
     descripcion: string;
     proveedor: string;
   }
-  
-  
+

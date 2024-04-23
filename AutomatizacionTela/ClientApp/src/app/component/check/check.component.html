@@ -198,7 +198,7 @@
                       </th>
                       <th scope="col" [ngStyle]="{ 'text-align': 'center' }"></th>
                     </tr>
-  
+
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of userInputs; let i = index">
@@ -305,10 +305,11 @@
                           <option [ngValue]="0">Rechazado</option>
                         </select>
                       </td>
-  
+
                       <td>
                         <button
                           type="button"
+                          [disabled]="item.isStored"
                           (click)="selectRowForEdit(item.roll)"
                           class="btn-edit"
                           aria-label="edit"
@@ -342,4 +343,3 @@
       </div>
     </div>
   </div>
-  
