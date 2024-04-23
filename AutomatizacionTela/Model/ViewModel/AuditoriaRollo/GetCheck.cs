@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutomatizacionTela.Model.ViewModel
+namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
 {
     public class GetCheck
-    {  
+    {
         public int IdRowsRevision { get; set; }
         public string NameProvider { get; set; }
         public int Roll { get; set; }

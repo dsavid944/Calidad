@@ -1,4 +1,4 @@
-﻿namespace AutomatizacionTela.Model.ViewModel
+﻿namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
 {
     public class GetRoll
     {
@@ -10,7 +10,7 @@
         public int Roll { get; set; }
         public string Lot { get; set; }
         public string CodeCloth { get; set; }
-        public string NameCloth { get;  }
+        public string NameCloth { get; }
         public string CodeColor { get; set; }
         public string NameColor { get; set; }
         public decimal KiloRoll { get; set; }

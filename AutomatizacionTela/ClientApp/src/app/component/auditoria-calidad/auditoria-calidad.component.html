@@ -1,0 +1,117 @@
+<div class="container-fluid">
+    <div class="row mt-7">
+        <h1 class="text-center titulo">Auditoria Calidad</h1>
+    </div>
+    <div class="row">
+        <div class="shadow static1 mt-3 pl-5">
+            <form [formGroup]="formAuditoriaCalidad">
+                <div class="row">
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            formControlName="planta" (change)="getModulos($any($event.target).value)">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let planta of plantas" value="{{planta.plantaId}}">
+                                {{planta.descripcion}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione una planta</label>
+                    </div>
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            formControlName="modulo">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let modulo of modulos" value="{{modulo.idModulo}}">
+                                {{modulo.descripcion}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione un módulo</label>
+                    </div>
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+                            formControlName="ordenCorte" (keyup)="getArtes($any($event.target).value)">
+                        <label for="floatingInput" class="ms-2">Orden de corte</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select" id="floatingSelectNumeroArte"
+                            aria-label="Floating label select example" formControlName="numeroArte">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let arte of artes" value="{{arte.arte}}">
+                                {{arte.arte}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione número de arte</label>
+                    </div>
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+                            formControlName="referencia">
+                        <label for="floatingInput" class="ms-2">Referencia</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            formControlName="tipoPrenda" (change)="getPrendas($any($event.target).value)">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let tipoPrenda of tipoPrendas" value="{{tipoPrenda.prendaId}}">
+                                {{tipoPrenda.descripcion}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione un tipo de prenda</label>
+                    </div>
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select form-select-sm" id="floatingSelect" aria-label=".form-select-sm example"
+                            formControlName="prenda">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let prenda of prendas" value="{{prenda.prendasDetalleId}}">
+                                {{prenda.descripcion}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione una prenda</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            formControlName="tipoDefecto" (change)="getDefectos($any($event.target).value)">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let tipoDefecto of tipoDefectos" value="{{tipoDefecto.tipoDefectoId}}">
+                                {{tipoDefecto.descripcion}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione un tipo de defecto</label>
+                    </div>
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            formControlName="defecto">
+                            <option value=0>Seleccione una opción</option>
+                            <option *ngFor="let defecto of defectos" value="{{defecto.defectoId}}">
+                                {{defecto.descripcion}}</option>
+                        </select>
+                        <label for="floatingSelect" class="ms-2">Seleccione un defecto</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <input type="number" class="form-control" id="floatingInput" placeholder="name@example.com"
+                            formControlName="unidadesRevisadas"
+                            (keyup)="validateIntegerNumber('revisadas'); enableDefectiveUnits()">
+                        <label for="floatingInput" class="ms-2">Ingrese Unidades Revisadas</label>
+                    </div>
+
+                    <div class="form-floating col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-4 pr-5">
+                        <input type="numer" class="form-control" id="floatingInput" placeholder="name@example.com"
+                            formControlName="unidadesDefectuosas"
+                            (keyup)="validateIntegerNumber('defectuosas'); validateZeroNumber(); validateLargerNumber()">
+                        <label for="floatingInput" class="ms-2">Ingrese Unidades Defectusas</label>
+                    </div>
+                </div>
+                <div class="row mt-4 mb-3 justify-content-end">
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 mr-3 mb-3">
+                        <button type="button" class="btn btn-success" style="width: 100%;"
+                            (click)="postDatos()">Guardar</button>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 mr-3 mb-3">
+                        <button type="button" class="btn btn-primary" style="width: 100%;"
+                            (click)="cleanAll()">Limpiar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,224 @@
+
+<div class="shadow-none p-3 mb-5 bg-light rounded">
+  <div class="shadow-lg p-2 mb-4 bg-body rounded" style="text-align: center;">
+      <h2>REPÓSICIONES DE TELAS</h2>
+  </div>
+  <div class="shadow-lg p-4 mb-4 bg-body rounded">
+    <div class="row ml-2">
+      <div class="col px-2">
+        <h4>Planta</h4>
+        <p-autoComplete
+        [suggestions]="lstPlantasfilter"
+        (completeMethod)="searchPlanta($event)"
+        field="descripcion"
+        (onSelect)="getModulos($event.value); planta=true"
+        [dropdown]="true"
+        [minLength]="1"
+        placeholder="Seleccione una planta"
+        [size]="30"
+        >
+      </p-autoComplete>
+      </div>
+      <div class="col px-2">
+        <h4>Modulo</h4>
+        <p-autoComplete
+        [suggestions]="lstModulosfilter"
+        (completeMethod)="searchModulo($event)"
+        field="descripcion"
+        (onSelect)="modulo=true; getOperarios()"
+        [dropdown]="true"
+        [minLength]="1"
+        [(ngModel)]="moduloSeleccionado"
+        placeholder="Seleccione un modulo"
+        [size]="30"
+        [disabled]="!planta">
+      </p-autoComplete>
+      </div>
+      <div class="col px-2">
+        <h4>Responsable</h4>
+        <p-autoComplete
+        [suggestions]="lstOperariosFilter"
+        (completeMethod)="searchOperario($event)"
+        field="nombreOperario"
+        (onSelect)="selectOperario($event)"
+        [dropdown]="true"
+        [minLength]="1"
+        placeholder="Seleccione un operario"
+        [size]="30"
+        [disabled]="!modulo">
+      </p-autoComplete>
+      </div>
+      <div class="col px-2">
+        <h4 for="">Orden de Corte</h4>
+        <div class="p-inputgroup">
+          <input type="number" class="p-inputtext" [(ngModel)]="orden" (keydown)="keyUpOc($event)" (change)="getOrdenCorte()" placeholder="Oden de Corte"  min="0">
+          <button class="p-button p-button-outlined p-button-secondary" type="button" (click)="getOrdenCorte()"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+      </div> 
+  </div>
+  
+  <div class="shadow-lg p-2 mb-4 bg-body rounded">
+    <div class="d-flex justify-content-between">
+      <div class="col-3 ms-2" style="text-align: left;">
+        <h3 style="font-weight: bold;">Datos Generales</h3>
+      </div>
+      <div class="col-1 " style="text-align: left" >
+        <button class="btn btn-primary" (click)="showGeneral()"><i class="fas fa-plus-square fa-lg" ></i> Agregar</button>
+      </div>
+    </div>
+    
+      <table class="table table-sm">
+        <thead class="thead-dark">
+          <tr style="text-align: center; ">
+            <th scope="col"style="width: 100px; vertical-align: middle;">ORDEN CORTE</th>
+            <th scope="col"style="width: 100px;  vertical-align: middle;">REFERENCIA PRENDA</th>
+            <th scope="col"style="width: 100px; vertical-align: middle;">CODIGO TELA</th>
+            <th scope="col" style="vertical-align: middle;">DESCRIPCION TELA</th>
+            <th scope="col"style="vertical-align: middle;">PIEZAS</th>
+            <th scope="col"style="width: 100px; vertical-align: middle;">CÓDIGO COLOR</th>
+            <th scope="col"style="vertical-align: middle;">DESCRIPCION COLOR</th>
+            <th scope="col"style="vertical-align: middle;"  *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">ARTE</th>
+            <th scope="col"style="width: 100px; vertical-align: middle;">METROS</th>
+            <th scope="col"style="width: 100px; vertical-align: middle;">UNIDADES</th>
+            <th scope="col"style="width: 100px; vertical-align: middle;" *ngIf="nuevaLista.length>0">OPCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fila of nuevaLista; let i = index" >
+            <td style="text-align: center;">{{ fila.ordencorte }}</td>
+            <td >{{ fila.referenciaPrenda }}</td>
+            <td style="text-align: center;">{{ fila.codigoTela }}</td>
+            <td >{{ fila.descripcionTela}}</td>
+            <td >{{ fila.piezas}}</td>
+            <td style="text-align: center;">{{ fila.codigoColor}}</td>
+            <td style="text-align: center;">{{ fila.descripcionColor}}</td>
+            <td style="text-align: center;"  *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">{{ fila.arte}}</td>
+            <td style="text-align: center;">{{ fila.metros}}</td>
+            <td style="text-align: center;">{{ fila.unidades}}</td>
+            <td style="text-align: center; cursor: pointer; color: red;"  (click)="DeleteFila(fila.idRows)"><i class="fas fa-backspace"></i></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <div class="shadow-lg p-2 mb-4 bg-body rounded">
+    <div class="row ml-2">
+      <div class="col">
+        <h4>Tipo Defecto</h4>
+        <p-autoComplete
+        [suggestions]="tipoDefectosFilter"
+        (completeMethod)="searchTipoDefecto($event)"
+        field="descripcion"
+        (onSelect)="selectTipoDefecto($event)"
+        [dropdown]="true"
+        [minLength]="1"
+        placeholder="Seleccione un tipo"
+        [size]="30"
+        [disabled]="">
+      </p-autoComplete>
+      </div>
+      <div class="col">
+        <h4>Defecto</h4>
+        <p-autoComplete
+        [suggestions]="defectosFilter"
+        (completeMethod)="searchDefecto($event)"
+        [(ngModel)]="def"
+        field="descripcion"
+        (onSelect)="selectDefecto($event)"
+        [dropdown]="true"
+        [minLength]="1"
+        placeholder="Seleccione un defecto"
+        [size]="30"
+        [disabled]="">
+      </p-autoComplete>
+      </div>
+
+      </div> 
+  </div>
+  <!-- <div class="shadow-lg p-2 mb-4 bg-body rounded">
+      <h3>Observaciones Especiales</h3>
+      <div class="form-floating">
+          <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" [(ngModel)]="comments"></textarea>
+          <label for="floatingTextarea2">Comentarios</label>
+      </div>
+  </div> -->
+  <div class="shadow-lg p-2 mb-4 bg-body rounded">
+      <h3>
+          Responsable: {{user}}
+      </h3>
+  </div>
+  <div class="row">
+    <div class="col-1 ml-auto mr-5" style="text-align: left" >
+      <button class="btn btn-primary" style="font-[size]:large;" (click)="guardar()"><i class="fas fa-save fa-lg"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+<p-dialog header="DETALLES" [(visible)]="showGenal" [modal]="true" [style]="{ width: '80%', height: '75%' }" [draggable]="false" [resizable]="false">
+<div class="row">
+  <div class="col-4">
+    <label for="">Orden de Corte</label>
+    <div class="input-group mb-3">
+      <input type="number" class="form-control" [(ngModel)]="orden"  placeholder="Oden de Corte" readonly>
+    </div>
+  </div>
+  <div class="col-4">
+    <label for="">Referencia Prenda</label>
+    <div class="input-group mb-3">
+      <input type="text" readonly class="form-control" [(ngModel)]="referenciaPrenda" placeholder="Referencia Prenda">
+    </div>
+  </div>
+  <div class="col-4" *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">
+    <label for="">Arte</label>
+    <div class="input-group mb-3">
+    <p-autoComplete
+    [suggestions]="artefilter"
+    (completeMethod)="searchArte($event)"
+    field="arte"
+    [(ngModel)]="art"
+    (onSelect)="selectArte($event.value)"
+    [dropdown]="true"
+    [minLength]="1"
+    placeholder="Seleccione un arte"
+    [size]="30"
+    [disabled]="">
+  </p-autoComplete>
+  </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="lstOrdenCortes.length > 0">
+  <p-table [value]="lstOrdenCortes" [(selection)]="selectedTelas" dataKey="codigoTela" styleClass="table-sm">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Codigo Tela</th>
+        <th>Descripcion Tela</th>
+        <th>Piezas</th>
+        <th>Código Color</th>
+        <th>Descripcion Color</th>
+        <th>Metros</th>
+        <th>Unidades</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tela>
+      <tr>
+        <td>{{tela.codigoTela}}</td>
+        <td>{{tela.descripcionTela}}</td>
+        <td>{{tela.piezas}}</td>
+        <td>{{tela.codigoColor}}</td>
+        <td>{{tela.descripcionColor}}</td>
+        <td><input type="number" id="{{'id-'+tela.codigoTela}}" (keyup)="validateMin($any($event.target).value, 'id-'+tela.codigoTela)" class="small-input " pInputText [(ngModel)]="tela.metros" min="0"/></td>
+        <td><input type="number" id="{{'idUnd-'+tela.codigoTela}}" (keyup)="validateMin($any($event.target).value, 'idUnd-'+tela.codigoTela)" class="small-input " pInputText [(ngModel)]="tela.unidades" min="0"/></td>
+        <!-- <td><input class="small-input " pInputText type="number" (input)="tela.metros= $any($event.target).value"></td>
+        <td><input class="small-input " pInputText type="number" (input)="tela.unidades= $any($event.target).value"></td> -->
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="row">
+  <button class="btn btn-primary" (click)="onSubmit()">Agregar</button>
+</div>
+</p-dialog>
+
+
+

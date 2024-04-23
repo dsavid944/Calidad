@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutomatizacionTela.Model.ViewModel
+namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
 {
     public class GetDetailCheck
     {
