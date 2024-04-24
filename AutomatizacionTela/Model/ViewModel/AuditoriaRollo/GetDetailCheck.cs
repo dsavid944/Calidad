@@ -7,7 +7,7 @@ namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
 {
     public class GetDetailCheck
     {
-        public int Rollo { get; set; }
+        public int Roll { get; set; }
         public int IdRowsRevision { get; set; }
         public int IdRowDefecto { get; set; }
         public int IdRowUsuario { get; set; }

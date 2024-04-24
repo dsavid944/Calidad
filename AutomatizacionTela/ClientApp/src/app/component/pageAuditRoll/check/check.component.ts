@@ -14,12 +14,12 @@ import { Defect, IGetCheck, IRollCheck, IUIRollCheck } from '../../../../model/i
   templateUrl: './check.component.html',
   styleUrls: ['./check.component.css'],
 })
-export class CheckComponent implements OnInit 
+export class CheckComponent implements OnInit
 {
 
   dataFromDB: IGetCheck[] = [];
   userInputs: IUIRollCheck[] = [];
-  
+
   userInput: IRollCheck[] = [];
   searchRoll?: number;
   searchLot: string = '';
@@ -128,6 +128,7 @@ export class CheckComponent implements OnInit
         this.userInputs = [...storedRollsPrepared, ...newRollsPrepared];
         this.selectedItem = item;
         this.selectedRow = null;
+        console.log(this.userInputs);
       },
       error: (error) => {
         console.error('Error al obtener detalles del documento:', error);
