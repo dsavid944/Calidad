@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  
 }
 .sidebar {
   position: fixed;
@@ -10,14 +10,20 @@
   top: 0;
   height: 100%;
   width: 78px;
-  background: #11101d;
+  background: #27313B;
   padding: 6px 14px;
   z-index: 99;
   transition: all 0.5s ease;
+  overflow: auto;
 }
 .sidebar.open {
   width: 250px;
 }
+/* Estilos adicionales para la barra de desplazamiento */
+.sidebar::-webkit-scrollbar {
+  width: 1px; /* ancho de la barra de desplazamiento */
+}
+
 .sidebar .logo-details {
   height: 60px;
   display: flex;
@@ -77,7 +83,7 @@
   left: calc(100% + 15px);
   z-index: 3;
   background: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3) */;
   padding: 6px 12px;
   border-radius: 4px;
   font-size: 15px;
@@ -108,7 +114,7 @@
   border: none;
   border-radius: 12px;
   transition: all 0.5s ease;
-  background: #1d1b31;
+  background: #27313B;
 }
 .sidebar.open input {
   padding: 0 20px 0 50px;
@@ -120,16 +126,16 @@
   left: 0;
   transform: translateY(-50%);
   font-size: 22px;
-  background: #1d1b31;
+  background: #27313B;
   color: #fff;
 }
 .sidebar.open .bx-search:hover {
-  background: #1d1b31;
+  background: #27313B;
   color: #fff;
 }
 .sidebar .bx-search:hover {
   background: #fff;
-  color: #11101d;
+  /* color: #27313B; */
 }
 .sidebar li a {
   display: flex;
@@ -139,10 +145,10 @@
   align-items: center;
   text-decoration: none;
   transition: all 0.4s ease;
-  background: #11101d;
+ /*  background: #27313B; */
 }
 .sidebar li a:hover {
-  background: #fff;
+  background: #c7cbcf;
 }
 .sidebar li a .links_name {
   color: #fff;
@@ -160,7 +166,7 @@
 .sidebar li a:hover .links_name,
 .sidebar li a:hover i {
   transition: all 0.5s ease;
-  color: #11101d;
+  color: #27313B;
 }
 .sidebar li i {
   height: 50px;

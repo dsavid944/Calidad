@@ -6,12 +6,16 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuditoriaCalidadComponent } from "./component/auditoria-calidad/auditoria-calidad.component";
 import { ReporteAuditoriaCalidadComponent } from "./component/reporte-auditoria-calidad/reporte-auditoria-calidad.component";
 import { SolicitudReposicionesComponent } from "./component/solicitud-reposiciones/solicitud-reposiciones.component";
+import { ReposicionesPendientesComponent } from "./component/reposiciones-pendientes/reposiciones-pendientes.component";
+import { ReposicionesInformesComponent } from "./component/reposiciones-informes/reposiciones-informes.component";
 
 const routes: Routes = [{path:'Rollo',component:RollComponent},
                         {path:'Check',component:CheckComponent},
                         { path: 'auditoria-calidad', component: AuditoriaCalidadComponent },
                         { path: 'reporte-auditoria-calidad', component: ReporteAuditoriaCalidadComponent },
                         { path: 'solicitud-reposicion-telas', component: SolicitudReposicionesComponent },
+                        { path: 'reposiciones-pendientes', component: ReposicionesPendientesComponent },
+                        { path: 'reposiciones-informes', component: ReposicionesInformesComponent },
                       ];
 
 @NgModule({

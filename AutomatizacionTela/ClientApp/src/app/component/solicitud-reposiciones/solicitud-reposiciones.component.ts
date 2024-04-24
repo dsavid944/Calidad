@@ -353,6 +353,8 @@ export class SolicitudReposicionesComponent {
   }
 
   selectTipoDefecto(event:any){
+    console.log(event);
+    
     this.tipoDefectoSeleccionado = event.tipoDefectoId
     this.getDefectos(this.tipoDefectoSeleccionado)
     this.def = []
@@ -362,7 +364,6 @@ export class SolicitudReposicionesComponent {
     this.defectoSeleccionado = event.defectoId
   }
   selectArte(event:any){
-    console.log(event);
     
     this.arteSeleccionado = event.arte
     this.lstOrdenCortes = this.lstOrdenCortesTotal.filter(arte => arte.arte === this.arteSeleccionado)

@@ -1,0 +1,9 @@
+:host ::ng-deep .p-button.p-button-icon-only.p-button-rounded {
+    border-radius: 10%;
+    height: 1rem;
+}
+
+.custom-header-style {
+    background-color: black;
+    color: white;
+}
