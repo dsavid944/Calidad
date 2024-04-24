@@ -297,5 +297,24 @@ namespace AutomatizacionTela.Controllers
                 return BadRequest(ex.ToString());
             }
         }
+
+        [HttpGet("[Action]/{Email}")]
+        public ActionResult GetPermission(string Email)
+        {
+            try
+            {
+                var response = auditoriaCalidad.GetPermission(Email);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+        }
+
+
+
     }
 }

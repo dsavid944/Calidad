@@ -291,3 +291,9 @@ export interface IReposicionMetrosSemana{
   metros: number;
   valor: number;
 }
+
+export interface IGetPermission {
+  idRowUser: number;
+  nameAplication: string;
+  form: string;
+}

@@ -17,7 +17,7 @@
 	
 		</li> -->
 
-		<li>		
+		<li *ngIf="auditQuality">		
       <a [routerLink]="['/auditoria-calidad']"  >
         <i class='bx bx-podcast'></i>
         <span class="links_name">Auditoria calidad</span>
@@ -26,7 +26,7 @@
 	
 		</li>
 
-    <li>		
+    <li *ngIf="reportAudit">		
       <a [routerLink]="['/reporte-auditoria-calidad']"  >
         <i class='bx bxs-report' ></i>
         <span class="links_name">Reporte auditoria calidad</span>
@@ -35,7 +35,7 @@
 	
 		</li>
 
-    <li>		
+    <li *ngIf="requestAuditCloth">		
       <a [routerLink]="['/solicitud-reposicion-telas']"  >
         <i class='bx bx-unite'></i>
         <span class="links_name">Solicitud reposición telas</span>
@@ -43,7 +43,7 @@
       <span class="tooltip">Solicitud reposición telas</span>	
 		</li>
 
-    <li>		
+    <li *ngIf="rerunAuditCloth">		
       <a [routerLink]="['/reposiciones-pendientes']"  >
         <i class='bx bx-repost' ></i>
         <span class="links_name">Repósiciones de telas</span>

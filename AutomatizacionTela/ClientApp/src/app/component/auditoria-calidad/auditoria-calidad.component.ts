@@ -42,15 +42,7 @@ export class AuditoriaCalidadComponent {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('emailUser') != null) {
-      this.permissionsService.validatePermissions('Auditoria', localStorage.getItem('emailUser')!).subscribe(response => {
-        if (!response) {
-       //   location.href = "https://miclocal.com.co:9321/login"
-        }
-      })
-    } else {
-     // location.href = "https://miclocal.com.co:9321/login"
-    }
+  
 
     this.getPlantas();
     this.getTipoPrendas();

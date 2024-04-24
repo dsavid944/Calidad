@@ -8,6 +8,7 @@ import { ReporteAuditoriaCalidadComponent } from "./component/reporte-auditoria-
 import { SolicitudReposicionesComponent } from "./component/solicitud-reposiciones/solicitud-reposiciones.component";
 import { ReposicionesPendientesComponent } from "./component/reposiciones-pendientes/reposiciones-pendientes.component";
 import { ReposicionesInformesComponent } from "./component/reposiciones-informes/reposiciones-informes.component";
+import { HomeComponent } from "./component/home/home.component";
 
 const routes: Routes = [{path:'Rollo',component:RollComponent},
                         {path:'Check',component:CheckComponent},
@@ -16,6 +17,8 @@ const routes: Routes = [{path:'Rollo',component:RollComponent},
                         { path: 'solicitud-reposicion-telas', component: SolicitudReposicionesComponent },
                         { path: 'reposiciones-pendientes', component: ReposicionesPendientesComponent },
                         { path: 'reposiciones-informes', component: ReposicionesInformesComponent },
+                        { path:'home', component: HomeComponent},
+                        { path:'home/:EmailUser/:Name', component: HomeComponent},
                       ];
 
 @NgModule({

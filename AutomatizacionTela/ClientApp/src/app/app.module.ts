@@ -39,6 +39,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { SolicitudReposicionesComponent } from './component/solicitud-reposiciones/solicitud-reposiciones.component';
 import { ReposicionesPendientesComponent } from './component/reposiciones-pendientes/reposiciones-pendientes.component';
 import { ReposicionesInformesComponent } from './component/reposiciones-informes/reposiciones-informes.component';
+import { HomeComponent } from './component/home/home.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ReposicionesInformesComponent } from './component/reposiciones-informes
     ReporteAuditoriaCalidadComponent,
     SolicitudReposicionesComponent,
     ReposicionesPendientesComponent,
-    ReposicionesInformesComponent
+    ReposicionesInformesComponent,
+    HomeComponent
   ],
   imports: [    
     BrowserModule,
