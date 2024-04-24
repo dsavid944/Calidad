@@ -52,10 +52,14 @@ export class MessageService {
         denyButtonColor: 'Red'
     }).then((result) => {
         if(result.isConfirmed)
-        {
+        { 
           return true;
+        }          
+        else if(result.isDenied)
+        {
+          return false;
         }
-        return false;
+          return false;
     })
   }
 

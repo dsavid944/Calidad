@@ -1,3 +1,4 @@
+  
 	<div class="sidebar">
 	  <div class="logo-details " (click)="toggle()">
 		<img class="logo_name" src="../../../assets/img/logoBlanco.png" alt="">
@@ -6,66 +7,73 @@
 	  </div>
 
 	  <ul class="nav-list">
-
-		<li>
+		
+	<!-- 	<li>		
       <a [routerLink]="['/Rollo']"  >
-        <i class='bx bx-cart-alt'></i>
+        <i class='bx bx-objects-horizontal-right'></i>
         <span class="links_name">Rollo</span>
       </a>
       <span class="tooltip">Rollo</span>
+	
+		</li> -->
 
-		</li>
-    <li>
-      <a [routerLink]="['/Check']"  >
-        <i class='bx bx-cart-alt'></i>
-        <span class="links_name">Check</span>
-      </a>
-      <span class="tooltip">Check</span>
-
-		</li>
-
-		<li>
+		<li *ngIf="auditQuality">		
       <a [routerLink]="['/auditoria-calidad']"  >
-        <i class='bx bx-cart-alt'></i>
+        <i class='bx bx-podcast'></i>
         <span class="links_name">Auditoria calidad</span>
       </a>
       <span class="tooltip">Auditoria calidad</span>
 
 		</li>
 
-    <li>
+    <li *ngIf="reportAudit">		
       <a [routerLink]="['/reporte-auditoria-calidad']"  >
-        <i class='bx bx-cart-alt'></i>
+        <i class='bx bxs-report' ></i>
         <span class="links_name">Reporte auditoria calidad</span>
       </a>
       <span class="tooltip">Reporte auditoria calidad</span>
 
 		</li>
 
-    <li>
+    <li *ngIf="requestAuditCloth">		
       <a [routerLink]="['/solicitud-reposicion-telas']"  >
-        <i class='bx bx-cart-alt'></i>
-        <span class="links_name">Reposición telas</span>
+        <i class='bx bx-unite'></i>
+        <span class="links_name">Solicitud reposición telas</span>
       </a>
-      <span class="tooltip">Reposición telas</span>
-
+      <span class="tooltip">Solicitud reposición telas</span>	
 		</li>
 
-		<li>
+    <li *ngIf="rerunAuditCloth">		
+      <a [routerLink]="['/reposiciones-pendientes']"  >
+        <i class='bx bx-repost' ></i>
+        <span class="links_name">Repósiciones de telas</span>
+      </a>
+      <span class="tooltip">Repósiciones de telas</span>	
+		</li>
+		
+  <!--   <li>		
+      <a [routerLink]="['/reposiciones-informes']"  >
+        <i class='bx bx-repeat' ></i>
+        <span class="links_name">Reposiciones informes</span>
+      </a>
+      <span class="tooltip">Reposiciones informes</span>	
+		</li>
+     -->
+	<!-- 	<li>		
       <a>
         <i class='bx bxl-audible'></i>
         <span class="links_name">Lanzamientos</span>
         <i class='bx bx-chevron-down links_name'></i>
         <span class="tooltip">Lanzamientos</span>
       </a>
-		</li>
-
+		</li> -->
+				
 		<li class="profile">
 		  <div class="profile-details">
-			<i class='bx bx-log-out'></i>
-			  <div >
-  			  <span (click)="logout()" class="name" >Salir</span>
-			  </div>
+			<i class='bx bx-log-out' (click)="logout()"></i>
+			  <!-- <div >
+  			  <span (click)="logout()" class="name" style="color:#fff ;" >Salir</span>
+			  </div> -->
 		  </div>
 
 		</li>

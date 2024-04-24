@@ -1,35 +1,29 @@
+import { OnInit } from '@angular/core';
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { PermissionsService } from 'src/app/service/permissions.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
 
- /*  @ViewChild('sidebar', { static: true }) sidebar: ElementRef | undefined;
+export class NavbarComponent implements OnInit {
 
-  darkMode = false; // Controlar el estado del modo oscuro
-
-  toggleSidebar(): void {
-    this.sidebar?.nativeElement.classList.toggle('Rollo');
-  }
-
-  removeCloseFromSidebar(): void {
-    this.sidebar?.nativeElement.classList.toggle('close');
-  }
-
-  toggleDarkMode(): void {
-    this.darkMode = !this.darkMode;
-    if (this.darkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  }
- */
   isVisible: boolean = false;
-  constructor(private elementRef: ElementRef,private renderer: Renderer2) { }
+  auditQuality:boolean = false;
+  reportAudit:boolean = false;
+  requestAuditCloth:boolean = false;
+  rerunAuditCloth:boolean = false;
+
+
+  constructor(private elementRef: ElementRef,private permissionService: PermissionsService) { }
+
+  ngOnInit(): void {    
+       
+    this.GetPermission();
+    
+  }
 
   // Evento que nos ayuda a expandir y contraer el sidebar (cuando está en modo móvil)
   toggle() {
@@ -48,6 +42,40 @@ export class NavbarComponent {
   }
 
  
+  GetPermission(){ 
+    
+    if (localStorage.getItem('EmailUser') != null || localStorage.getItem('EmailUser') != "null") 
+    {
+      this.permissionService.getPermission(localStorage.getItem('EmailUser')!).subscribe((response) => 
+      {
+        localStorage.setItem('IdUser', response[0].idRowUser.toString())           
+        debugger
+        response.forEach(e=>{
+
+          if(e.form=='AuditoriaCalidad')
+          {
+            this.auditQuality=true;
+          }
+          else if(e.form=='ReporteAuditoriaCalidad')
+          {
+            this.reportAudit=true;
+          }
+          else if(e.form=='SolicitudReposicionTela')
+          {
+            this.requestAuditCloth=true;
+          }
+          else if(e.form=='ReposicionPendiente')
+          {
+            this.rerunAuditCloth=true
+          }
+
+        })
+
+      })
+    }
+   
+  }
+
 
   logout() {
     localStorage.clear()

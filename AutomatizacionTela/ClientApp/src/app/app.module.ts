@@ -37,6 +37,9 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CommonModule, DatePipe } from '@angular/common';
 import { SolicitudReposicionesComponent } from './component/solicitud-reposiciones/solicitud-reposiciones.component';
+import { ReposicionesPendientesComponent } from './component/reposiciones-pendientes/reposiciones-pendientes.component';
+import { ReposicionesInformesComponent } from './component/reposiciones-informes/reposiciones-informes.component';
+import { HomeComponent } from './component/home/home.component';
 
 @NgModule({
   declarations: [
@@ -46,11 +49,12 @@ import { SolicitudReposicionesComponent } from './component/solicitud-reposicion
     CheckComponent,
     AuditoriaCalidadComponent,
     ReporteAuditoriaCalidadComponent,
-    SolicitudReposicionesComponent
-
+    SolicitudReposicionesComponent,
+    ReposicionesPendientesComponent,
+    ReposicionesInformesComponent,
+    HomeComponent
   ],
-  imports: [
-    
+  imports: [    
     BrowserModule,
     HttpClientModule,
     FormsModule,

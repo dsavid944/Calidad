@@ -1,0 +1,132 @@
+
+<p-card header="REPOSICIONES DE TELAS">
+    <p class="m-0">
+  
+      <p-table [value]="dataFiltrada" *ngIf="dataFiltrada" dataKey="radicado" styleClass="p-datatable-sm p-datatable-striped text-xs" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="caption">
+          <div class="d-flex flex-row">
+            <div class=" p-3">
+              <span class="p-float-label">
+                <p-dropdown [options]="dataEstados" styleClass="w-12" (onChange)="filtrarPorEstado()" [(ngModel)]="estadoSeleccionado" optionLabel="value" optionValue="value" placeholder="Seleccione Estado"></p-dropdown>
+                <label>Filtrar por Estado</label>
+              </span>
+            </div>
+            <div class=" p-3">
+              <span class="p-float-label">
+                <p-dropdown [options]="lstPlantas" styleClass="w-12" (onChange)="filtrarPorPlanta()" [(ngModel)]="plantaSeleccionada" optionLabel="descripcion" optionValue="descripcion" placeholder="Seleccione Planta"></p-dropdown>
+                <label>Filtrar por Planta</label>
+              </span>
+            </div>
+          </div>
+      </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px ;">
+                <th style="width: 3rem"></th>
+                <th pSortableColumn="radicado" >RADICADO<p-sortIcon field="radicado"></p-sortIcon></th>
+                <th pSortableColumn="fechaSolicitud">FECHA SOLICITUD<p-sortIcon field="fechaSolicitud"></p-sortIcon></th>
+                <th pSortableColumn="nombrePlanta">PLANTA<p-sortIcon field="nombrePlanta"></p-sortIcon></th>
+                <th pSortableColumn="modulo">MODULO<p-sortIcon field="modulo"></p-sortIcon></th>
+                <th pSortableColumn="tipoDefecto">TIPO DEFECTO<p-sortIcon field="tipoDefecto"></p-sortIcon></th>
+                <th pSortableColumn="defecto">DEFECTO<p-sortIcon field="defecto"></p-sortIcon></th>
+                <th pSortableColumn="operario">OPERARIO<p-sortIcon field="operario"></p-sortIcon></th>
+                <th pSortableColumn="solicitante">SOLICITA<p-sortIcon field="solicitante"></p-sortIcon></th>
+                <th pSortableColumn="estadoReposicion">ESTADO<p-sortIcon field="estadoReposicion"></p-sortIcon></th>
+                <th pSortableColumn="fechaAprobacion">FECHA APROBACIÓN<p-sortIcon field="fechaAprobacion"></p-sortIcon></th>
+                <th pSortableColumn="opciones">OPCIONES</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reposicion let-expanded="expanded">
+            <tr style="font-size: 12px ;">
+                <td>
+                    <button type="button" pButton pRipple [pRowToggler]="reposicion" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'bx bx-chevron-down' : 'bx bx-chevron-right'"></button>
+                </td>
+                <td><span class="p-column-title font-bold text-cyan-800">RADICADO</span>{{ reposicion.radicado }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">FECHA DE SOLICITUD</span>{{ reposicion.fechaSolicitud | date:'yyyy/MM/dd' }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">PLANTA</span>{{ reposicion.nombrePlanta }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">MODULO</span>{{ reposicion.modulo }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">TIPO DEFECTO</span>{{ reposicion.tipoDefecto }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">DEFECTO</span>{{ reposicion.defecto }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">OPERARIO</span>{{ reposicion.operario }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">USUARIO QUE SOLICITA</span>{{ reposicion.solicitante }}</td>
+                <td><span class="p-column-title font-bold text-cyan-800">ESTADO</span>
+                  <p-tag
+                    [value]="reposicion.estadoReposicion"
+                    [severity]="getSeverity(reposicion.estadoReposicion)"
+                  ></p-tag>
+                </td>
+                <td>
+                  <span class="p-column-title font-bold text-cyan-800">FECHA APROBACIÓN</span>
+                  {{ reposicion.fechaAprobacion ? (reposicion.fechaAprobacion | date:'yyyy/MM/dd') : '' }}
+                </td>
+                <td>                 
+                  
+                  <p-overlayPanel #op>
+                    <ng-template pTemplate="content">
+                      <div class="d-flex justify-content-between p-1">
+                        <button type="button" class="btn me-2" style="background: #22C55E;color:#fff" (click)="cambiarEstado(reposicion.radicado, 1)">APROBAR</button>
+                        <button type="button" class="btn " style="background: #EF4444;color:#fff" (click)="cambiarEstado(reposicion.radicado, 0)">RECHAZAR</button>                        
+                      </div>
+                    </ng-template>
+                  </p-overlayPanel>
+
+                  <button *ngIf="reposicion.estadoReposicion == 'CREADA'" class="btn btn-link" (click)="op.toggle($event)"><i class="fas fa-ellipsis-v"></i></button>
+                  
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-reposicion>
+            <tr>
+                <td colspan="10">
+                    <div class="p-2">
+                        <p-table [value]="reposicion.detail" dataKey="radicado" styleClass="p-datatable-xs p-datatable-striped text-xs">
+                            <ng-template pTemplate="header">
+                      
+                                <tr style="font-size: 12px ;">
+                                  <th pSortableColumn="ordenCorte">ORDEN CORTE</th>
+                                  <th pSortableColumn="referenciaPrenda">REFERENCIA PRENDA</th>
+                                  <th pSortableColumn="codigoTela">CÓDIGO TELA</th>
+                                  <th pSortableColumn="descripcionTela">DESCRIPCIÓN TELA</th>
+                                  <th pSortableColumn="piezas">PIEZAS</th>
+                                  <th pSortableColumn="codigoColor">CÓDIGO COLOR</th>
+                                  <th pSortableColumn="descripcionColor">DESCRIPCIÓN COLOR</th>
+                                  <th pSortableColumn="descripcionColor">ARTE</th>
+                                  <th pSortableColumn="metros">METROS</th>
+                                  <th pSortableColumn="unidades">UNIDADES</th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-detail>
+                                <tr style="font-size: 12px ;">
+                                    <td><span class="p-column-title font-bold text-cyan-800">ORDEN CORTE</span>{{ detail.ordenCorte }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">REFERENCIA PRENDA</span>{{ detail.referenciaPrenda }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">CÓDIGO TELA</span>{{ detail.codigoTela }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">DESCRIPCIÓN TELA</span>{{ detail.descripcionTela }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">PIEZAS</span>{{ detail.piezas }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">CÓDIGO COLOR</span>{{ detail.codigoColor }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">DESCRIPCIÓN COLOR</span>{{ detail.descripcionColor }}</td>
+                                    <td><span class="p-column-title font-bold text-cyan-800">ARTE</span>{{ detail.arte}}</td>
+                                    <td style="text-align: center;" ><span class="p-column-title font-bold text-cyan-800">METROS</span>{{ detail.metros }}</td>
+                                    <td style="text-align: center;" ><span class="p-column-title font-bold text-cyan-800">UNIDADES</span>{{ detail.unidades }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="6">Este radicado no contiene detalles.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+        
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+         
+      </ng-template>
+    </p-table>
+    </p>
+  </p-card>
+  
+  
+  

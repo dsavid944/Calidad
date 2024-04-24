@@ -8,6 +8,9 @@ using AutomatizacionTela.Model.ViewModel.AuditpriaRollo;
 using Project.Models.SetModels.Auditoria_Calidad;
 using AutomatizacionTela.Models.SetModels.Auditoria_Calidad;
 using AutomatizacionTela.Models.ViewModels.Auditoria_Calidad;
+using AutomatizacionTela.Service.DapperService;
+using System.Net;
+using AutomatizacionTela.Model.ViewModel;
 
 namespace AutomatizacionTela.Service
 {
@@ -442,6 +445,14 @@ namespace AutomatizacionTela.Service
             }
         }
 
+        public List<GetPermission> GetPermission(string Email)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Option", "GetPermission");
+            parameters.Add("@Email", Email);
+            var response = _dapperDedalo2008.GetAll<GetPermission>($"SpCal_AuditoriaCalidad", parameters, commandType: CommandType.StoredProcedure);
+            return response;
+        }
 
     }
 }

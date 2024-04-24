@@ -19,7 +19,7 @@
         >
       </p-autoComplete>
       </div>
-      <div class="col px-2">
+      <div class="col ">
         <h4>Modulo</h4>
         <p-autoComplete
         [suggestions]="lstModulosfilter"
@@ -69,7 +69,7 @@
     </div>
     
       <table class="table table-sm">
-        <thead class="thead-dark">
+        <thead style="background-color:#343A40; color:#fff" class="thead-dark" >
           <tr style="text-align: center; ">
             <th scope="col"style="width: 100px; vertical-align: middle;">ORDEN CORTE</th>
             <th scope="col"style="width: 100px;  vertical-align: middle;">REFERENCIA PRENDA</th>
@@ -102,14 +102,14 @@
       </table>
   </div>
   <div class="shadow-lg p-2 mb-4 bg-body rounded">
-    <div class="row ml-2">
+    <div class="row ms-2">
       <div class="col">
         <h4>Tipo Defecto</h4>
         <p-autoComplete
         [suggestions]="tipoDefectosFilter"
         (completeMethod)="searchTipoDefecto($event)"
         field="descripcion"
-        (onSelect)="selectTipoDefecto($event)"
+        (onSelect)="selectTipoDefecto($event.value)"
         [dropdown]="true"
         [minLength]="1"
         placeholder="Seleccione un tipo"
@@ -147,12 +147,13 @@
           Responsable: {{user}}
       </h3>
   </div>
-  <div class="row">
+  <div class="d-flex justify-content-end">
     <div class="col-1 ml-auto mr-5" style="text-align: left" >
       <button class="btn btn-primary" style="font-[size]:large;" (click)="guardar()"><i class="fas fa-save fa-lg"></i> Guardar</button>
     </div>
   </div>
 </div>
+
 <p-dialog header="DETALLES" [(visible)]="showGenal" [modal]="true" [style]="{ width: '80%', height: '75%' }" [draggable]="false" [resizable]="false">
 <div class="row">
   <div class="col-4">
