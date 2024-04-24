@@ -1,77 +1,3 @@
-<nav class="sidebar close">
-    <header>
-      <div class="image-text">
-        <span class="image">
-          <img src="src/assets/img/logoBlanco.png" alt="" />
-        </span>
-
-        <div class="text logo-text">
-          <span class="name">Codinglab</span>
-          <span class="profession">Web developer</span>
-        </div>
-      </div>
-
-      <i class='bx bx-chevron-right toggle' (click)="toggleSidebar()"></i>
-    </header>
-
-    <div class="menu-bar">
-      <div class="menu">
-        <ul class="menu-links">
-          <li class="nav-link">
-            <a href="#">
-              <i class="bx bx-home-alt icon"></i>
-              <span class="text nav-text">Dashboard</span>
-            </a>
-          </li>
-
-          <li class="nav-link">
-            <a href="./Rollo">
-              <i class="bx bx-calendar-check icon"></i>
-              <span class="text nav-text">Revenue</span>
-            </a>
-          </li>
-
-          <li class="nav-link">
-            <a href="./Check">
-              <i class="bx bx-notepad icon"></i>
-              <span class="text nav-text">Notifications</span>
-            </a>
-          </li>
-
-          <li class="nav-link">
-            <a href="#">
-              <i class="bx bx-pie-chart-alt icon"></i>
-              <span class="text nav-text">Analytics</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="bottom-content">
-        <li class="">
-          <a href="#">
-            <i class="bx bx-log-out icon"></i>
-            <span class="text nav-text">Logout</span>
-          </a>
-        </li>
-
-        <li class="mode">
-          <div class="sun-moon">
-            <i class="bx bx-moon icon moon"></i>
-            <i class="bx bx-sun icon sun"></i>
-          </div>
-          <span class="mode-text text">Dark mode</span>
-
-          <div class="toggle-switch" (click)="toggleDarkMode()">
-            <span class="switch"></span>
-          </div>
-        </li>
-      </div>
-    </div>
-  </nav>
-   -->
-
-   
 	<div class="sidebar">
 	  <div class="logo-details " (click)="toggle()">
 		<img class="logo_name" src="../../../assets/img/logoBlanco.png" alt="">
@@ -80,44 +6,52 @@
 	  </div>
 
 	  <ul class="nav-list">
-		
-		<li>		
+
+		<li>
       <a [routerLink]="['/Rollo']"  >
         <i class='bx bx-cart-alt'></i>
         <span class="links_name">Rollo</span>
       </a>
       <span class="tooltip">Rollo</span>
-	
+
+		</li>
+    <li>
+      <a [routerLink]="['/Check']"  >
+        <i class='bx bx-cart-alt'></i>
+        <span class="links_name">Check</span>
+      </a>
+      <span class="tooltip">Check</span>
+
 		</li>
 
-		<li>		
+		<li>
       <a [routerLink]="['/auditoria-calidad']"  >
         <i class='bx bx-cart-alt'></i>
         <span class="links_name">Auditoria calidad</span>
       </a>
       <span class="tooltip">Auditoria calidad</span>
-	
+
 		</li>
 
-    <li>		
+    <li>
       <a [routerLink]="['/reporte-auditoria-calidad']"  >
         <i class='bx bx-cart-alt'></i>
         <span class="links_name">Reporte auditoria calidad</span>
       </a>
       <span class="tooltip">Reporte auditoria calidad</span>
-	
+
 		</li>
 
-    <li>		
+    <li>
       <a [routerLink]="['/solicitud-reposicion-telas']"  >
         <i class='bx bx-cart-alt'></i>
         <span class="links_name">Reposición telas</span>
       </a>
       <span class="tooltip">Reposición telas</span>
-	
+
 		</li>
-		
-		<li>		
+
+		<li>
       <a>
         <i class='bx bxl-audible'></i>
         <span class="links_name">Lanzamientos</span>
@@ -125,7 +59,7 @@
         <span class="tooltip">Lanzamientos</span>
       </a>
 		</li>
-				
+
 		<li class="profile">
 		  <div class="profile-details">
 			<i class='bx bx-log-out'></i>
@@ -133,16 +67,15 @@
   			  <span (click)="logout()" class="name" >Salir</span>
 			  </div>
 		  </div>
-		
+
 		</li>
 	  </ul>
 	</div>
-	
+
 	<section class="home-section">
 		<div class="content">
 			<router-outlet></router-outlet>
 		</div>
 	</section>
-	  
 
-	
+

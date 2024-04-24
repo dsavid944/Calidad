@@ -49,9 +49,9 @@ export class RollService {
   }
 
   //trae la informacion de los rollos guardados
-  getDetailCheck(idRowsRevision:number)
+  getDetailCheck(idRowsRevision:number, lot:string)
   {
-    return this.http.get<IUIRollCheck[]>(`${environment.url}RollCntlr/GetDetailCheck/${idRowsRevision}`);
+    return this.http.get<IUIRollCheck[]>(`${environment.url}RollCntlr/GetDetailCheck/${idRowsRevision}/${lot}`);
   }
 
 }

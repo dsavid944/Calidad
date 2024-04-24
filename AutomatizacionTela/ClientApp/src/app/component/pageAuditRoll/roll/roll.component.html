@@ -40,20 +40,23 @@
                     <button
                       type="button"
                       class="btn btn-dark btn-floating"
-                      type="submit"
-                      data-mdb-ripple-init
                       (click)="search()"
                       aria-label="Search"
                     >
                       <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                     </button>
+                  </div>
+                  <!-- Radio buttons para seleccionar el porcentaje -->
+                  <div class="col-md-4 mb-3 mb-md-0">
                     <div class="form-check form-check-inline">
                       <input
                         class="form-check-input"
                         type="radio"
                         name="inlineRadioOptions"
                         id="inlineRadio1"
-                        value="option1"
+                        value="100"
+                        [(ngModel)]="selectedPercentage"
+                        (change)="updatePercentage()"
                       />
                       <label class="form-check-label" for="inlineRadio1"
                         >100%</label
@@ -65,16 +68,14 @@
                         type="radio"
                         name="inlineRadioOptions"
                         id="inlineRadio2"
-                        value="option2"
+                        value="50"
+                        [(ngModel)]="selectedPercentage"
+                        (change)="updatePercentage()"
                       />
                       <label class="form-check-label" for="inlineRadio2"
                         >50%</label
                       >
                     </div>
-                  </div>
-                  <div class="col-md-2 mb-3 mb-md-0">
-                    <!-- <h4>Revisión</h4> -->
-                    <h4>%{{ percentaje | number : "1.2-2" }}</h4>
                   </div>
                 </div>
               </div>
@@ -127,11 +128,12 @@
                         class="form-check-input custom-switch"
                         type="checkbox"
                         role="switch"
-                        [disabled]="item.checked"
+                        [disabled]="!item.enabled || item.checked"
                         [checked]="item.state"
                         id="flexSwitchCheck{{ item.roll }}"
                         (change)="changeState(item.roll)"
                       />
+
                       <label
                         class="form-check-label visually-hidden"
                         for="flexSwitchCheck{{ item.roll }}"
@@ -141,10 +143,7 @@
                   </td>
                   <td>
                     <button
-                      *ngIf="
-                        item.percentaje &&
-                        (percentaje >= 50 || dataRoll.length == 1)
-                      "
+                      *ngIf="item.enabled"
                       (click)="prepareDataForModal(item)"
                       type="button"
                       class="btn-modal"

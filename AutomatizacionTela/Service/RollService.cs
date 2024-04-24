@@ -111,11 +111,12 @@ namespace AutomatizacionTela.Service
             return true;
         }
 
-        public List<GetDetailCheck> GetDetailCheck(int IdRowsRevision)
+        public List<GetDetailCheck> GetDetailCheck(int idRowsRevision, string lot)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Option", "GetDetailCheck");
-            parameters.Add("@@IdRowsRevision", IdRowsRevision);
+            parameters.Add("@@IdRowsRevision", idRowsRevision);
+            parameters.Add("@Lot", lot);
             var response = _dapperDedalo2008.GetAll<GetDetailCheck>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
             return response;
         }

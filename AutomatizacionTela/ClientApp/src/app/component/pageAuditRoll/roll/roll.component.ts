@@ -7,7 +7,7 @@ import { Defect, IGetRoll, IRollData } from 'src/model/interfaces';
 @Component({
   selector: 'app-roll',
   templateUrl: './roll.component.html',
-  styleUrls: ['./roll.component.css']
+  styleUrls: ['./roll.component.css'],
 })
 export class RollComponent {
   dataRoll: IGetRoll[] = [];
@@ -17,7 +17,8 @@ export class RollComponent {
   defectosProveedores: Defect[] = [];
   selectedRow: number | null = null;
   selectedItem: any = {};
-  percentaje: number = 0;
+  selectedPercentage: number = 100;
+  checkedPercentage: number = 0;
 
   constructor(
     private rollService: RollService,
@@ -58,12 +59,10 @@ export class RollComponent {
           ...roll,
           checked: roll.state,
           pending: roll.state ? 0 : roll.quantityRoll,
-
         }));
         this.updatePercentage();
       },
       error: (error) => console.error('Error al buscar el rollo:', error),
-
     });
   }
   changeState(rollNumber: number): void {
@@ -83,51 +82,64 @@ export class RollComponent {
   }
 
   updatePercentage(): void {
-    const checkedCount = this.dataRoll.filter((roll) => roll.checked).length;
-    this.percentaje = (checkedCount / this.dataRoll.length) * 100;
+        // Calcular el número total de rollos que pueden estar marcados como revisados
+    const allowedCheckedRolls = Math.ceil(
+      (this.selectedPercentage / 100) * this.dataRoll.length
+    );
+    // Calcular el número de rollos actualmente marcados como revisados
+    let currentlyCheckedRolls = this.dataRoll.filter(
+      (roll) => roll.checked
+    ).length;
     this.dataRoll.forEach((roll) => {
-      roll.percentaje = this.percentaje >= 50;
-      roll.state = roll.checked; // Actualizar el estado de revisión
+      // Si el rollo ya está marcado como revisado, debe permanecer habilitado
+      if (roll.checked) {
+        roll.enabled = true;
+      } else {
+        // Habilitar el interruptor solo si no hemos alcanzado el límite de rollos permitidos
+        roll.enabled = currentlyCheckedRolls < allowedCheckedRolls;
+      }
     });
   }
 
-
   prepareDataForModal(item: any) {
-    this.rollService.getDatailDocument(item.idRowCloth, item.idRowColor, item.lot).subscribe({
-      next: (response) => {
-        // Filtrar rollos que están marcados pero no están en la respuesta de la base de datos
-        const pendingRolls = this.dataRoll
-          .filter(dr => dr.checked && !response.some(r => r.roll === dr.roll))
-          .map(roll => ({
+    this.rollService
+      .getDatailDocument(item.idRowCloth, item.idRowColor, item.lot)
+      .subscribe({
+        next: (response) => {
+          // Filtrar rollos que están marcados pero no están en la respuesta de la base de datos
+          const pendingRolls = this.dataRoll
+            .filter(
+              (dr) => dr.checked && !response.some((r) => r.roll === dr.roll)
+            )
+            .map((roll) => ({
+              ...roll,
+              mtsFicha: null,
+              mtsProvider: null,
+              widthProvider: null,
+              mtsReal: null,
+              widthReal: null,
+              mtsdeficient: null,
+              idRowDefect: null,
+              observation: null,
+              isStored: false, // Rollos que no están guardados aún
+            }));
+
+          // Agregar a isStored a los rollos ya almacenados
+          const storedRolls = response.map((roll) => ({
             ...roll,
-            mtsFicha: null,
-            mtsProvider: null,
-            widthProvider: null,
-            mtsReal: null,
-            widthReal: null,
-            mtsdeficient: null,
-            idRowDefect: null,
-            observation: null,
-            isStored: false  // Rollos que no están guardados aún
+            isStored: true,
           }));
 
-        // Agregar a isStored a los rollos ya almacenados
-        const storedRolls = response.map(roll => ({
-          ...roll,
-          isStored: true
-        }));
-
-        // Combinar y actualizar dataRevision
-        this.dataRevision = [...storedRolls, ...pendingRolls];
-        this.selectedItem = item;
-        this.selectedRow = null;
-
-      },
-      error: (error) => {
-        console.error('Error al obtener detalles del documento:', error);
-        this.alert.showErrorMessage('Error al cargar datos para el modal.');
-      }
-    });
+          // Combinar y actualizar dataRevision
+          this.dataRevision = [...storedRolls, ...pendingRolls];
+          this.selectedItem = item;
+          this.selectedRow = null;
+        },
+        error: (error) => {
+          console.error('Error al obtener detalles del documento:', error);
+          this.alert.showErrorMessage('Error al cargar datos para el modal.');
+        },
+      });
   }
 
   //se utiliza para editar en el modal
@@ -174,10 +186,10 @@ export class RollComponent {
       idRowUsuario: userId,
       idRowDefect: revision.idRowDefect,
       lot: revision.lot,
-      kiloRoll : revision.kiloRoll,
-      request : revision.request,
-      reference : revision.reference,
-      remision : revision.remision,
+      kiloRoll: revision.kiloRoll,
+      request: revision.request,
+      reference: revision.reference,
+      remision: revision.remision,
       mtsFicha: revision.mtsFicha,
       mtsProvider: revision.mtsProvider,
       widthProvider: revision.widthProvider,

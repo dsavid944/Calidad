@@ -19,6 +19,7 @@ export interface IGetRoll{
     state?:boolean;
     percentaje?:boolean;
     nameProvider : string;
+    enabled?: boolean;
   }
 
   export interface IRollData {
@@ -75,6 +76,7 @@ export interface IGetRoll{
 
   export interface IUIRollCheck extends IRollCheck {
     roll: number;
+    lot: string;
     isStored? : boolean;
   }
 
@@ -83,8 +85,8 @@ export interface IGetRoll{
     descripcion: string;
     proveedor: string;
   }
-  
-  
+
+
 export interface IPlantas {
   plantaId: number;
   descripcion: string;
@@ -273,7 +275,7 @@ export interface IGeneralReposiciones{
       tiempoPerdido: number;
       operario?: string;
       causas?: string
-      
+
 }
 export interface ICalidadReposicionSemana{
   semana: number;

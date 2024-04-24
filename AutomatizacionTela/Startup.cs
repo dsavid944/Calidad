@@ -29,7 +29,7 @@ namespace AutomatizacionTela
                 options.AddPolicy("AllowOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4300")
+                        builder.WithOrigins("http://localhost:4200")
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                     });

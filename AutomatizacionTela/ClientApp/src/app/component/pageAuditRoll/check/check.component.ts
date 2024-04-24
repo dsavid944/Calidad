@@ -77,6 +77,7 @@ export class CheckComponent implements OnInit
     this.userInputs = this.dataFromDB.map((dbItem) => {
       return {
         roll: dbItem.roll,
+        lot: dbItem.lot,
         idRowsRevision: dbItem.idRowsRevision,
         idRowDefecto: null,
         peso: null,
@@ -94,7 +95,7 @@ export class CheckComponent implements OnInit
   }
 
   updateUserInputs(item: any) {
-    this.rollService.getDetailCheck(item.idRowsRevision).subscribe({
+    this.rollService.getDetailCheck(item.idRowsRevision, item.lot).subscribe({
       next: (response) => {
         // Obtener los ids de los rollos ya almacenados para verificar si existen en la respuesta
         const storedRollIds = response.map(stored => stored.idRowsRevision);
