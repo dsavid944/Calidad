@@ -349,7 +349,7 @@ export class SolicitudReposicionesComponent {
   }
   
   selectOperario(event:any){
-    this.operarioSeleccionado = event.idRowOperario
+    this.operarioSeleccionado = event.value.idRowOperario
   }
 
   selectTipoDefecto(event:any){
@@ -361,7 +361,7 @@ export class SolicitudReposicionesComponent {
   }
 
   selectDefecto(event:any){
-    this.defectoSeleccionado = event.defectoId
+    this.defectoSeleccionado = event.value.defectoId
   }
   selectArte(event:any){
     
