@@ -63,7 +63,7 @@ export class SolicitudReposicionesComponent {
 
   ngOnInit(): void {
     this.getPlantas();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem("Name");
   }
 
   getOrdenCorte(){
@@ -254,7 +254,7 @@ export class SolicitudReposicionesComponent {
       datosGenerales: this.nuevaLista,
       tipoDefecto: this.tipoDefectoSeleccionado,
       defecto: this.defectoSeleccionado,
-      responsable: localStorage.getItem("idUser"),
+      responsable: localStorage.getItem("IdUser"),
     }
       this.messageService.AlertQuestions('¿Está seguro de Radicar la solicitud?').then(response => {
         if(response){
