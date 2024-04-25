@@ -51,7 +51,7 @@ export class AuditoriaCalidadService {
   }
 
   sendEmail(body: any) {
-    return this.httpCliente.post<boolean>(environment.url + 'General/SendMail', body)
+    return this.httpCliente.post<boolean>(environment.url + 'AuditoriaCalidad/SendMail', body)
   }
 
   getReposicionTelas() {

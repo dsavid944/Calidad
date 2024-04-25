@@ -1,4 +1,5 @@
-﻿using AutomatizacionTela.Models.Interfaces;
+﻿using AutomatizacionTela.Model.SetModel;
+using AutomatizacionTela.Models.Interfaces;
 using AutomatizacionTela.Models.SetModels.Auditoria_Calidad;
 using AutomatizacionTela.Models.ViewModels.Auditoria_Calidad;
 using AutomatizacionTela.Service;
@@ -314,6 +315,20 @@ namespace AutomatizacionTela.Controllers
 
         }
 
+        [HttpPost("[action]")]
+        public ActionResult SendMail([FromBody] SetEmailRespData body)
+        {
+            try
+            {
+                var response = auditoriaCalidad.SendMail(body);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+
+        }
 
 
     }
