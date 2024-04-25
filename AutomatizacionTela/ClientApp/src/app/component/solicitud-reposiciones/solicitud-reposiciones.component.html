@@ -68,38 +68,40 @@
       </div>
     </div>
     
-      <table class="table table-sm">
-        <thead style="background-color:#343A40; color:#fff" class="thead-dark" >
-          <tr style="text-align: center; ">
-            <th scope="col"style="width: 100px; vertical-align: middle;">ORDEN CORTE</th>
-            <th scope="col"style="width: 100px;  vertical-align: middle;">REFERENCIA PRENDA</th>
-            <th scope="col"style="width: 100px; vertical-align: middle;">CODIGO TELA</th>
-            <th scope="col" style="vertical-align: middle;">DESCRIPCION TELA</th>
-            <th scope="col"style="vertical-align: middle;">PIEZAS</th>
-            <th scope="col"style="width: 100px; vertical-align: middle;">CÓDIGO COLOR</th>
-            <th scope="col"style="vertical-align: middle;">DESCRIPCION COLOR</th>
-            <th scope="col"style="vertical-align: middle;"  *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">ARTE</th>
-            <th scope="col"style="width: 100px; vertical-align: middle;">METROS</th>
-            <th scope="col"style="width: 100px; vertical-align: middle;">UNIDADES</th>
-            <th scope="col"style="width: 100px; vertical-align: middle;" *ngIf="nuevaLista.length>0">OPCIONES</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let fila of nuevaLista; let i = index" >
-            <td style="text-align: center;">{{ fila.ordencorte }}</td>
-            <td >{{ fila.referenciaPrenda }}</td>
-            <td style="text-align: center;">{{ fila.codigoTela }}</td>
-            <td >{{ fila.descripcionTela}}</td>
-            <td >{{ fila.piezas}}</td>
-            <td style="text-align: center;">{{ fila.codigoColor}}</td>
-            <td style="text-align: center;">{{ fila.descripcionColor}}</td>
-            <td style="text-align: center;"  *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">{{ fila.arte}}</td>
-            <td style="text-align: center;">{{ fila.metros}}</td>
-            <td style="text-align: center;">{{ fila.unidades}}</td>
-            <td style="text-align: center; cursor: pointer; color: red;"  (click)="DeleteFila(fila.idRows)"><i class="fas fa-backspace"></i></td>
-          </tr>
-        </tbody>
-      </table>
+      <div  style="overflow-y: auto;">
+        <table class="table table-sm">
+          <thead style="background-color:#343A40; color:#fff" class="thead-dark" >
+            <tr style="text-align: center; ">
+              <th scope="col"style="width: 100px; vertical-align: middle;">ORDEN CORTE</th>
+              <th scope="col"style="width: 100px;  vertical-align: middle;">REFERENCIA PRENDA</th>
+              <th scope="col"style="width: 100px; vertical-align: middle;">CODIGO TELA</th>
+              <th scope="col" style="vertical-align: middle;">DESCRIPCION TELA</th>
+              <th scope="col"style="vertical-align: middle;">PIEZAS</th>
+              <th scope="col"style="width: 100px; vertical-align: middle;">CÓDIGO COLOR</th>
+              <th scope="col"style="vertical-align: middle;">DESCRIPCION COLOR</th>
+              <th scope="col"style="vertical-align: middle;"  *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">ARTE</th>
+              <th scope="col"style="width: 100px; vertical-align: middle;">METROS</th>
+              <th scope="col"style="width: 100px; vertical-align: middle;">UNIDADES</th>
+              <th scope="col"style="width: 100px; vertical-align: middle;" *ngIf="nuevaLista.length>0">OPCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fila of nuevaLista; let i = index" >
+              <td style="text-align: center;">{{ fila.ordencorte }}</td>
+              <td >{{ fila.referenciaPrenda }}</td>
+              <td style="text-align: center;">{{ fila.codigoTela }}</td>
+              <td >{{ fila.descripcionTela}}</td>
+              <td >{{ fila.piezas}}</td>
+              <td style="text-align: center;">{{ fila.codigoColor}}</td>
+              <td style="text-align: center;">{{ fila.descripcionColor}}</td>
+              <td style="text-align: center;"  *ngIf="(plantaSeleccionada == 3 || plantaSeleccionada == 9)">{{ fila.arte}}</td>
+              <td style="text-align: center;">{{ fila.metros}}</td>
+              <td style="text-align: center;">{{ fila.unidades}}</td>
+              <td style="text-align: center; cursor: pointer; color: red;"  (click)="DeleteFila(fila.idRows)"><i class="fas fa-backspace"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
   </div>
   <div class="shadow-lg p-2 mb-4 bg-body rounded">
     <div class="row ms-2">

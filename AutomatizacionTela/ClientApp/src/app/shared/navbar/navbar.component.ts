@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
       this.permissionService.getPermission(localStorage.getItem('EmailUser')!).subscribe((response) => 
       {
         localStorage.setItem('IdUser', response[0].idRowUser.toString())           
-        debugger
+        
         response.forEach(e=>{
 
           if(e.form=='AuditoriaCalidad')
