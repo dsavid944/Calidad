@@ -8,7 +8,7 @@ export class MessageService {
 
   constructor() { }
 
-  
+
 
   AlertWarning(text: string){
     Swal.fire({
@@ -77,11 +77,11 @@ export class MessageService {
       showLoaderOnConfirm: true,
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
-      if (result.isConfirmed) 
+      if (result.isConfirmed)
         return result.value
       else if(result.isDenied)
         return 'false'
-      
+
     })
   }
 
@@ -90,7 +90,7 @@ export class MessageService {
       icon: 'warning',
       title: text,
     }).then((result) => {
-      if (result.isConfirmed) 
+      if (result.isConfirmed)
       return result.value
     });
   }
@@ -99,7 +99,7 @@ export class MessageService {
       icon: 'success',
       title: text,
     }).then((result) => {
-      if (result.isConfirmed) 
+      if (result.isConfirmed)
       return result.value
     });
   }

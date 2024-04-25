@@ -130,12 +130,12 @@ namespace AutomatizacionTela.Controllers
         }
 
 
-        [HttpGet("[Action]/{IdRowsRevision}")]
-        public ActionResult GetDetailCheck(int IdRowsRevision)
+        [HttpGet("[Action]/{IdRowsRevision}/{Lot}")]
+        public ActionResult GetDetailCheck(int idRowsRevision, string lote)
         {
-            try
+           try
             {
-                var response = _rollService.GetDetailCheck(IdRowsRevision);
+                var response = _rollService.GetDetailCheck(idRowsRevision, lote);
                 return Ok(response);
             }
             catch (Exception ex)

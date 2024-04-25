@@ -23,7 +23,7 @@
         <span class="links_name">Auditoria calidad</span>
       </a>
       <span class="tooltip">Auditoria calidad</span>
-	
+
 		</li>
 
     <li *ngIf="reportAudit">		
@@ -32,7 +32,7 @@
         <span class="links_name">Reporte auditoria calidad</span>
       </a>
       <span class="tooltip">Reporte auditoria calidad</span>
-	
+
 		</li>
 
     <li *ngIf="requestAuditCloth">		
@@ -68,23 +68,22 @@
       </a>
 		</li> -->
 				
-		<li class="profile">
+		<li class="profile" style="cursor: pointer;">
 		  <div class="profile-details">
 			<i class='bx bx-log-out' (click)="logout()"></i>
 			  <!-- <div >
-  			  <span (click)="logout()" class="name" style="color:#fff ;" >Salir</span>
+  			  <span (click)="logout()" class="name links_name" style="color:#fff ;" >Salir</span>
 			  </div> -->
 		  </div>
-		
+
 		</li>
 	  </ul>
 	</div>
-	
+
 	<section class="home-section">
 		<div class="content">
 			<router-outlet></router-outlet>
 		</div>
 	</section>
-	  
 
-	
+
