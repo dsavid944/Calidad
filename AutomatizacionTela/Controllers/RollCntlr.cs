@@ -59,6 +59,20 @@ namespace AutomatizacionTela.Controllers
             }
         }
 
+        [HttpGet("GetStates")]
+        public ActionResult GetStates()
+        {
+            try
+            {
+                var response = _rollService.GetAllStates();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
+            }
+        }
+
 
         [HttpGet("[Action]/{IdCloth}/{IdRowColor}/{Lot}")]
         public ActionResult GetDatailDocument(int IdCloth, int IdRowColor, string Lot)

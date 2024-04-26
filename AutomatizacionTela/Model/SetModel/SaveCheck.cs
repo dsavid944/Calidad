@@ -10,6 +10,7 @@ namespace AutomatizacionTela.Model.SetModel
         public int IdRowsRevision { get; set; }
         public int IdRowDefecto { get; set; }
         public int IdRowUsuario { get; set; }
+        public int IdRowEstado { get; set; }
         public decimal Peso { get; set; }
         public decimal Rto { get; set; }
         public decimal Ea { get; set; }

@@ -1,4 +1,4 @@
-  
+
 	<div class="sidebar">
 	  <div class="logo-details " (click)="toggle()">
 		<img class="logo_name" src="../../../assets/img/logoBlanco.png" alt="">
@@ -7,17 +7,26 @@
 	  </div>
 
 	  <ul class="nav-list">
-		
-	<!-- 	<li>		
+
+		<li>
       <a [routerLink]="['/Rollo']"  >
         <i class='bx bx-objects-horizontal-right'></i>
         <span class="links_name">Rollo</span>
       </a>
       <span class="tooltip">Rollo</span>
-	
-		</li> -->
 
-		<li *ngIf="auditQuality">		
+		</li>
+
+    <li>
+      <a [routerLink]="['/Check']"  >
+        <i class='bx bx-calendar-check'></i>
+        <span class="links_name">Chequear</span>
+      </a>
+      <span class="tooltip">Chequear</span>
+
+		</li>
+
+		<li *ngIf="auditQuality">
       <a [routerLink]="['/auditoria-calidad']"  >
         <i class='bx bx-podcast'></i>
         <span class="links_name">Auditoria calidad</span>
@@ -26,7 +35,7 @@
 
 		</li>
 
-    <li *ngIf="reportAudit">		
+    <li *ngIf="reportAudit">
       <a [routerLink]="['/reporte-auditoria-calidad']"  >
         <i class='bx bxs-report' ></i>
         <span class="links_name">Reporte auditoria calidad</span>
@@ -35,31 +44,31 @@
 
 		</li>
 
-    <li *ngIf="requestAuditCloth">		
+    <li *ngIf="requestAuditCloth">
       <a [routerLink]="['/solicitud-reposicion-telas']"  >
         <i class='bx bx-unite'></i>
         <span class="links_name">Solicitud reposición telas</span>
       </a>
-      <span class="tooltip">Solicitud reposición telas</span>	
+      <span class="tooltip">Solicitud reposición telas</span>
 		</li>
 
-    <li *ngIf="rerunAuditCloth">		
+    <li *ngIf="rerunAuditCloth">
       <a [routerLink]="['/reposiciones-pendientes']"  >
         <i class='bx bx-repost' ></i>
         <span class="links_name">Repósiciones de telas</span>
       </a>
-      <span class="tooltip">Repósiciones de telas</span>	
+      <span class="tooltip">Repósiciones de telas</span>
 		</li>
-		
-  <!--   <li>		
+
+  <!--   <li>
       <a [routerLink]="['/reposiciones-informes']"  >
         <i class='bx bx-repeat' ></i>
         <span class="links_name">Reposiciones informes</span>
       </a>
-      <span class="tooltip">Reposiciones informes</span>	
+      <span class="tooltip">Reposiciones informes</span>
 		</li>
      -->
-	<!-- 	<li>		
+	<!-- 	<li>
       <a>
         <i class='bx bxl-audible'></i>
         <span class="links_name">Lanzamientos</span>
@@ -67,7 +76,7 @@
         <span class="tooltip">Lanzamientos</span>
       </a>
 		</li> -->
-				
+
 		<li class="profile">
 		  <div class="profile-details">
 			<i class='bx bx-log-out' (click)="logout()"></i>

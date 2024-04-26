@@ -36,6 +36,13 @@ namespace AutomatizacionTela.Service
             return response;
         }
 
+        public List<GetState> GetAllStates()
+        {
+            var sql = "Select IdRows, Descripcion from AutoTel_tblEstado";
+            var response = _dapperDedalo2008.GetAll<GetState>(sql, null, commandType: CommandType.Text);
+            return response;
+        }
+
         public List<GetDatailDocument> GetDatailDocument(int IdCloth, int IdRowColor, string Lot)
         {
             var parameters = new DynamicParameters();
@@ -59,9 +66,10 @@ namespace AutomatizacionTela.Service
                 parameters.Add("@IdRowUser", roll.IdRowUsuario);
                 parameters.Add("@IdRowProvider", roll.IdRowProvider);
                 parameters.Add("@IdRowDefect", roll.IdRowDefect);
+                parameters.Add("@IdState", roll.IdRowEstado);
                 parameters.Add("@MeterFicha", roll.MtsFicha);
                 parameters.Add("@MeterProvider", roll.MtsProvider);
-                parameters.Add("@WidthProvider", roll.widthProvider);
+                parameters.Add("@WidthProvider", roll.WidthProvider);
                 parameters.Add("@MeterRoyal", roll.MtsReal);
                 parameters.Add("@WidthRoyal", roll.WidthReal);
                 parameters.Add("@MeterDefect", roll.Mtsdeficient);
@@ -96,6 +104,7 @@ namespace AutomatizacionTela.Service
                 parameters.Add("@Option", "SaveCheck");
                 parameters.Add("@IdRowsRevision", roll.IdRowsRevision);
                 parameters.Add("@IdRowDefect", roll.IdRowDefecto);
+                parameters.Add("@IdState", roll.IdRowEstado);
                 parameters.Add("@IdRowUser", roll.IdRowUsuario);
                 parameters.Add("@Weight", roll.Peso);
                 parameters.Add("@Rto", roll.Rto);
@@ -105,7 +114,6 @@ namespace AutomatizacionTela.Service
                 parameters.Add("@WidthElongation", roll.ElongacionAncho);
                 parameters.Add("@LongElongation", roll.ElongacionLargo);
                 parameters.Add("@ObservationCheck", roll.Observacion);
-                parameters.Add("@State", roll.Estado);
                 _dapperDedalo2008.GetAll<SaveCheck>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
             }
             return true;

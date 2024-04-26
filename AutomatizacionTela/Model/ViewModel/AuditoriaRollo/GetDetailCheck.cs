@@ -11,6 +11,7 @@ namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
         public string Lot { get; set; }
         public int IdRowsRevision { get; set; }
         public int IdRowDefecto { get; set; }
+        public int IdRowEstado { get; set; }
         public int IdRowUsuario { get; set; }
         public decimal Peso { get; set; }
         public decimal Rto { get; set; }

@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
-import { Defect, IGetCheck, IRollCheck, IUIRollCheck } from '../../../../model/interfaces';
+import { Defect, IGetCheck, IRollCheck, IUIRollCheck, State } from '../../../../model/interfaces';
 
 
 
@@ -24,6 +24,7 @@ export class CheckComponent implements OnInit
   searchRoll?: number;
   searchLot: string = '';
   defectosProveedores: Defect[] = [];
+  estados: State[] = [];
   selectedRow: number | null = null;
   selectedItem: any = {};
 
@@ -35,6 +36,7 @@ export class CheckComponent implements OnInit
 
   ngOnInit(): void {
     this.loadDefects();
+    this.loadStates();
   }
 
   //Leer la tabla de defectos
@@ -50,6 +52,17 @@ export class CheckComponent implements OnInit
     });
   }
 
+  loadStates(): void {
+    this.defectService.getStates().subscribe({
+      next: (data) => {
+        this.estados = data;
+      },
+      error: (error) => {
+        console.error('Error al recuperar defectos:', error);
+        this.alert.showErrorMessage('Error al recuperar defectos.');
+      },
+    });
+  }
   //Buscar informacion por rollo o lote
   searchCheck(): void {
     if (!this.searchRoll && !this.searchLot) {
@@ -72,28 +85,6 @@ export class CheckComponent implements OnInit
       },
     });
   }
-
-  updateUserInput(): void {
-    this.userInputs = this.dataFromDB.map((dbItem) => {
-      return {
-        roll: dbItem.roll,
-        lot: dbItem.lot,
-        idRowsRevision: dbItem.idRowsRevision,
-        idRowDefecto: null,
-        peso: null,
-        rto: null,
-        ea: null,
-        el: null,
-        viro: null,
-        elongacionAncho: null,
-        elongacionLargo: null,
-        observacion: null,
-        estado: true,
-      };
-    });
-    console.log(this.userInputs);
-  }
-
   updateUserInputs(item: any) {
     this.rollService.getDetailCheck(item.idRowsRevision, item.lot).subscribe({
       next: (response) => {
@@ -107,6 +98,7 @@ export class CheckComponent implements OnInit
         const newRollsPrepared = newRolls.map(roll => ({
           ...roll,
           idRowDefecto: null,
+          idRowEstado: null,
           peso: null,
           rto: null,
           ea: null,
@@ -115,7 +107,6 @@ export class CheckComponent implements OnInit
           elongacionAncho: null,
           elongacionLargo: null,
           observacion: null,
-          estado: true,
         }));
 
 
@@ -130,6 +121,7 @@ export class CheckComponent implements OnInit
         this.selectedItem = item;
         this.selectedRow = null;
         console.log(this.userInputs);
+
       },
       error: (error) => {
         console.error('Error al obtener detalles del documento:', error);
@@ -165,7 +157,7 @@ export class CheckComponent implements OnInit
         revision.elongacionAncho != null &&
         revision.elongacionLargo != null &&
         revision.observacion != null &&
-        revision.estado != null
+        revision.idRowEstado != null
     );
 
     if (!isEveryFieldComplete) {
@@ -182,6 +174,7 @@ export class CheckComponent implements OnInit
       idRowsRevision: revision.idRowsRevision,
       idRowDefecto: revision.idRowDefecto,
       idRowUsuario: userId,
+      idRowEstado: revision.idRowEstado,
       peso: revision.peso,
       rto: revision.rto,
       ea: revision.ea,
@@ -190,8 +183,8 @@ export class CheckComponent implements OnInit
       elongacionAncho: revision.elongacionAncho,
       elongacionLargo: revision.elongacionLargo,
       observacion: revision.observacion,
-      estado: revision.estado,
     }));
+
 
     // Enviar los datos al backend a través del servicio
     this.rollService.saveUpdateCheck(dataToSave).subscribe({

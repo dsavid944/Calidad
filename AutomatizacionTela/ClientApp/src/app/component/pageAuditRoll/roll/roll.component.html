@@ -46,35 +46,17 @@
                       <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                     </button>
                   </div>
-                  <!-- Radio buttons para seleccionar el porcentaje -->
-                  <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="form-check form-check-inline">
+                  <!-- boton para seleccionar el porcentaje -->
+                  <div class="col-md-2 mb-3 mb-md-0">
+                    <div class="form-check form-switch">
                       <input
-                        class="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineRadio1"
-                        value="100"
-                        [(ngModel)]="selectedPercentage"
-                        (change)="updatePercentage()"
+                        class="form-check-input star-content-center"
+                        type="checkbox"
+                        id="percentageSwitch"
+                        (change)="togglePercentage()"
+                        [checked]="selectedPercentage === 100"
                       />
-                      <label class="form-check-label" for="inlineRadio1"
-                        >100%</label
-                      >
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineRadio2"
-                        value="50"
-                        [(ngModel)]="selectedPercentage"
-                        (change)="updatePercentage()"
-                      />
-                      <label class="form-check-label" for="inlineRadio2"
-                        >50%</label
-                      >
+                      <label class="form-check-label" for="percentageSwitch">100%</label>
                     </div>
                   </div>
                 </div>
@@ -128,22 +110,20 @@
                         class="form-check-input custom-switch"
                         type="checkbox"
                         role="switch"
-                        [disabled]="!item.enabled || item.checked"
-                        [checked]="item.state"
-                        id="flexSwitchCheck{{ item.roll }}"
+                        [disabled]="!ToggleRoll(i) || item.state"
+                        [checked]="item.checked"
+                        id="flexSwitchCheck{{ i }}"
                         (change)="changeState(item.roll)"
                       />
-
                       <label
                         class="form-check-label visually-hidden"
-                        for="flexSwitchCheck{{ item.roll }}"
-                        >Cambios</label
-                      >
+                        for="flexSwitchCheck{{ i }}"
+                      >Cambios</label>
                     </div>
                   </td>
                   <td>
                     <button
-                      *ngIf="item.enabled"
+                      *ngIf="!item.state && item.checked && actualCheckedPercentage >= selectedPercentage"
                       (click)="prepareDataForModal(item)"
                       type="button"
                       class="btn-modal"
@@ -250,6 +230,9 @@
                     <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
                       <i class="fa-solid fa-comment-dots"></i>Observación
                     </th>
+                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
+                      <i class="fa-solid fa-comment-dots"></i>Estado
+                    </th>
                     <th scope="col" [ngStyle]="{ 'text-align': 'center' }"></th>
                   </tr>
                 </thead>
@@ -339,6 +322,20 @@
                         [(ngModel)]="item.observation"
                         [readonly]="selectedRow !== item.roll"
                       />
+                    </td>
+                    <td>
+                      <select
+                        class="form-control"
+                        [(ngModel)]="item.idRowEstado"
+                        [disabled]="selectedRow !== item.roll"
+                      >
+                        <option
+                          *ngFor="let dp of estados"
+                          [ngValue]="dp.idRows"
+                        >
+                          {{ dp.descripcion }}
+                        </option>
+                      </select>
                     </td>
                     <td>
                       <button

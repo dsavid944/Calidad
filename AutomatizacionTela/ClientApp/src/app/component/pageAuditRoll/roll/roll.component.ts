@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
-import { Defect, IGetRoll, IRollData } from 'src/model/interfaces';
+import { Defect, IGetRoll, IRollData, State } from 'src/model/interfaces';
 
 @Component({
   selector: 'app-roll',
@@ -15,10 +15,11 @@ export class RollComponent {
   searchRoll?: number;
   searchLot: string = '';
   defectosProveedores: Defect[] = [];
+  estados: State[] = [];
   selectedRow: number | null = null;
   selectedItem: any = {};
-  selectedPercentage: number = 100;
-  checkedPercentage: number = 0;
+  selectedPercentage: number = 50;
+  actualCheckedPercentage: number = 0;
 
   constructor(
     private rollService: RollService,
@@ -28,6 +29,7 @@ export class RollComponent {
 
   ngOnInit(): void {
     this.loadDefects();
+    this.loadStates();
   }
 
   //Leer la tabla de defectos
@@ -35,6 +37,18 @@ export class RollComponent {
     this.defectService.getDefects().subscribe({
       next: (data) => {
         this.defectosProveedores = data;
+      },
+      error: (error) => {
+        console.error('Error al recuperar defectos:', error);
+        this.alert.showErrorMessage('Error al recuperar defectos.');
+      },
+    });
+  }
+
+  loadStates(): void {
+    this.defectService.getStates().subscribe({
+      next: (data) => {
+        this.estados = data;
       },
       error: (error) => {
         console.error('Error al recuperar defectos:', error);
@@ -52,7 +66,6 @@ export class RollComponent {
       );
       return;
     }
-
     this.rollService.getRoll(this.searchRoll, this.searchLot).subscribe({
       next: (dataRoll) => {
         this.dataRoll = dataRoll.map((roll) => ({
@@ -60,17 +73,51 @@ export class RollComponent {
           checked: roll.state,
           pending: roll.state ? 0 : roll.quantityRoll,
         }));
-        this.updatePercentage();
       },
       error: (error) => console.error('Error al buscar el rollo:', error),
     });
   }
+
+    // Suma el porcentage de rollos seleccionados
+  calculateCheckedPercentage(): void {
+    const totalRolls = this.dataRoll.length;
+    const checkedRolls = this.dataRoll.filter(roll => roll.checked).length;
+    this.actualCheckedPercentage = (checkedRolls / totalRolls) * 100;
+  }
+
+    // Método para llamar cuando el usuario cambia el switch de porcentaje.
+  togglePercentage(): void {
+    this.selectedPercentage = this.selectedPercentage === 50 ? 100 : 50;
+  }
+
+  ToggleRoll(index: number): boolean {
+    // Calcula el número total de rollos que pueden ser marcados como revisados
+    const allowedCheckedRolls = Math.ceil((this.selectedPercentage / 100) * this.dataRoll.length);
+
+    // Cuenta todos los rollos marcados como revisados (tanto en la base de datos como manualmente por el usuario)
+    const checkedRollsCount = this.dataRoll.filter(roll => roll.checked || roll.state).length;
+
+    // Obtiene el estado actual de revisión del rollo en el índice dado
+    const currentRollReviewed = this.dataRoll[index].checked || this.dataRoll[index].state;
+
+    // Si el rollo actual ya está revisado, siempre se permite cambiar su estado (se puede desmarcar)
+    if (currentRollReviewed) {
+      return true;
+    }
+    // De lo contrario, solo permite cambiar el estado si hacerlo no excede el número permitido de rollos revisados
+    return checkedRollsCount < allowedCheckedRolls;
+  }
+
+
+
   changeState(rollNumber: number): void {
     const roll = this.dataRoll.find((e) => e.roll === rollNumber);
     if (!roll) return;
-
     roll.checked = !roll.checked;
-    this.updatePercentage();
+    this.calculateCheckedPercentage();
+    this.ToggleRoll(rollNumber);
+    console.log(this.ToggleRoll(rollNumber));
+
     // Si se cambia a revisado y no estaba previamente guardado, reducir pending
     if (roll.checked) {
       roll.pending = Math.max(0, roll.pending - 1);
@@ -79,26 +126,6 @@ export class RollComponent {
       if (roll.pending === 0) roll.pending = roll.quantityRoll;
       else roll.pending += 1;
     }
-  }
-
-  updatePercentage(): void {
-        // Calcular el número total de rollos que pueden estar marcados como revisados
-    const allowedCheckedRolls = Math.ceil(
-      (this.selectedPercentage / 100) * this.dataRoll.length
-    );
-    // Calcular el número de rollos actualmente marcados como revisados
-    let currentlyCheckedRolls = this.dataRoll.filter(
-      (roll) => roll.checked
-    ).length;
-    this.dataRoll.forEach((roll) => {
-      // Si el rollo ya está marcado como revisado, debe permanecer habilitado
-      if (roll.checked) {
-        roll.enabled = true;
-      } else {
-        // Habilitar el interruptor solo si no hemos alcanzado el límite de rollos permitidos
-        roll.enabled = currentlyCheckedRolls < allowedCheckedRolls;
-      }
-    });
   }
 
   prepareDataForModal(item: any) {
@@ -120,6 +147,7 @@ export class RollComponent {
               widthReal: null,
               mtsdeficient: null,
               idRowDefect: null,
+              idRowEstado: null,
               observation: null,
               isStored: false, // Rollos que no están guardados aún
             }));
@@ -165,6 +193,7 @@ export class RollComponent {
         revision.widthReal != null &&
         revision.mtsdeficient != null &&
         revision.idRowDefect != null &&
+        revision.idRowEstado != null &&
         revision.observation != null
     );
 
@@ -185,6 +214,7 @@ export class RollComponent {
       idRowColor: revision.idRowColor,
       idRowUsuario: userId,
       idRowDefect: revision.idRowDefect,
+      idRowEstado: revision.idRowEstado,
       lot: revision.lot,
       kiloRoll: revision.kiloRoll,
       request: revision.request,

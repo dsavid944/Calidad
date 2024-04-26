@@ -298,14 +298,19 @@
                         />
                       </td>
                       <td>
-                        <select class="form-control"
-                                [disabled]="selectedRow !== item.roll"
-                                [(ngModel)]="item.estado">
-                          <option [ngValue]="1">Aprobado <i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i></option>
-                          <option [ngValue]="0">Rechazado</option>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="item.idRowEstado"
+                          [disabled]="selectedRow !== item.roll"
+                        >
+                          <option
+                            *ngFor="let dp of estados"
+                            [ngValue]="dp.idRows"
+                          >
+                            {{ dp.descripcion }}
+                          </option>
                         </select>
                       </td>
-
                       <td>
                         <button
                           type="button"
