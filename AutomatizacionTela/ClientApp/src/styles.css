@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;700&display=swap');
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+  @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;700&display=swap');
+  @import "primeng/resources/themes/lara-light-blue/theme.css";
+  @import "primeng/resources/primeng.css";
 
-/* You can add global styles to this file, and also import other style files */
-body{
+
+  body
+  {
     font-family: 'Lexend', sans-serif;   
-   /*  background-color:#e4e9f7 ;     */ 
+    background-color:#EFEDEB ;     
   }
   
   ::-webkit-scrollbar-thumb {
@@ -17,17 +18,5 @@ body{
   width: 10px;
   height:10px;
   }
-html {
-  height: 100%;
-}
 
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  /*background-image:  url("/assets/img/BGROUND.png");*/
-  background: linear-gradient(to right, rgb(236, 233, 230), rgb(255, 255, 255));
-  background-size: cover; /* Cubre completamente el área del contenedor */
-  background-position: center; /* Centra la imagen en el contenedor */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-}
+
