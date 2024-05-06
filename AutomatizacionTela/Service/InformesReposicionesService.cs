@@ -11,17 +11,209 @@ using AutomatizacionTela.Models.ViewModels.Auditoria_Calidad;
 using AutomatizacionTela.Service.DapperService;
 using System.Net;
 using AutomatizacionTela.Model.ViewModel;
+using AutomatizacionTela.Model.ViewModel.Auditoria_Calidad;
 
 namespace AutomatizacionTela.Service
 {
-    public class AuditoriaCalidadService
+    public class InformesReposicionesService
     {
         private readonly IDapperDedalo2008 _dapperDedalo2008;
 
-        public AuditoriaCalidadService(IDapperDedalo2008 dapperDedalo2008)
+        public InformesReposicionesService(IDapperDedalo2008 dapperDedalo2008)
         {
             _dapperDedalo2008 = dapperDedalo2008;
         }
+
+
+        public List<GetListadoGeneral> GetLitsadoGeneralServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetListadoGeneral");
+                return _dapperDedalo2008.GetAll<GetListadoGeneral>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        public List<GetCalidadReposicionSemana> GetCalidadReposicionSemanaServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetCalidadReposicionSemana");
+                return _dapperDedalo2008.GetAll<GetCalidadReposicionSemana>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<GetCalidadReposicionMes> GetCalidadReposicionMesServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetCalidadReposicionMes");
+                return _dapperDedalo2008.GetAll<GetCalidadReposicionMes>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<GetReposicionMetrosSemana> GetReposicionMetrosSemanaServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetReposicionMetrosSemana");
+                return _dapperDedalo2008.GetAll<GetReposicionMetrosSemana>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<GetReposicionMetrosMes> GetReposicionMetrosMesServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetReposicionMetrosMes");
+                return _dapperDedalo2008.GetAll<GetReposicionMetrosMes>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<GetReferencia_Unidades_Metros> GetReferencia_Unidades_MetrosServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetReferencia_Unidades_Metros");
+                return _dapperDedalo2008.GetAll<GetReferencia_Unidades_Metros>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<GetOperario_Unidades_Metros> GetOperario_Unidades_MetrosServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetOperario_Unidades_Metros");
+                return _dapperDedalo2008.GetAll<GetOperario_Unidades_Metros>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<GetTiempoOperario> GetTiempoOperarioServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetTiempoOperario");
+                return _dapperDedalo2008.GetAll<GetTiempoOperario>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<GetDefectoUnidades> GetDefectoUnidadesServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetDefectoUnidades");
+                return _dapperDedalo2008.GetAll<GetDefectoUnidades>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<GetNumeroSolicitudesOperarios> GetReposicionesOperarioNumeroSolicitudesServ()
+        {
+
+            var parametros = new DynamicParameters();
+
+            try
+            {
+                parametros.Add("@Option", "GetReposicionesOperarioNumeroSolicitudes");
+                return _dapperDedalo2008.GetAll<GetNumeroSolicitudesOperarios>($"SP_CalInformesReposicionTelas", parametros, commandTimeout: 5000, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public List<GetPlantas> GetPlantas()
         {
@@ -297,16 +489,9 @@ namespace AutomatizacionTela.Service
                 throw ex;
             }
         }
-  
+    
 
-        public List<GetPermission> GetPermission(string Email)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Option", "GetPermission");
-            parameters.Add("@Email", Email);
-            var response = _dapperDedalo2008.GetAll<GetPermission>($"SpCal_AuditoriaCalidad", parameters, commandType: CommandType.StoredProcedure);
-            return response;
-        }
+        
 
     }
 }

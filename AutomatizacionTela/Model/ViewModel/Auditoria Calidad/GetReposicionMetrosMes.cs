@@ -7,8 +7,8 @@ namespace AutomatizacionTela.Models.ViewModels.Auditoria_Calidad
 {
     public class GetReposicionMetrosMes
     {
-        public int Mes { get; set; }
-        public int Metros { get; set; }
+        public string Mes { get; set; }
+        public double Metros { get; set; }
         public int Valor { get; set; }
     }
 }

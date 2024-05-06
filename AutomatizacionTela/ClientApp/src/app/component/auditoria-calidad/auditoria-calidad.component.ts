@@ -136,7 +136,6 @@ export class AuditoriaCalidadComponent {
   }
 
   getArtes(ordenCorte: string) {
-    debugger
     if ((ordenCorte != '' && ordenCorte != null)) {
       this.auditoriaCalidadService.getArtes(ordenCorte).subscribe(
         response => {
@@ -184,7 +183,6 @@ export class AuditoriaCalidadComponent {
       this.formAuditoriaCalidad.get('unidadesRevisadas').value != '' && this.formAuditoriaCalidad.get('unidadesRevisadas').value != null &&
       this.formAuditoriaCalidad.get('unidadesDefectuosas').value != '' && this.formAuditoriaCalidad.get('unidadesDefectuosas').value != null
     ) {
-      debugger;
       if ((this.formAuditoriaCalidad.get('unidadesDefectuosas').value != 0) &&
         this.formAuditoriaCalidad.get('tipoDefecto').value != 0 && this.formAuditoriaCalidad.get('defecto').value != 0) {
         if (this.formAuditoriaCalidad.get('tipoDefecto').value != 0 && this.formAuditoriaCalidad.get('defecto').value != 0) {

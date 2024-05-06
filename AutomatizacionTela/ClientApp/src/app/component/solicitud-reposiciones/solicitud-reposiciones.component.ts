@@ -273,6 +273,16 @@ export class SolicitudReposicionesComponent {
     })
     }
     else{
+      let data={
+        planta: this.plantaSeleccionada,
+        modulo:this.moduloSeleccionado.idModulo,
+        operario: this.operarioSeleccionado,
+        datosGenerales: this.nuevaLista,
+        tipoDefecto: this.tipoDefectoSeleccionado,
+        defecto: this.defectoSeleccionado,
+        responsable: localStorage.getItem("IdUser"),
+      }
+      console.log(data)
       this.messageService.AlertError('Existen valores obligatorios vacios, todos los campos deben estar llenos. ')
     }
   }
@@ -349,7 +359,7 @@ export class SolicitudReposicionesComponent {
   }
   
   selectOperario(event:any){
-    this.operarioSeleccionado = event.idRowOperario
+    this.operarioSeleccionado = event.value.idRowOperario
   }
 
   selectTipoDefecto(event:any){
@@ -361,7 +371,8 @@ export class SolicitudReposicionesComponent {
   }
 
   selectDefecto(event:any){
-    this.defectoSeleccionado = event.defectoId
+    console.log(event);
+    this.defectoSeleccionado = event.value.defectoId
   }
   selectArte(event:any){
     

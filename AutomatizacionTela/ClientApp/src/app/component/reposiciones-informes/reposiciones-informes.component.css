@@ -1,0 +1,86 @@
+.titulo {
+    color: white;
+    background-color: rgb(39, 49, 59);
+    -webkit-border-top-left-radius: 40px;
+    -webkit-border-bottom-right-radius: 40px;
+    -moz-border-radius-topleft: 40px;
+    -moz-border-radius-bottomright: 40px;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    font-size: 30px;
+}
+:host ::ng-deep .p-accordion-header-link{
+    background-color: rgba(39, 49, 59, 0.8);
+    color: white;
+}
+
+:host ::ng-deep .p-button{
+    font-size: 13px;
+    height: 20px;
+}
+
+:host ::ng-deep .p-dropdown{
+    width: 100% !important;
+}
+
+:host ::ng-deep .p-calendar{
+    width: 100% !important;
+    font-size: 12px;
+    height: 30 !important
+}
+:host ::ng-deep .p-inputtext {
+    font-size: 11px !important;
+    height: 18px;
+}
+
+
+:host ::ng-deep .p-datatable-gridlines{
+    width: 30rem;
+    font-size: 10px;
+    border: 0.5px solid  grey;
+}
+:host ::ng-deep .p-datatable .p-datatable-thead tr th,
+:host ::ng-deep .p-datatable .p-datatable-tbody tr td {
+    border: 1px solid grey;
+}
+:host ::ng-deep .tab3{
+    width: 40rem;
+    height: 30rem;
+}
+:host ::ng-deep .tab2{
+    width: 30rem;
+    height: 30rem;
+}
+
+.center {
+    text-align: center;
+}
+:host ::ng-deep .p-paginator{
+    font-size: 12px;
+}
+
+:host ::ng-deep  .p-accordion-header-link{
+    height: 20px;
+}
+
+
+:host ::ng-deep .p-multiselect{
+    font-size: 15px !important;
+    height: 35px;
+    width: 20rem;
+}
+
+:host ::ng-deep .tablas-peque{
+    width: 20rem;
+    font-size: 10px;
+}
+:host ::ng-deep .p-datatable .p-datatable-thead tr th,
+:host ::ng-deep .p-datatable .p-datatable-tbody tr td {
+    border: 1px solid grey;
+}
+:host ::ng-deep .p-chip{
+    font-size: 10px !important;
+}
+.tablas-peque2{
+    width: 30px !important;
+}
