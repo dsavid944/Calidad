@@ -170,7 +170,6 @@ export class ReposicionesInformesComponent implements OnInit {
   }
 
   filtrarFecha() {
-    console.log(this.dateIni, this.dateFin);
     if (this.dateIni != null && this.dateFin != null) {
       let dataInit = new Date(this.dateIni);
       let dataFin = new Date(this.dateFin);
@@ -535,7 +534,6 @@ export class ReposicionesInformesComponent implements OnInit {
 
   semanasCalidadFiltro() {
     if (this.semanasSeleccionadas.length > 0) {
-      console.log(this.lstCalidadSemana);
       let semanas = this.semanasSeleccionadas.map((e) => e.semana);
       this.lstCalidadSemana = this.lstCalidadSemanaTotal.filter((item) =>
         semanas.includes(item.semana)
@@ -735,6 +733,14 @@ export class ReposicionesInformesComponent implements OnInit {
           data: this.lstgetOperarioUnidadesMetros.map((e) =>
             parseFloat(e.metros.toFixed(2))
           ),
+          
+        },
+        {
+          //y
+          name: 'Unidades',
+          data: this.lstgetOperarioUnidadesMetros.map((e) =>
+            parseFloat(e.unidades.toFixed(2))
+          ),
         },
       ],
       chart: {
@@ -765,7 +771,7 @@ export class ReposicionesInformesComponent implements OnInit {
         categories: this.lstgetOperarioUnidadesMetros.map((e) => e.operario),
         title: {
           text: 'Operario',
-        },
+        }
       },
       yaxis: {
         title: {
@@ -923,7 +929,6 @@ export class ReposicionesInformesComponent implements OnInit {
     );
 
     this.llenarChart_CausasUnidadesAgrupadas();
-    console.log(this.lstCausasAgrupadasFiltro);
   }
   llenarChart_CausasUnidadesAgrupadas() {
     this.chartOptions9 = {

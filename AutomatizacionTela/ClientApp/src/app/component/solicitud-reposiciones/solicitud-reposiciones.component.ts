@@ -182,8 +182,6 @@ export class SolicitudReposicionesComponent {
   }
 
   getModulos(event: any) {
-    console.log(event)
-    
     this.moduloSeleccionado = null
     this.nuevaLista.splice(0, this.nuevaLista.length);
     this.plantaSeleccionada = event.plantaId;
@@ -282,7 +280,6 @@ export class SolicitudReposicionesComponent {
         defecto: this.defectoSeleccionado,
         responsable: localStorage.getItem("IdUser"),
       }
-      console.log(data)
       this.messageService.AlertError('Existen valores obligatorios vacios, todos los campos deben estar llenos. ')
     }
   }
@@ -363,8 +360,6 @@ export class SolicitudReposicionesComponent {
   }
 
   selectTipoDefecto(event:any){
-    console.log(event);
-    
     this.tipoDefectoSeleccionado = event.tipoDefectoId
     this.getDefectos(this.tipoDefectoSeleccionado)
     this.def = []

@@ -60,7 +60,7 @@
       <span class="tooltip">Repósiciones de telas</span>
 		</li>
 		
-    <li>		
+    <li *ngIf="reportReruns">		
       <a [routerLink]="['/reposiciones-informes']"  >
         <i class='bx bx-repeat' ></i>
         <span class="links_name">Reposiciones informes</span>

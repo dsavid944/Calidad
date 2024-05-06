@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   reportAudit:boolean = false;
   requestAuditCloth:boolean = false;
   rerunAuditCloth:boolean = false;
-
+  reportReruns:boolean = false;
 
   constructor(private elementRef: ElementRef,private permissionService: PermissionsService) { }
 
@@ -66,6 +66,10 @@ export class NavbarComponent implements OnInit {
           else if(e.form=='ReposicionPendiente')
           {
             this.rerunAuditCloth=true
+          }
+          else if(e.form=='reposiciones-informes')
+          {
+            this.reportReruns=true
           }
 
         })
