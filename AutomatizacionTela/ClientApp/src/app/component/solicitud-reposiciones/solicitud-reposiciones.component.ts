@@ -371,7 +371,6 @@ export class SolicitudReposicionesComponent {
   }
 
   selectDefecto(event:any){
-    console.log(event);
     this.defectoSeleccionado = event.value.defectoId
   }
   selectArte(event:any){

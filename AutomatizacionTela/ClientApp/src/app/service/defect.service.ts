@@ -15,4 +15,10 @@ export class DefectService {
     const url = `${environment.url}RollCntlr/GetDefects`;
     return this.http.get<Defect[]>(url);
   }
+
+
+  getStates(): Observable<Defect[]> {
+    const url = `${environment.url}RollCntlr/GetStates`;
+    return this.http.get<Defect[]>(url);
+  }
 }

@@ -5,6 +5,7 @@ export interface IGetRoll{
     idRowColor :number;
     idRowProvider :number;
     dateCreate :string;
+    nameProvider : string;
     roll :number;
     lot :string;
     codeCloth :string;
@@ -19,9 +20,6 @@ export interface IGetRoll{
     checked?:boolean;
     pending:number;
     state?:boolean;
-    percentaje?:boolean;
-    nameProvider : string;
-    enabled?: boolean;
   }
 
   export interface IRollData {
@@ -30,6 +28,7 @@ export interface IGetRoll{
     idRowCloth: number;
     idRowColor: number;
     idRowDefect: number | null;
+    idRowEstado: number | null;
     roll: number;
     lot: string;
     kiloRoll :number;
@@ -65,6 +64,7 @@ export interface IGetRoll{
     idRowsRevision: number;
     idRowUsuario?: number;
     idRowDefecto: number | null;
+    idRowEstado: number | null;
     peso: number | null;
     rto: number | null;
     ea: number | null;
@@ -73,7 +73,6 @@ export interface IGetRoll{
     elongacionAncho: Number | null;
     elongacionLargo: number | null;
     observacion: string | null;
-    estado: boolean;
   }
 
   export interface IUIRollCheck extends IRollCheck {
@@ -88,6 +87,10 @@ export interface IGetRoll{
     proveedor: string;
   }
 
+  export interface State {
+    idRows: number;
+    descripcion: string;
+  }
 
 export interface IPlantas {
   plantaId: number;

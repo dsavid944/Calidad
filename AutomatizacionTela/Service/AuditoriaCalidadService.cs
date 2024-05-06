@@ -11,6 +11,9 @@ using AutomatizacionTela.Models.ViewModels.Auditoria_Calidad;
 using AutomatizacionTela.Service.DapperService;
 using System.Net;
 using AutomatizacionTela.Model.ViewModel;
+using System.IO;
+using System.Net.Mail;
+using AutomatizacionTela.Model.SetModel;
 
 namespace AutomatizacionTela.Service
 {
@@ -308,5 +311,58 @@ namespace AutomatizacionTela.Service
             return response;
         }
 
+        public bool SendMail(SetEmailRespData data)
+        {
+            MemoryStream obj_stream = new MemoryStream();
+            byte[] byteCol = obj_stream.ToArray();
+            List<Attachments> files = new List<Attachments>();
+            List<EmailTo> emailTo = new List<EmailTo>();
+            emailTo.Add(new EmailTo { Email = data.EmailUserToSend });
+
+            List<string> parameters = new List<string>
+            {
+               data.EmailUserToSend,
+               data.JobTitle,
+               data.Telas,
+               data.Url,
+               data.Planta,
+               data.Estado,
+               data.Username
+
+            };
+            SendEmailWithAttachments sendEmailModel = new SendEmailWithAttachments
+            {
+                EmailTo = emailTo,
+                Parameters = parameters,
+                Asunto = data.Subject,
+                Attachments = files,
+                PathTemplate = data.Template
+            };
+            //object o = JsonConvert.DeserializeObject(json1);
+            string json = JsonConvert.SerializeObject(sendEmailModel, Newtonsoft.Json.Formatting.Indented);
+            var responseBody = string.Empty;
+            var url = "https://miclocal.com.co:9354/api/Email/SendEmailWithAttachments";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Headers.Add("Content-Type: application/json; charset=utf-8");
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+            using (WebResponse response = request.GetResponse())
+            {
+                using (Stream strReader = response.GetResponseStream())
+                {
+                    //if (strReader == null) return 0;
+                    using (StreamReader objReader = new StreamReader(strReader))
+                    {
+                        responseBody = objReader.ReadToEnd();
+                    }
+                }
+            }
+            return true;
+        }
     }
 }
