@@ -868,7 +868,7 @@ export class ReposicionesInformesComponent implements OnInit {
         }
       },
       title: {
-        text: "Top Referencias",
+        text: "Top Operarios",
         align: "center"
       },
       xaxis: {
@@ -941,7 +941,7 @@ export class ReposicionesInformesComponent implements OnInit {
         }
       },
       title: {
-        text: "Top Referencias",
+        text: "Top Causas",
         align: "center"
       },
       xaxis: {
