@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class AuditoriaCalidadComponent {
 
-  
+
   formAuditoriaCalidad: any;
   plantas: IPlantas[] = [];
   modulos: IModulos[] = [];
@@ -42,7 +42,7 @@ export class AuditoriaCalidadComponent {
   }
 
   ngOnInit(): void {
-  
+
 
     this.getPlantas();
     this.getTipoPrendas();
@@ -338,7 +338,7 @@ export class AuditoriaCalidadComponent {
       defectoId: this.formAuditoriaCalidad.get('defecto').value == 0 ? null : this.formAuditoriaCalidad.get('defecto').value,
       cantidad: this.formAuditoriaCalidad.get('unidadesDefectuosas').value,
       undRevisadas: this.formAuditoriaCalidad.get('unidadesRevisadas').value,
-      auditoraId: localStorage.getItem('emailUser'),
+      auditoraId: localStorage.getItem('EmailUser'),
     }
 
     this.auditoriaCalidadService.postDatos(body).subscribe(
