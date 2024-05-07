@@ -17,6 +17,7 @@
 :host ::ng-deep .p-button{
     font-size: 13px;
     height: 20px;
+    border-radius: 5px;
 }
 
 :host ::ng-deep .p-dropdown{
@@ -32,7 +33,10 @@
     font-size: 11px !important;
     height: 18px;
 }
-
+:host ::ng-deep .p-datepicker {
+    transform: scale(0.7);
+    /* Adjust the scale to your desired value */
+}
 
 :host ::ng-deep .p-datatable-gridlines{
     width: 30rem;
@@ -83,4 +87,7 @@
 }
 .tablas-peque2{
     width: 30px !important;
+}
+.card{
+    border-radius: 5px;
 }

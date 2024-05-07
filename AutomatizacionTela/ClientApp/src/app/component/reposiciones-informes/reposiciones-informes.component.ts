@@ -47,6 +47,7 @@ export type ChartOptions = {
   tooltip: ApexTooltip;
   stroke: ApexStroke;
   responsive: ApexResponsive[];
+  colors: string[];
   legend: ApexLegend;
 };
 @Component({
@@ -66,6 +67,9 @@ export class ReposicionesInformesComponent implements OnInit {
   public chartOptions8: Partial<ChartOptions>;
   public chartOptions9: Partial<ChartOptions>;
   public chartOptions10: Partial<ChartOptions>;
+  public chartOptions11: Partial<ChartOptions>;
+  public chartOptions12: Partial<ChartOptions>;
+  public chartOptions13: Partial<ChartOptions>;
 
   formFilter: any;
   lstGeneral: IGeneralReposiciones[] = [];
@@ -93,6 +97,9 @@ export class ReposicionesInformesComponent implements OnInit {
   referenciasSeleccionadas: any[] = [];
   referenciasTotales: string[] = [];
   referencias: any[] = [];
+  referenciasTop: any[] = [];
+  operariosTop: any[] = [];
+  causasTop: any[] = [];
   showReport: boolean = false;
   operarios: any[] = [];
   operariosTotal: any[] = [];
@@ -102,7 +109,10 @@ export class ReposicionesInformesComponent implements OnInit {
   causas: any[] = [];
   dateIni: Date;
   dateFin: Date;
-
+  promedioCalidad: number = 0;
+  unidadesT: number = 0;
+  metrosT: number = 0;
+  reposicionesT: number = 0;
   ///////////////
   showGeneral: boolean = true;
   showCalidad: boolean = false;
@@ -173,13 +183,13 @@ export class ReposicionesInformesComponent implements OnInit {
     if (this.dateIni != null && this.dateFin != null) {
       let dataInit = new Date(this.dateIni);
       let dataFin = new Date(this.dateFin);
-      console.log(dataInit, dataFin);
 
       if (dataFin >= dataInit) {
         this.lstGeneral = this.lstGeneralTotal.filter((item) => {
           let fechaItem = new Date(item.fecha);
           return fechaItem >= dataInit && fechaItem <= dataFin;
         });
+        this.calcularGenerales();
       } else {
         this.message.ShowSwalBasicWarning(
           'Fecha inválida',
@@ -200,12 +210,35 @@ export class ReposicionesInformesComponent implements OnInit {
       .subscribe((response) => {
         this.lstGeneral = response;
         this.lstGeneralTotal = response;
-        this.spinner.hide();
-        this.loading = false;
         this.getSemanas();
         this.getOperarios();
+        this. calcularReferenciasTop();
+        this.calcularOperariosTop();
+        this.calcularCausasTop();
+        this.loading = false;
+        this.spinner.hide();
+        this.calcularGenerales();
+        
       });
   }
+
+  calcularGenerales() {
+    let sumaTiempos = 0
+    let UnidadesTotales = 0
+    let MetrosTotales = 0
+    if(this.lstGeneral.length>0){
+      this.lstGeneral.forEach(item => {
+        sumaTiempos += item.tiempoPerdido;
+        UnidadesTotales += item.unidades;
+        MetrosTotales += item.metros
+      }); 
+      this.promedioCalidad= (sumaTiempos / this.lstGeneral.length)
+      this.unidadesT =  UnidadesTotales
+      this.metrosT= MetrosTotales
+      this.reposicionesT = this.lstGeneral.length
+    }
+  }
+
 
   getReposicionMetrosSemanas() {
     this.semanasSeleccionadas = [];
@@ -359,6 +392,7 @@ export class ReposicionesInformesComponent implements OnInit {
         this.lstDefectoUnidadesTotal = response;
         this.getCausas();
         this.agruparYSumarUnidades();
+        this.calcularCausasTop();
         this.llenarChart_CausasUnidades();
       });
   }
@@ -372,6 +406,7 @@ export class ReposicionesInformesComponent implements OnInit {
       .subscribe((response) => {
         this.lstReferencia_Unidades_Metros = response;
         this.lstReferencia_Unidades_MetrosTotal = response;
+        this.calcularReferenciasTop();
         this.llenarChart_Unidades_Metros();
       });
   }
@@ -385,7 +420,9 @@ export class ReposicionesInformesComponent implements OnInit {
     this.referencias = [...referenciasUnicas].map((ref) => ({
       referencia: ref,
     }));
+    
   }
+
 
   getOperarios() {
     this.operariosTotal = this.lstGeneralTotal.map((e) => e.operario);
@@ -450,6 +487,7 @@ export class ReposicionesInformesComponent implements OnInit {
       .subscribe((response) => {
         this.lstgetOperarioUnidadesMetros = response;
         this.lstgetOperarioUnidadesMetrosTotal = response;
+        this.calcularOperariosTop();
         this.llenarChart_Operarios_Unidades_Metros();
       });
   }
@@ -692,9 +730,230 @@ export class ReposicionesInformesComponent implements OnInit {
             semanas.includes(item.semana)
         );
     }
-
+    this.calcularReferenciasTop()
     this.llenarChart_Unidades_Metros();
   }
+
+  
+  calcularReferenciasTop() {
+    this.referenciasTop = [];
+    let semanas = this.semanasSeleccionadas.map((e) => e.semana);
+    const referenciasConteo = {};
+    if (semanas.length === 0) {
+      this.lstGeneralTotal.forEach(item => {
+        referenciasConteo[item.referencia] = (referenciasConteo[item.referencia] || 0) + 1;
+      });
+    } else {
+      this.lstGeneralTotal.filter(item => semanas.includes(item.semana)).forEach(item => {
+        referenciasConteo[item.referencia] = (referenciasConteo[item.referencia] || 0) + 1;
+      });
+    }
+    
+    this.referenciasTop = Object.keys(referenciasConteo).map(ref => ({
+      referencia: ref,
+      conteo: referenciasConteo[ref]
+    })).sort((a, b) => b.conteo - a.conteo).slice(0, 5);
+   
+    this.chartOptions11 = {
+      series: [
+        {
+          name: "Cantidad",
+          data:  this.referenciasTop.map((e) =>e.conteo).reverse(),
+        }
+      ],
+      chart: {
+        type: "bar",
+        height: 300
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          horizontal: true,
+          distributed: true,
+          isFunnel: true
+
+        }
+      },
+      colors: [
+        "#4B4E6D", 
+        "#7887AB", 
+        "#A9BCD0", 
+        "#D3E1ED", 
+        "#B0B0B0",         
+      ],
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex];
+        },
+        style: {
+          fontSize: '12px',
+          colors: ["#000000"] 
+        },
+        dropShadow: {
+          enabled: false
+        }
+      },
+      title: {
+        text: "Top Referencias",
+        align: "center"
+      },
+      xaxis: {
+        categories: this.referenciasTop.map((e) => e.referencia).reverse(),
+      },
+      legend: {
+        show: false
+      }
+    };
+
+  }
+
+  calcularOperariosTop() {
+    this.operariosTop = []
+    let semanas = this.semanasSeleccionadas.map((e) => e.semana);
+    const OperariosConteo = {};
+    if (semanas.length === 0) {
+      this.lstGeneralTotal.forEach(item => {
+        OperariosConteo[item.operario] = (OperariosConteo[item.operario] || 0) + 1;
+      });
+    } else {
+      this.lstGeneralTotal.filter(item => semanas.includes(item.semana)).forEach(item => {
+        OperariosConteo[item.operario] = (OperariosConteo[item.operario] || 0) + 1;
+      });
+    }
+    
+    this.operariosTop = Object.keys(OperariosConteo).map(op => ({
+      operario: op,
+      conteo: OperariosConteo[op]
+    })).sort((a, b) => b.conteo - a.conteo).slice(0, 5);
+   
+    this.chartOptions12 = {
+      series: [
+        {
+          name: "Cantidad",
+          data:  this.operariosTop.map((e) =>e.conteo).reverse(),
+        }
+      ],
+      chart: {
+        type: "bar",
+        height: 300
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          horizontal: true,
+          distributed: true,
+          isFunnel: true
+
+        }
+      },
+      colors: [
+        "#4B4E6D", 
+        "#7887AB", 
+        "#A9BCD0", 
+        "#D3E1ED", 
+        "#B0B0B0",         
+      ],
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex];
+        },
+        style: {
+          fontSize: '12px',
+          colors: ["#000000"] 
+        },
+        dropShadow: {
+          enabled: false
+        }
+      },
+      title: {
+        text: "Top Referencias",
+        align: "center"
+      },
+      xaxis: {
+        categories: this.operariosTop.map((e) => e.operario).reverse(),
+      },
+      legend: {
+        show: false
+      }
+    };
+
+  }
+
+  calcularCausasTop() {
+    this.causasTop = []
+    let semanas = this.semanasSeleccionadas.map((e) => e.semana);
+    const causasConteo = {};
+    if (semanas.length === 0) {
+      this.lstGeneralTotal.forEach(item => {
+        causasConteo[item.causas] = (causasConteo[item.causas] || 0) + 1;
+      });
+    } else {
+      this.lstGeneralTotal.filter(item => semanas.includes(item.semana)).forEach(item => {
+        causasConteo[item.causas] = (causasConteo[item.causas] || 0) + 1;
+      });
+    }
+    
+    this.causasTop = Object.keys(causasConteo).map(cau => ({
+      causa: cau,
+      conteo: causasConteo[cau]
+    })).sort((a, b) => b.conteo - a.conteo).slice(0, 5);
+   
+    this.chartOptions13 = {
+      series: [
+        {
+          name: "Cantidad",
+          data:  this.causasTop.map((e) =>e.conteo).reverse(),
+        }
+      ],
+      chart: {
+        type: "bar",
+        height: 300
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          horizontal: true,
+          distributed: true,
+          isFunnel: true
+
+        }
+      },
+      colors: [
+        "#4B4E6D", 
+        "#7887AB", 
+        "#A9BCD0", 
+        "#D3E1ED", 
+        "#B0B0B0",         
+      ],
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex];
+        },
+        style: {
+          fontSize: '12px',
+          colors: ["#000000"] 
+        },
+        dropShadow: {
+          enabled: false
+        }
+      },
+      title: {
+        text: "Top Referencias",
+        align: "center"
+      },
+      xaxis: {
+        categories: this.causasTop.map((e) => e.causa).reverse(),
+      },
+      legend: {
+        show: false
+      }
+    };
+
+  }
+  
   operariosUnidadesMetrosFiltro() {
     let semanas = this.semanasSeleccionadas.map((e) => e.semana);
     let operario = this.operariosSeleccionados.map((e) => e.operario);
@@ -720,7 +979,7 @@ export class ReposicionesInformesComponent implements OnInit {
             operario.includes(item.operario) && semanas.includes(item.semana)
         );
     }
-
+    this.calcularOperariosTop();
     this.llenarChart_Operarios_Unidades_Metros();
   }
 
@@ -792,7 +1051,7 @@ export class ReposicionesInformesComponent implements OnInit {
         },
       ],
       chart: {
-        type: 'bar',
+        type: 'line',
         height: 500,
       },
       responsive: [
@@ -817,9 +1076,9 @@ export class ReposicionesInformesComponent implements OnInit {
       xaxis: {
         //x
         categories: this.lstTiempoOperario.map((e) => e.operario),
-        title: {
-          text: 'Operario',
-        },
+        // title: {
+        //   text: 'Operario',
+        // },
       },
       yaxis: {
         title: {
@@ -903,7 +1162,7 @@ export class ReposicionesInformesComponent implements OnInit {
       );
       this.agruparYSumarUnidades();
     }
-
+    this.calcularCausasTop();
     this.llenarChart_CausasUnidades();
   }
   agruparYSumarUnidades() {
@@ -929,6 +1188,7 @@ export class ReposicionesInformesComponent implements OnInit {
     );
 
     this.llenarChart_CausasUnidadesAgrupadas();
+
   }
   llenarChart_CausasUnidadesAgrupadas() {
     this.chartOptions9 = {
