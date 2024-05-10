@@ -91,7 +91,7 @@ import { SummaryComponent } from './component/pageAuditRoll/summary/summary.comp
     InputNumberModule,
     TabViewModule,
     NgApexchartsModule,
-    ChipModule
+    ChipModule,
     TreeTableModule,
   ],
   providers: [DatePipe],
