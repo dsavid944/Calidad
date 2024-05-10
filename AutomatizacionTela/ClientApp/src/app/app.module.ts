@@ -27,6 +27,9 @@ import { SidebarModule } from 'primeng/sidebar';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { TabViewModule } from 'primeng/tabview';
+import { NgApexchartsModule } from "ng-apexcharts";
+import { ChipModule } from 'primeng/chip';
 
 import { FileUploadModule } from 'primeng/fileupload';
 import { TagModule } from 'primeng/tag';
@@ -42,6 +45,7 @@ import { ReposicionesInformesComponent } from './component/reposiciones-informes
 import { HomeComponent } from './component/home/home.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { SummaryComponent } from './component/pageAuditRoll/summary/summary.component';
+
 
 @NgModule({
   declarations: [
@@ -85,6 +89,9 @@ import { SummaryComponent } from './component/pageAuditRoll/summary/summary.comp
     MenuModule,
     OverlayPanelModule,
     InputNumberModule,
+    TabViewModule,
+    NgApexchartsModule,
+    ChipModule
     TreeTableModule,
   ],
   providers: [DatePipe],

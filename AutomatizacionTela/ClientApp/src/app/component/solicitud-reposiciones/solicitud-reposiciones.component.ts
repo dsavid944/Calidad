@@ -182,8 +182,6 @@ export class SolicitudReposicionesComponent {
   }
 
   getModulos(event: any) {
-    console.log(event)
-    
     this.moduloSeleccionado = null
     this.nuevaLista.splice(0, this.nuevaLista.length);
     this.plantaSeleccionada = event.plantaId;
@@ -273,6 +271,15 @@ export class SolicitudReposicionesComponent {
     })
     }
     else{
+      let data={
+        planta: this.plantaSeleccionada,
+        modulo:this.moduloSeleccionado.idModulo,
+        operario: this.operarioSeleccionado,
+        datosGenerales: this.nuevaLista,
+        tipoDefecto: this.tipoDefectoSeleccionado,
+        defecto: this.defectoSeleccionado,
+        responsable: localStorage.getItem("IdUser"),
+      }
       this.messageService.AlertError('Existen valores obligatorios vacios, todos los campos deben estar llenos. ')
     }
   }
@@ -353,8 +360,6 @@ export class SolicitudReposicionesComponent {
   }
 
   selectTipoDefecto(event:any){
-    console.log(event);
-    
     this.tipoDefectoSeleccionado = event.tipoDefectoId
     this.getDefectos(this.tipoDefectoSeleccionado)
     this.def = []

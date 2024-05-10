@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class AuditoriaCalidadComponent {
 
-  
+
   formAuditoriaCalidad: any;
   plantas: IPlantas[] = [];
   modulos: IModulos[] = [];
@@ -42,7 +42,7 @@ export class AuditoriaCalidadComponent {
   }
 
   ngOnInit(): void {
-  
+
 
     this.getPlantas();
     this.getTipoPrendas();
@@ -136,7 +136,6 @@ export class AuditoriaCalidadComponent {
   }
 
   getArtes(ordenCorte: string) {
-    debugger
     if ((ordenCorte != '' && ordenCorte != null)) {
       this.auditoriaCalidadService.getArtes(ordenCorte).subscribe(
         response => {
@@ -184,7 +183,6 @@ export class AuditoriaCalidadComponent {
       this.formAuditoriaCalidad.get('unidadesRevisadas').value != '' && this.formAuditoriaCalidad.get('unidadesRevisadas').value != null &&
       this.formAuditoriaCalidad.get('unidadesDefectuosas').value != '' && this.formAuditoriaCalidad.get('unidadesDefectuosas').value != null
     ) {
-      debugger;
       if ((this.formAuditoriaCalidad.get('unidadesDefectuosas').value != 0) &&
         this.formAuditoriaCalidad.get('tipoDefecto').value != 0 && this.formAuditoriaCalidad.get('defecto').value != 0) {
         if (this.formAuditoriaCalidad.get('tipoDefecto').value != 0 && this.formAuditoriaCalidad.get('defecto').value != 0) {
@@ -340,7 +338,7 @@ export class AuditoriaCalidadComponent {
       defectoId: this.formAuditoriaCalidad.get('defecto').value == 0 ? null : this.formAuditoriaCalidad.get('defecto').value,
       cantidad: this.formAuditoriaCalidad.get('unidadesDefectuosas').value,
       undRevisadas: this.formAuditoriaCalidad.get('unidadesRevisadas').value,
-      auditoraId: localStorage.getItem('emailUser'),
+      auditoraId: localStorage.getItem('EmailUser'),
     }
 
     this.auditoriaCalidadService.postDatos(body).subscribe(

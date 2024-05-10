@@ -243,61 +243,6 @@ namespace AutomatizacionTela.Controllers
             }
         }
 
-        [HttpGet("[action]")]
-        public ActionResult GetListadoReposicionesGeneral()
-        {
-            try
-            {
-                var response = auditoriaCalidad.GetLitsadoGeneralServ();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
-
-        [HttpGet("[action]")]
-        public ActionResult GetCalidadReposicionSemana()
-        {
-            try
-            {
-                var response = auditoriaCalidad.GetCalidadReposicionSemanaServ();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
-
-        [HttpGet("[action]")]
-        public ActionResult GetCalidadReposicionMes()
-        {
-            try
-            {
-                var response = auditoriaCalidad.GetCalidadReposicionMesServ();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
-
-        [HttpGet("[action]")]
-        public ActionResult GetReposicionMetrosSemana()
-        {
-            try
-            {
-                var response = auditoriaCalidad.GetReposicionMetrosSemanaServ();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
 
         [HttpGet("[Action]/{Email}")]
         public ActionResult GetPermission(string Email)

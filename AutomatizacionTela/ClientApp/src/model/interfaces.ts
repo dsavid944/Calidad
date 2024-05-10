@@ -1,3 +1,5 @@
+import { PercentPipe } from "@angular/common";
+
 export interface IGetRoll{
     idRowCloth :number;
     idRowColor :number;
@@ -325,7 +327,7 @@ export interface ICalidadReposicionSemana{
 }
 
 export interface ICalidadReposicionMes{
-  mes: number;
+  mes: string;
   calidad: number;
   meta: number;
 }
@@ -334,9 +336,50 @@ export interface IReposicionMetrosSemana{
   metros: number;
   valor: number;
 }
+export interface IReposicionMetrosMes{
+  mes: string;
+  metros: number;
+  valor: number;
+}
 
+export interface IReferencia_Unidades_Metros{
+  semana: number;
+  referencia: string;
+  unidades: number;
+  metros: number
+}
+export interface IOperario_Unidades_Metros{
+  semana: number;
+  operario: string;
+  unidades: number;
+  metros: number
+}
+
+export interface ITiempoOperario{
+  semana: number;
+  mes: string;
+  year: number;
+  tiempo: number;
+  operario: string;
+}
+export interface IDefectoUnidades{
+  semana: number;
+  mes: string;
+  year: number;
+  unidades: number;
+  causas: string;
+}
+export interface INumeroSolicitudes{
+  semana: number;
+  mes: string;
+  year: number;
+  operario: string;
+  numeroDeSolicitudes: number;
+}
 export interface IGetPermission {
   idRowUser: number;
   nameAplication: string;
   form: string;
 }
+
+
