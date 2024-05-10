@@ -52,12 +52,12 @@
         <h4 for="">Orden de Corte</h4>
         <div class="p-inputgroup">
           <input type="number" class="p-inputtext" [(ngModel)]="orden" (keydown)="keyUpOc($event)" (change)="getOrdenCorte()" placeholder="Oden de Corte"  min="0">
-          <button class="p-button p-button-outlined p-button-secondary" type="button" (click)="getOrdenCorte()"><i class="fas fa-search"></i></button>
+          <button class="p-button p-button-outlined p-button-secondary" type="button" aria-label="Toggle Row" (click)="getOrdenCorte()"><i class="fas fa-search"></i></button>
         </div>
       </div>
-      </div> 
+      </div>
   </div>
-  
+
   <div class="shadow-lg p-2 mb-4 bg-body rounded">
     <div class="d-flex justify-content-between">
       <div class="col-3 ms-2" style="text-align: left;">
@@ -67,7 +67,7 @@
         <button class="btn btn-primary" (click)="showGeneral()"><i class="fas fa-plus-square fa-lg" ></i> Agregar</button>
       </div>
     </div>
-    
+
       <div  style="overflow-y: auto;">
         <table class="table table-sm">
           <thead style="background-color:#343A40; color:#fff" class="thead-dark" >
@@ -135,7 +135,7 @@
       </p-autoComplete>
       </div>
 
-      </div> 
+      </div>
   </div>
   <!-- <div class="shadow-lg p-2 mb-4 bg-body rounded">
       <h3>Observaciones Especiales</h3>
@@ -209,8 +209,8 @@
         <td>{{tela.piezas}}</td>
         <td>{{tela.codigoColor}}</td>
         <td>{{tela.descripcionColor}}</td>
-        <td><input type="number" id="{{'id-'+tela.codigoTela}}" (keyup)="validateMin($any($event.target).value, 'id-'+tela.codigoTela)" class="small-input " pInputText [(ngModel)]="tela.metros" min="0"/></td>
-        <td><input type="number" id="{{'idUnd-'+tela.codigoTela}}" (keyup)="validateMin($any($event.target).value, 'idUnd-'+tela.codigoTela)" class="small-input " pInputText [(ngModel)]="tela.unidades" min="0"/></td>
+        <td><input type="number" id="{{'id-'+tela.codigoTela}}" (keyup)="validateMin($any($event.target).value, 'id-'+tela.codigoTela)" class="small-input " aria-label="Toggle Row" pInputText [(ngModel)]="tela.metros" min="0"/></td>
+        <td><input type="number" id="{{'idUnd-'+tela.codigoTela}}" (keyup)="validateMin($any($event.target).value, 'idUnd-'+tela.codigoTela)" class="small-input " aria-label="Toggle Row" pInputText [(ngModel)]="tela.unidades" min="0"/></td>
         <!-- <td><input class="small-input " pInputText type="number" (input)="tela.metros= $any($event.target).value"></td>
         <td><input class="small-input " pInputText type="number" (input)="tela.unidades= $any($event.target).value"></td> -->
       </tr>

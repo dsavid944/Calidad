@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IRollData, IGetRoll, IRollCheck, IGetCheck, IUIRollCheck } from 'src/model/interfaces';
+import { IRollData, IGetRoll, IRollCheck, IGetCheck, IUIRollCheck, GetSummary } from 'src/model/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +26,12 @@ export class RollService {
     return this.http.get<IRollData[]>(`${environment.url}RollCntlr/GetDatailDocument/${idCloth}/${idRowColor}/${lot}`);
   }
 
-  saveUpdateRoll(rollData: IRollData[]): Observable<any> {
+  saveUpdateRoll(rollData: any): Observable<any> {
     console.log("Datos formateados que se enviarán para guardar:", rollData);
      return this.http.post(`${environment.url}RollCntlr/SaveUpdateRoll`, rollData, {
     });
   }
+
   getCheck(roll?: number, lot?: string) {
     let params = new HttpParams();
     if (roll) {
@@ -49,11 +50,15 @@ export class RollService {
   }
 
   //trae la informacion de los rollos guardados
-  getDetailCheck(idRowsRevision:number, lot:string)
+  getDetailCheck(lot:string)
   {
-    return this.http.get<IUIRollCheck[]>(`${environment.url}RollCntlr/GetDetailCheck/${idRowsRevision}/${lot}`);
+    return this.http.get<IUIRollCheck[]>(`${environment.url}RollCntlr/GetDetailCheck/${lot}`);
   }
 
+  getSummary()
+  {
+    return this.http.get<GetSummary[]>(`${environment.url}RollCntlr/GetSummary`);
+  }
 }
 
 

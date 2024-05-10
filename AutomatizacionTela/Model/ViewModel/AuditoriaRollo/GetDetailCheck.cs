@@ -9,7 +9,7 @@ namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
     {
         public int Roll { get; set; }
         public string Lot { get; set; }
-        public int IdRowsRevision { get; set; }
+        public int IdRowRevision { get; set; }
         public int IdRowDefecto { get; set; }
         public int IdRowEstado { get; set; }
         public int IdRowUsuario { get; set; }
@@ -21,6 +21,5 @@ namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
         public decimal ElongacionAncho { get; set; }
         public decimal ElongacionLargo { get; set; }
         public string Observacion { get; set; }
-        public int Estado { get; set; }
     }
 }

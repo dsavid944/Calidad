@@ -40,6 +40,8 @@ import { SolicitudReposicionesComponent } from './component/solicitud-reposicion
 import { ReposicionesPendientesComponent } from './component/reposiciones-pendientes/reposiciones-pendientes.component';
 import { ReposicionesInformesComponent } from './component/reposiciones-informes/reposiciones-informes.component';
 import { HomeComponent } from './component/home/home.component';
+import { TreeTableModule } from 'primeng/treetable';
+import { SummaryComponent } from './component/pageAuditRoll/summary/summary.component';
 
 @NgModule({
   declarations: [
@@ -52,14 +54,16 @@ import { HomeComponent } from './component/home/home.component';
     SolicitudReposicionesComponent,
     ReposicionesPendientesComponent,
     ReposicionesInformesComponent,
-    HomeComponent
+    HomeComponent,
+    SummaryComponent,
   ],
-  imports: [    
+  imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    BrowserModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
     ButtonModule,
@@ -81,6 +85,7 @@ import { HomeComponent } from './component/home/home.component';
     MenuModule,
     OverlayPanelModule,
     InputNumberModule,
+    TreeTableModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

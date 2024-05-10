@@ -31,8 +31,15 @@ namespace AutomatizacionTela.Service
 
         public List<GetDefect> GetAllDefects()
         {
-            var sql = "Select IdRows, Descripcion, Proveedor from AutoTel_tblDefecto";
+            var sql = "Select IdRows, IdRowProveedor, Descripcion from AutoTel_tblDefecto";
             var response = _dapperDedalo2008.GetAll<GetDefect>(sql, null, commandType: CommandType.Text);
+            return response;
+        }
+
+        public List<GetProvider> GetAllProviders()
+        {
+            var sql = "Select IdRows, Proveedor from AutoTel_tblProveedor";
+            var response = _dapperDedalo2008.GetAll<GetProvider>(sql, null, commandType: CommandType.Text);
             return response;
         }
 
@@ -54,36 +61,35 @@ namespace AutomatizacionTela.Service
             return response;
         }
 
-        public async Task<bool> SaveUpdateRollAsync(List<RollSave> rolls)
-        {
+        public async Task<bool> SaveUpdateRollAsync(RollSave rolls)
+        {          
+            var parameters = new DynamicParameters();
+            parameters.Add("@Option", "SaveRoll");
+            parameters.Add("@Roll", rolls.Roll);
+            parameters.Add("@Lot", rolls.Lot);
+            parameters.Add("@IdRowCloth", rolls.IdRowCloth);
+            parameters.Add("@IdRowColor", rolls.IdRowColor);
+            parameters.Add("@IdRowUser", rolls.IdRowUsuario);
+            parameters.Add("@IdRowProvider", rolls.IdRowProvider);
+            parameters.Add("@IdRowDefect", string.Join(",", rolls.IdRowDefect));
+            parameters.Add("@IdState", rolls.IdRowEstado);
+            parameters.Add("@KiloRoll", rolls.KiloRoll);
+            parameters.Add("@Request", rolls.Request);
+            parameters.Add("@Reference", rolls.Reference);
+            parameters.Add("@Remision", rolls.Remision);
+            parameters.Add("@MeterFicha", rolls.MtsFicha);
+            parameters.Add("@MeterProvider", rolls.MtsProvider);
+            parameters.Add("@WidthProvider", rolls.WidthProvider);
+            parameters.Add("@MeterRoyal", rolls.MtsReal);
+            parameters.Add("@WidthRoyal", rolls.WidthReal);
+            parameters.Add("@MeterDefect", rolls.Mtsdeficient);
+            parameters.Add("@Observation", rolls.Observation);
+            _dapperDedalo2008.GetAll<GetRoll>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
+          
 
-            foreach (var roll in rolls)
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Option", "SaveRoll");
-                parameters.Add("@IdRowCloth", roll.IdRowCloth);
-                parameters.Add("@IdRowColor", roll.IdRowColor);
-                parameters.Add("@IdRowUser", roll.IdRowUsuario);
-                parameters.Add("@IdRowProvider", roll.IdRowProvider);
-                parameters.Add("@IdRowDefect", roll.IdRowDefect);
-                parameters.Add("@IdState", roll.IdRowEstado);
-                parameters.Add("@MeterFicha", roll.MtsFicha);
-                parameters.Add("@MeterProvider", roll.MtsProvider);
-                parameters.Add("@WidthProvider", roll.WidthProvider);
-                parameters.Add("@MeterRoyal", roll.MtsReal);
-                parameters.Add("@WidthRoyal", roll.WidthReal);
-                parameters.Add("@MeterDefect", roll.Mtsdeficient);
-                parameters.Add("@Observation", roll.Observation);
-                parameters.Add("@Lot", roll.Lot);
-                parameters.Add("@Roll", roll.Roll);
-                parameters.Add("@KiloRoll", roll.KiloRoll);
-                parameters.Add("@Request", roll.Request);
-                parameters.Add("@Reference", roll.Reference);
-                parameters.Add("@Remision", roll.Remision);
-                _dapperDedalo2008.GetAll<GetRoll>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
-            } 
             return true;
         }
+
 
         public List<GetCheck> SearchRollCheck(int? rollo, string lote)
         {
@@ -102,8 +108,7 @@ namespace AutomatizacionTela.Service
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@Option", "SaveCheck");
-                parameters.Add("@IdRowsRevision", roll.IdRowsRevision);
-                parameters.Add("@IdRowDefect", roll.IdRowDefecto);
+                parameters.Add("@IdRowRevision", roll.IdRowRevision);
                 parameters.Add("@IdState", roll.IdRowEstado);
                 parameters.Add("@IdRowUser", roll.IdRowUsuario);
                 parameters.Add("@Weight", roll.Peso);
@@ -119,13 +124,20 @@ namespace AutomatizacionTela.Service
             return true;
         }
 
-        public List<GetDetailCheck> GetDetailCheck(int idRowsRevision, string lot)
+        public List<GetDetailCheck> GetDetailCheck(string lot)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Option", "GetDetailCheck");
-            parameters.Add("@@IdRowsRevision", idRowsRevision);
             parameters.Add("@Lot", lot);
             var response = _dapperDedalo2008.GetAll<GetDetailCheck>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
+            return response;
+        }
+
+        public List<GetSummary> GetAllSummary()
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Option", "GetSummary");
+            var response = _dapperDedalo2008.GetAll<GetSummary>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
             return response;
         }
     }

@@ -56,7 +56,9 @@
                         (change)="togglePercentage()"
                         [checked]="selectedPercentage === 100"
                       />
-                      <label class="form-check-label" for="percentageSwitch">100%</label>
+                      <label class="form-check-label" for="percentageSwitch"
+                        >100%</label
+                      >
                     </div>
                   </div>
                 </div>
@@ -118,12 +120,17 @@
                       <label
                         class="form-check-label visually-hidden"
                         for="flexSwitchCheck{{ i }}"
-                      >Cambios</label>
+                        >Cambios</label
+                      >
                     </div>
                   </td>
                   <td>
                     <button
-                      *ngIf="!item.state && item.checked && actualCheckedPercentage >= selectedPercentage"
+                      *ngIf="
+                        !item.state &&
+                        item.checked &&
+                        actualCheckedPercentage >= selectedPercentage
+                      "
                       (click)="prepareDataForModal(item)"
                       type="button"
                       class="btn-modal"
@@ -150,7 +157,7 @@
       aria-hidden="true"
       (hidden.bs.modal)="resetModalData()"
     >
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog modal-fullscreen p-4">
         <div class="modal-content">
           <div class="modal-header float-right">
             <h5>Detalle Documentos</h5>
@@ -199,175 +206,194 @@
                   </div>
                 </div>
               </div>
-              <table class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Nro. Rollo
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Metros Ficha
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Metros Proveedor
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Ancho Útil Proveedor
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Metros Reales
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Ancho Útil Real
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      Metros Defectuosos
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      <i class="fa-solid fa-exclamation-circle"></i>Defecto
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      <i class="fa-solid fa-comment-dots"></i>Observación
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                      <i class="fa-solid fa-comment-dots"></i>Estado
-                    </th>
-                    <th scope="col" [ngStyle]="{ 'text-align': 'center' }"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of dataRevision; let i = index">
-                    <th scope="row" class="center-both">{{ i + 1 }}</th>
-                    <td class="center-both">{{ item.roll }}</td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.mtsFicha"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.mtsProvider"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.widthProvider"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.mtsReal"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.widthReal"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.mtsdeficient"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <select
-                        class="form-control"
-                        [(ngModel)]="item.idRowDefect"
-                        [disabled]="selectedRow !== item.roll"
+
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-2">
+                  <div class="card mt-2">
+                    <h5 class="text-center fw-bolder">Rollos seleccionados</h5>
+                    <ul
+                      class="list-group list-group-flush d-flex flex-row align-items-center"
+                      *ngFor="let item of dataAllRoll"
+                    >
+                      <li
+                        [ngClass]="{ successRoll: item.isStored }"
+                        class="list-group-item w-100 text-center"
                       >
-                        <option
-                          *ngFor="let dp of defectosProveedores"
-                          [ngValue]="dp.idRows"
-                        >
-                          {{ dp.descripcion }} - {{ dp.proveedor }}
-                        </option>
-                      </select>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        class="form-control"
-                        [disabled]="selectedRow !== item.roll"
-                        [(ngModel)]="item.observation"
-                        [readonly]="selectedRow !== item.roll"
-                      />
-                    </td>
-                    <td>
-                      <select
-                        class="form-control"
-                        [(ngModel)]="item.idRowEstado"
-                        [disabled]="selectedRow !== item.roll"
+                        {{ item.roll }}
+                        <i
+                          style="cursor: pointer"
+                          (click)="selectedRollAudit(item.roll)"
+                          class="bx bxs-edit fs-4"
+                        ></i>
+                      </li>
+                      <hr />
+                    </ul>
+                  </div>
+                </div>
+
+                <!--          <div class="alert alert-warning col-10" role="alert" *ngIf="selectedRow==null">
+                  Seleccione el rollo a auditar
+                </div> -->
+
+                <div
+                  class="col-sm-12 col-md-12 col-lg-10 mt-2"
+                  *ngIf="selectedRow != null"
+                >
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="text-center fw-bolder">Detalles del rollo</h3>
+                      <div
+                        class="container"
+                        *ngFor="let item of dataSelectedRoll"
                       >
-                        <option
-                          *ngFor="let dp of estados"
-                          [ngValue]="dp.idRows"
-                        >
-                          {{ dp.descripcion }}
-                        </option>
-                      </select>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        [disabled]="item.isStored"
-                        (click)="selectRowForEdit(item.roll)"
-                        class="btn-edit"
-                        aria-label="edit"
-                      >
-                        <i class="fa-solid fa-pen-to-square fa-xl"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                        <div class="row">
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label> Metros Ficha</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.mtsFicha"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label> Metros Proveedor</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.mtsProvider"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label>Ancho Útil Proveedor</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.widthProvider"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label>Metros Reales</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.mtsReal"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label> Ancho Útil Real</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.widthReal"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label> Metros Defectuosos</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.mtsdeficient"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label>Proveedor</label>
+                            <div>
+                              <p-dropdown
+                                [options]="proveedores"
+                                [disabled]="item.isStored"
+                                [readonly]="selectedRow !== item.roll"
+                                class="w-12 p-inputtext-sm text-sm"
+                                styleClass="w-12 p-inputtext-sm text-sm "
+                                (onChange)="selectedProviderDefect($event)"
+                                [(ngModel)]="item.idDefectProvider"
+                                optionLabel="proveedor"
+                                optionValue="idRows"
+                                inputId="float-label"
+                              >
+                              </p-dropdown>
+                            </div>
+
+                          </div>
+
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label>Estado</label>
+                            <p-dropdown
+                              [options]="estados"
+                              [disabled]="item.isStored"
+                              [readonly]="selectedRow !== item.roll"
+                              [(ngModel)]="item.idRowEstado"
+                              optionLabel="descripcion"
+                              optionValue="idRows"
+                              inputId="float-label"
+                            >
+                            </p-dropdown>
+                          </div>
+
+                          <div class="col-sm-12 col-md-4 col-lg-3">
+                            <label>Defecto</label>
+                            <div *ngIf="item.defect == null">
+                              <p-multiSelect
+                                inputId="float-label"
+                                display="chip"
+                                [disabled]="item.isStored"
+                                [readonly]="selectedRow !== item.roll"
+                                class="w-12 p-inputtext-sm text-sm"
+                                styleClass="w-12 p-inputtext-sm text-sm "
+                                [options]="defectosFilterProveedores"
+                                [(ngModel)]="selectedDefect"
+                                optionLabel="descripcion"
+                              >
+                              </p-multiSelect>
+                            </div>
+                            <div *ngIf="item.defect != null">
+                              <ul *ngFor="let defect of item.nameDefect">
+                                <li>{{ defect }}</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-12 col-md-12 col-lg-9">
+                            <label>Observación</label>
+                            <textarea
+                              class="form-control"
+                              [(ngModel)]="item.observation"
+                              [disabled]="item.isStored"
+                              style="height: 100px"
+                            >
+                            </textarea>
+                          </div>
+
+                          <div class="d-flex flex-row justify-content-evenly" *ngIf="!item.isStored">
+
+                            <button
+                                type="button"
+                                class="btn btn-primary mt-2"
+                                (click)="onSaveChanges(item)"
+
+                              >
+                                Guardar cambios
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div></div>
+              </div>
+
+
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="onSaveChanges()"
-            >
-              Guardar cambios
-            </button>
           </div>
         </div>
       </div>

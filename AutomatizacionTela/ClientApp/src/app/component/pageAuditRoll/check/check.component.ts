@@ -4,10 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
-import { Defect, IGetCheck, IRollCheck, IUIRollCheck, State } from '../../../../model/interfaces';
-
-
-
+import { Defect, IGetCheck, IUIRollCheck, State } from '../../../../model/interfaces';
 
 @Component({
   selector: 'app-check',
@@ -19,8 +16,6 @@ export class CheckComponent implements OnInit
 
   dataFromDB: IGetCheck[] = [];
   userInputs: IUIRollCheck[] = [];
-
-  userInput: IRollCheck[] = [];
   searchRoll?: number;
   searchLot: string = '';
   defectosProveedores: Defect[] = [];
@@ -85,15 +80,15 @@ export class CheckComponent implements OnInit
       },
     });
   }
+
   updateUserInputs(item: any) {
-    this.rollService.getDetailCheck(item.idRowsRevision, item.lot).subscribe({
+    this.rollService.getDetailCheck(item.lot).subscribe({
       next: (response) => {
-        // Obtener los ids de los rollos ya almacenados para verificar si existen en la respuesta
-        const storedRollIds = response.map(stored => stored.idRowsRevision);
-
+        const storedRollIds = response.map(stored => stored.idRowRevision);
+        console.log(response.map(stored => stored.idRowRevision));
         // Filtrar los rollos que aún no están almacenados
-        const newRolls = this.dataFromDB.filter(roll => !storedRollIds.includes(roll.idRowsRevision));
-
+        const newRolls = this.dataFromDB.filter(roll => !storedRollIds.includes(roll.idRowRevision));
+        console.log(newRolls);
         // Preparar los nuevos rollos para ser añadidos, inicializando los campos necesarios
         const newRollsPrepared = newRolls.map(roll => ({
           ...roll,
@@ -107,11 +102,10 @@ export class CheckComponent implements OnInit
           elongacionAncho: null,
           elongacionLargo: null,
           observacion: null,
+          isStored: false,
         }));
-
-
         // Marcar los rollos ya almacenados con isStored para identificarlos en la UI
-        const storedRollsPrepared = response.map(storedRoll => ({
+        const storedRollsPrepared = response.map((storedRoll) => ({
           ...storedRoll,
           isStored: true,
         }));
@@ -129,8 +123,6 @@ export class CheckComponent implements OnInit
       },
     });
   }
-
-
 
   //se utiliza para editar en la tabla
   selectRowForEdit(rollNumber: number): void {
@@ -171,8 +163,7 @@ export class CheckComponent implements OnInit
     // Preparar los datos para ser enviados
     const userId = 1;
     const dataToSave = this.userInputs.map((revision) => ({
-      idRowsRevision: revision.idRowsRevision,
-      idRowDefecto: revision.idRowDefecto,
+      idRowRevision: revision.idRowRevision,
       idRowUsuario: userId,
       idRowEstado: revision.idRowEstado,
       peso: revision.peso,

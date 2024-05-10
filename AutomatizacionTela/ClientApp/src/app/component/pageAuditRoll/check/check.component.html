@@ -123,18 +123,11 @@
               </div>
             </div>
             <div class="modal-body">
-              <div class="mb-4">
+              <div class="mb-6">
                 <!-- Tarjeta con información encima Modal-->
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-sm-3 mb-3">
-                        <h6 class="card-title text-muted">Descripción Color</h6>
-                        <p class="card-text">
-                          <i class="fas fa-palette text-primary"></i>
-                          {{ selectedItem.nameColor }}
-                        </p>
-                      </div>
                       <div class="col-sm-2 mb-3">
                         <h6 class="card-title text-muted">Código Color</h6>
                         <p class="card-text">
@@ -188,12 +181,9 @@
                         Elongacion Largo
                       </th>
                       <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
-                        <i class="fa-solid fa-exclamation-circle"></i>Defecto
-                      </th>
-                      <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
                         <i class="fa-solid fa-comment-dots"></i>Observación
                       </th>
-                      <th scope="col" [ngStyle]="{ 'text-align': 'center' }">
+                      <th scope="col" [ngStyle]="{ 'text-align': 'center', 'min-width': 'auto' }">
                         Estado
                       </th>
                       <th scope="col" [ngStyle]="{ 'text-align': 'center' }"></th>
@@ -273,20 +263,6 @@
                           [(ngModel)]="item.elongacionLargo"
                           [readonly]="selectedRow !== item.roll"
                         />
-                      </td>
-                      <td>
-                        <select
-                          class="form-control"
-                          [(ngModel)]="item.idRowDefecto"
-                          [disabled]="selectedRow !== item.roll"
-                        >
-                          <option
-                            *ngFor="let dp of defectosProveedores"
-                            [ngValue]="dp.idRows"
-                          >
-                            {{ dp.descripcion }} - {{ dp.proveedor }}
-                          </option>
-                        </select>
                       </td>
                       <td>
                         <input

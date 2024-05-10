@@ -9,9 +9,11 @@ import { SolicitudReposicionesComponent } from "./component/solicitud-reposicion
 import { ReposicionesPendientesComponent } from "./component/reposiciones-pendientes/reposiciones-pendientes.component";
 import { ReposicionesInformesComponent } from "./component/reposiciones-informes/reposiciones-informes.component";
 import { HomeComponent } from "./component/home/home.component";
+import { SummaryComponent } from "./component/pageAuditRoll/summary/summary.component";
 
 const routes: Routes = [{path:'Rollo',component:RollComponent},
                         {path:'Check',component:CheckComponent},
+                        {path:'Summary',component:SummaryComponent},
                         { path: 'auditoria-calidad', component: AuditoriaCalidadComponent },
                         { path: 'reporte-auditoria-calidad', component: ReporteAuditoriaCalidadComponent },
                         { path: 'solicitud-reposicion-telas', component: SolicitudReposicionesComponent },

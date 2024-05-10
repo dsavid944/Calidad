@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
-import { Defect, IGetRoll, IRollData, State } from 'src/model/interfaces';
+import { Defect, IGetRoll, IRollData, Provider, State } from 'src/model/interfaces';
 
 @Component({
   selector: 'app-roll',
@@ -10,16 +10,25 @@ import { Defect, IGetRoll, IRollData, State } from 'src/model/interfaces';
   styleUrls: ['./roll.component.css'],
 })
 export class RollComponent {
+
+  selectedDefect!: Defect[];
+  selectedProvider!: Provider[];
+  defectosProveedores: Defect[] = [];
+  defectosFilterProveedores: Defect[] = [];
+  proveedores: Provider[] = [];
+
   dataRoll: IGetRoll[] = [];
   dataRevision: IRollData[] = [];
   searchRoll?: number;
   searchLot: string = '';
-  defectosProveedores: Defect[] = [];
   estados: State[] = [];
   selectedRow: number | null = null;
   selectedItem: any = {};
   selectedPercentage: number = 50;
   actualCheckedPercentage: number = 0;
+
+  dataSelectedRoll:any[]=[];
+  dataAllRoll:any[] = [];
 
   constructor(
     private rollService: RollService,
@@ -29,6 +38,7 @@ export class RollComponent {
 
   ngOnInit(): void {
     this.loadDefects();
+    this.loadProvider();
     this.loadStates();
   }
 
@@ -37,10 +47,23 @@ export class RollComponent {
     this.defectService.getDefects().subscribe({
       next: (data) => {
         this.defectosProveedores = data;
+        this.defectosFilterProveedores=data;
       },
       error: (error) => {
         console.error('Error al recuperar defectos:', error);
         this.alert.showErrorMessage('Error al recuperar defectos.');
+      },
+    });
+  }
+
+  loadProvider(): void {
+    this.defectService.getProviders().subscribe({
+      next: (data) => {
+        this.proveedores = data;
+      },
+      error: (error) => {
+        console.error('Error al recuperar Proveedor:', error);
+        this.alert.showErrorMessage('Error al recuperar Proveedor.');
       },
     });
   }
@@ -78,27 +101,32 @@ export class RollComponent {
     });
   }
 
-    // Suma el porcentage de rollos seleccionados
+  // Suma el porcentage de rollos seleccionados
   calculateCheckedPercentage(): void {
     const totalRolls = this.dataRoll.length;
-    const checkedRolls = this.dataRoll.filter(roll => roll.checked).length;
+    const checkedRolls = this.dataRoll.filter((roll) => roll.checked).length;
     this.actualCheckedPercentage = (checkedRolls / totalRolls) * 100;
   }
 
-    // Método para llamar cuando el usuario cambia el switch de porcentaje.
+  // Método para llamar cuando el usuario cambia el switch de porcentaje.
   togglePercentage(): void {
     this.selectedPercentage = this.selectedPercentage === 50 ? 100 : 50;
   }
 
   ToggleRoll(index: number): boolean {
     // Calcula el número total de rollos que pueden ser marcados como revisados
-    const allowedCheckedRolls = Math.ceil((this.selectedPercentage / 100) * this.dataRoll.length);
+    const allowedCheckedRolls = Math.ceil(
+      (this.selectedPercentage / 100) * this.dataRoll.length
+    );
 
     // Cuenta todos los rollos marcados como revisados (tanto en la base de datos como manualmente por el usuario)
-    const checkedRollsCount = this.dataRoll.filter(roll => roll.checked || roll.state).length;
+    const checkedRollsCount = this.dataRoll.filter(
+      (roll) => roll.checked || roll.state
+    ).length;
 
     // Obtiene el estado actual de revisión del rollo en el índice dado
-    const currentRollReviewed = this.dataRoll[index].checked || this.dataRoll[index].state;
+    const currentRollReviewed =
+      this.dataRoll[index].checked || this.dataRoll[index].state;
 
     // Si el rollo actual ya está revisado, siempre se permite cambiar su estado (se puede desmarcar)
     if (currentRollReviewed) {
@@ -107,8 +135,6 @@ export class RollComponent {
     // De lo contrario, solo permite cambiar el estado si hacerlo no excede el número permitido de rollos revisados
     return checkedRollsCount < allowedCheckedRolls;
   }
-
-
 
   changeState(rollNumber: number): void {
     const roll = this.dataRoll.find((e) => e.roll === rollNumber);
@@ -146,22 +172,32 @@ export class RollComponent {
               mtsReal: null,
               widthReal: null,
               mtsdeficient: null,
-              idRowDefect: null,
+              defect: null,
+              idDefectProvider: null,
               idRowEstado: null,
               observation: null,
-              isStored: false, // Rollos que no están guardados aún
+              isStored: false,
+              nameDefect:null// Rollos que no están guardados aún
             }));
 
           // Agregar a isStored a los rollos ya almacenados
           const storedRolls = response.map((roll) => ({
             ...roll,
             isStored: true,
+            nameDefect:roll.defect!=null? roll.defect.split('|'):null
           }));
 
           // Combinar y actualizar dataRevision
           this.dataRevision = [...storedRolls, ...pendingRolls];
           this.selectedItem = item;
           this.selectedRow = null;
+
+          let roll = this.dataRevision;
+          let hash2={}
+          roll=roll.filter(e=>hash2[e.roll]?false:hash2[e.roll]=true);
+
+          this.dataAllRoll=roll;
+          this.dataSelectedRoll=this.dataRevision;
         },
         error: (error) => {
           console.error('Error al obtener detalles del documento:', error);
@@ -182,55 +218,43 @@ export class RollComponent {
   }
 
   //procede a guardar
-  onSaveChanges(): void {
-    // Validar si están llenos los campos requeridos
-    const isEveryFieldComplete = this.dataRevision.every(
-      (revision) =>
-        revision.mtsFicha != null &&
-        revision.mtsProvider != null &&
-        revision.widthProvider != null &&
-        revision.mtsReal != null &&
-        revision.widthReal != null &&
-        revision.mtsdeficient != null &&
-        revision.idRowDefect != null &&
-        revision.idRowEstado != null &&
-        revision.observation != null
-    );
-
-    if (!isEveryFieldComplete) {
+  onSaveChanges(data:any): void {
+    let saveData:any
+    const userId = 2;
+    if(data.mtsFicha==null || data.mtsProvider==null || data.widthProvider == null || data.mtsReal ==null || data.widthReal == null || data.mtsdeficient == null || data.idRowEstado == null || data.observation == null ){
       this.alert.ShowSwalBasicWarning(
         'Advertencia',
         'Todos los campos deben ser completados.'
       );
       return;
+    }else
+    {
+      // Preparar los datos para ser enviados
+      saveData={
+        roll: data.roll,
+        idRowProvider: data.idRowProvider,
+        idRowCloth: data.idRowCloth,
+        idRowColor: data.idRowColor,
+        idRowUsuario: userId,
+        idRowDefect: this.selectedDefect.map((e) => e.idRows),
+        idRowEstado: data.idRowEstado,
+        lot: data.lot,
+        kiloRoll: data.kiloRoll,
+        request: data.request,
+        reference: data.reference,
+        remision: data.remision,
+        mtsFicha: data.mtsFicha,
+        mtsProvider: data.mtsProvider,
+        widthProvider: data.widthProvider,
+        mtsReal: data.mtsReal,
+        widthReal: data.widthReal,
+        mtsdeficient: data.mtsdeficient,
+        observation: data.observation,
+      }
+
     }
-
-    // Preparar los datos para ser enviados
-    const userId = 2;
-    const dataToSave = this.dataRevision.map((revision) => ({
-      roll: revision.roll,
-      idRowProvider: revision.idRowProvider,
-      idRowCloth: revision.idRowCloth,
-      idRowColor: revision.idRowColor,
-      idRowUsuario: userId,
-      idRowDefect: revision.idRowDefect,
-      idRowEstado: revision.idRowEstado,
-      lot: revision.lot,
-      kiloRoll: revision.kiloRoll,
-      request: revision.request,
-      reference: revision.reference,
-      remision: revision.remision,
-      mtsFicha: revision.mtsFicha,
-      mtsProvider: revision.mtsProvider,
-      widthProvider: revision.widthProvider,
-      mtsReal: revision.mtsReal,
-      widthReal: revision.widthReal,
-      mtsdeficient: revision.mtsdeficient,
-      observation: revision.observation,
-    }));
-
     // Enviar los datos al backend a través del servicio
-    this.rollService.saveUpdateRoll(dataToSave).subscribe({
+     this.rollService.saveUpdateRoll(saveData).subscribe({
       next: (response) => {
         console.log('Datos guardados correctamente', response);
         this.resetModalData();
@@ -238,6 +262,8 @@ export class RollComponent {
           'Operación Exitosa',
           'Datos guardados correctamente.'
         );
+
+        this.prepareDataForModal(data)
       },
       error: (error) => {
         console.error('Error al guardar los datos', error);
@@ -245,4 +271,27 @@ export class RollComponent {
       },
     });
   }
+
+  selectedProviderDefect(provider:any)
+  {
+    this.defectosFilterProveedores = this.defectosProveedores.filter(e=>e.idRowProveedor ==  provider.value)
+  }
+
+  selectedRollAudit(roll:number)
+  {
+    this.selectedDefect=[];
+    this.dataSelectedRoll =  this.dataRevision.filter(e=>e.roll == roll)
+
+    this.selectedRow=roll;
+  }
+
+  getDefect(roll:number){
+
+    const transformedData = this.dataSelectedRoll.filter(e=>e.roll==roll).map(item => item.idRowDefect.split('|'));
+
+    return transformedData;
+  }
+
 }
+
+

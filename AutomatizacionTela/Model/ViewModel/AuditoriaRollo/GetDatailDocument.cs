@@ -8,10 +8,11 @@ namespace AutomatizacionTela.Model.ViewModel.AuditpriaRollo
     public class GetDatailDocument
     {
         public int IdRowUsuario { get; set; }
-        public int IdProvider { get; set; }
+        public int IdRowProvider { get; set; }
         public int IdRowCloth { get; set; }
         public int IdRowColor { get; set; }
-        public int IdRowDefect { get; set; }
+        public int IdDefectProvider { get; set; }
+        public string Defect { get; set; }
         public int IdRowEstado { get; set; }
         public int Roll { get; set; }
         public string Lot { get; set; }

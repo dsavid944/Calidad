@@ -25,7 +25,8 @@ export interface IGetRoll{
     idRowProvider: number;
     idRowCloth: number;
     idRowColor: number;
-    idRowDefect: number | null;
+    idDefectProvider:number;
+    defect: string | null ;
     idRowEstado: number | null;
     roll: number;
     lot: string;
@@ -41,10 +42,11 @@ export interface IGetRoll{
     mtsdeficient: number | null;
     observation: string | null;
     isStored? : boolean;
+    nameDefect?:string[]
   }
 
   export interface IGetCheck{
-    idRowsRevision :number;
+    idRowRevision :number;
     nameProvider : string;
     roll :number;
     lot :string;
@@ -59,9 +61,8 @@ export interface IGetRoll{
   }
 
   export interface IRollCheck {
-    idRowsRevision: number;
+    idRowRevision: number;
     idRowUsuario?: number;
-    idRowDefecto: number | null;
     idRowEstado: number | null;
     peso: number | null;
     rto: number | null;
@@ -81,14 +82,51 @@ export interface IGetRoll{
 
   export interface Defect {
     idRows: number;
+    idRowProveedor: number;
     descripcion: string;
+
+  }
+
+  export interface Provider {
+    idRows: number;
     proveedor: string;
   }
+
 
   export interface State {
     idRows: number;
     descripcion: string;
   }
+
+  export interface GetSummary {
+    dateCreate: Date;
+    nameProvider: string;
+    roll: number;
+    lot: string;
+    codeCloth: string;
+    nameCloth: string;
+    codeColor: string;
+    kiloRoll: number;
+    request: string;
+    reference: string;
+    remision: string;
+    mtsProvider: number;
+    widthProvider: number;
+    mtsReal: number;
+    widthReal: number;
+    stateRev: string;
+    idRowUsuarioRoll: number;
+    weight: number;
+    rto: number;
+    ea: number;
+    el: number;
+    viro: number;
+    widthElongation: number;
+    longElongation: number;
+    stateCheck: string;
+    idRowUsuarioCheck: number;
+  }
+
 
 export interface IPlantas {
   plantaId: number;

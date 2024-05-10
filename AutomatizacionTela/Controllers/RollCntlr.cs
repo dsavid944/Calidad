@@ -58,6 +58,19 @@ namespace AutomatizacionTela.Controllers
                 return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
             }
         }
+        [HttpGet("GetProviders")]
+        public ActionResult GetProviders()
+        {
+            try
+            {
+                var response = _rollService.GetAllProviders();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
+            }
+        }
 
         [HttpGet("GetStates")]
         public ActionResult GetStates()
@@ -91,7 +104,7 @@ namespace AutomatizacionTela.Controllers
 
 
         [HttpPost("SaveUpdateRoll")]
-        public async Task<IActionResult> SaveUpdateRoll([FromBody] List<RollSave> rolls)
+        public async Task<IActionResult> SaveUpdateRoll([FromBody] RollSave rolls)
         {
             try
             {
@@ -144,12 +157,27 @@ namespace AutomatizacionTela.Controllers
         }
 
 
-        [HttpGet("[Action]/{IdRowsRevision}/{Lot}")]
-        public ActionResult GetDetailCheck(int idRowsRevision, string lote)
+        [HttpGet("[Action]/{Lot}")]
+        public ActionResult GetDetailCheck(string Lot)
         {
            try
             {
-                var response = _rollService.GetDetailCheck(idRowsRevision, lote);
+                var response = _rollService.GetDetailCheck(Lot);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
+            }
+        }
+
+
+        [HttpGet("GetSummary")]
+        public ActionResult GetSummary()
+        {
+            try
+            {
+                var response = _rollService.GetAllSummary();
                 return Ok(response);
             }
             catch (Exception ex)

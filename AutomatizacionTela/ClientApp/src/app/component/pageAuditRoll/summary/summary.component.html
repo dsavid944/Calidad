@@ -1,0 +1,91 @@
+<div class="card">
+  <p-table [value]="datos" dataKey="name" [tableStyle]="{ 'min-width': '60rem' }">
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width: 3rem"></th>
+              <th pSortableColumn="dateCreate"> Fecha <p-sortIcon field="dateCreate"></p-sortIcon></th>
+              <th pSortableColumn="nameProvider"> Proveedor </th>
+              <th pSortableColumn="roll"> Rollo <p-sortIcon field="roll"></p-sortIcon></th>
+              <th pSortableColumn="lot"> Lote </th>
+              <th pSortableColumn="nameCloth" style="width: 200px;"> Descripción </th>
+              <th pSortableColumn="codeColor"> Color </th>
+              <th pSortableColumn="kiloRoll"> Kilos </th>
+              <th pSortableColumn="request"> Pedidos </th>
+              <th pSortableColumn="reference"> Referencia </th>
+              <th pSortableColumn="remision"> Remision </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data let-expanded="expanded">
+          <tr>
+              <td>
+                <button (click)="selected(data.roll)" type="button" pButton pRipple [pRowToggler]="data"  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded && roll ==data.roll? 'pi pi-chevron-down' : 'pi pi-chevron-right'" aria-label="Toggle Row">
+                </button>
+              </td>
+              <td>{{ data.dateCreate | date:'mediumDate' }}</td>
+              <td>{{ data.nameProvider }}</td>
+              <td>{{ data.roll }}</td>
+              <td>{{ data.lot }}</td>
+              <td>{{ data.nameCloth }}</td>
+              <td>{{ data.codeColor }}</td>
+              <td>{{ data.kiloRoll }}</td>
+              <td>{{ data.request }}</td>
+              <td>{{ data.reference }}</td>
+              <td>{{ data.remision }}</td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-data>
+          <tr *ngIf="roll ==data.roll">
+              <td colspan="11">
+                  <div class="p-3">
+                    <p-table [value]="[data]" styleClass="p-datatable-sm"  >
+                          <ng-template pTemplate="header">
+                              <tr>
+                                  <th pSortableColumn="mtsProvider">Metro Proveedor </th>
+                                  <th pSortableColumn="widthProvider">Ancho Proveedor </th>
+                                  <th pSortableColumn="mtsReal">Metro Real </th>
+                                  <th pSortableColumn="widthReal">Ancho Real </th>
+                                  <th pSortableColumn="idRowUsuarioRoll">Revisor <p-sortIcon field="idRowUsuarioRoll"></p-sortIcon></th>
+                                  <th pSortableColumn="stateRev">Estado Revision <p-sortIcon field="stateRev"></p-sortIcon></th>
+                                  <th pSortableColumn="Weight">Peso </th>
+                                  <th pSortableColumn="rto">RTO </th>
+                                  <th pSortableColumn="ea">EA </th>
+                                  <th pSortableColumn="el">EL </th>
+                                  <th pSortableColumn="viro">VIRO </th>
+                                  <th pSortableColumn="widthElongation">Ancho Elongacion </th>
+                                  <th pSortableColumn="longElongation">Largo Elongacio </th>
+                                  <th pSortableColumn="idRowUsuarioCheck">Chequeador <p-sortIcon field="idRowUsuarioCheck"></p-sortIcon></th>
+                                  <th pSortableColumn="stateCheck">Estado Chequeo <p-sortIcon field="stateCheck"></p-sortIcon></th>
+                                  <th style="width: 4rem"></th>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-info>
+                              <tr>
+                                  <td>{{ info.mtsProvider }}</td>
+                                  <td>{{ info.widthProvider }}</td>
+                                  <td>{{ info.mtsReal }}</td>
+                                  <td>{{ info.widthReal }}</td>
+                                  <td>{{ info.idRowUsuarioRoll }}</td>
+                                  <td>
+                                    <p-tag [value]="info.stateRev" [severity]="getSeverity(info.stateRev)"></p-tag>
+                                  </td>
+                                  <td>{{ info.weight }}</td>
+                                  <td>{{ info.rto }}</td>
+                                  <td>{{ info.ea }}</td>
+                                  <td>{{ info.el }}</td>
+                                  <td>{{ info.viro }}</td>
+                                  <td>{{ info.widthElongation }}</td>
+                                  <td>{{ info.longElongation }}</td>
+                                  <td>{{ info.idRowUsuarioCheck }}</td>
+                                  <td>
+                                    <p-tag [value]="info.stateCheck" [severity]="getSeverity(info.stateCheck)"></p-tag>
+                                  </td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </div>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>

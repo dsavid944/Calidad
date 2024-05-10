@@ -8,13 +8,13 @@ namespace AutomatizacionTela.Model.SetModel
     public class RollSave
     {
         public int? Roll { get; set; }
+        public string Lot { get; set; }
         public int IdRowCloth { get; set; }
         public int IdRowColor { get; set; }
         public int IdRowUsuario { get; set; }
         public int IdRowProvider { get; set; }
-        public int IdRowDefect { get; set; }
+        public int[] IdRowDefect { get; set; }
         public int IdRowEstado { get; set; }
-        public string Lot { get; set; }
         public decimal KiloRoll { get; set; }
         public string Request { get; set; }
         public string Reference { get; set; }

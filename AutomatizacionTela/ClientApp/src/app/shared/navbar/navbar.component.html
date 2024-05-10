@@ -26,6 +26,14 @@
 
 		</li>
 
+    <li>
+      <a [routerLink]="['/Summary']"  >
+        <i class='bx bx-receipt'></i>
+        <span class="links_name">Resumen</span>
+      </a>
+      <span class="tooltip">Resumen</span>
+
+		</li>
 		<li *ngIf="auditQuality">
       <a [routerLink]="['/auditoria-calidad']"  >
         <i class='bx bx-podcast'></i>
@@ -76,7 +84,7 @@
         <span class="tooltip">Lanzamientos</span>
       </a>
 		</li> -->
-				
+
 		<li class="profile" style="cursor: pointer;">
 		  <div class="profile-details">
 			<i class='bx bx-log-out' (click)="logout()"></i>

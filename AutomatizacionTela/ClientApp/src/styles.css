@@ -5,18 +5,16 @@
 
   body
   {
-    font-family: 'Lexend', sans-serif;   
-    background-color:#EFEDEB ;     
+    font-family: 'Lexend', sans-serif;
+    background-color:#EFEDEB ;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background-color: rgb(200, 198, 196);
     border-radius: 10px;
   }
-  
+
   ::-webkit-scrollbar {
   width: 10px;
   height:10px;
   }
-
-
