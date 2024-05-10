@@ -8,28 +8,28 @@
 
 	  <ul class="nav-list">
 
-		<li>
+		<li *ngIf="ReviewRoll">
       <a [routerLink]="['/Rollo']"  >
         <i class='bx bx-objects-horizontal-right'></i>
-        <span class="links_name">Rollo</span>
+        <span class="links_name">Revisión rollo</span>
       </a>
-      <span class="tooltip">Rollo</span>
+      <span class="tooltip">Revisión rollo</span>
 
 		</li>
 
-    <li>
+    <li *ngIf="checkRoll">
       <a [routerLink]="['/Check']"  >
         <i class='bx bx-calendar-check'></i>
-        <span class="links_name">Chequear</span>
+        <span class="links_name">Chequeo rollo</span>
       </a>
-      <span class="tooltip">Chequear</span>
+      <span class="tooltip">Chequeo rollo</span>
 
 		</li>
 
-    <li>
+    <li *ngIf="summarizeRoll">
       <a [routerLink]="['/Summary']"  >
         <i class='bx bx-receipt'></i>
-        <span class="links_name">Resumen</span>
+        <span class="links_name">Resumen rollo</span>
       </a>
       <span class="tooltip">Resumen</span>
 
@@ -67,16 +67,16 @@
       </a>
       <span class="tooltip">Repósiciones de telas</span>
 		</li>
-		
-    <li *ngIf="reportReruns">		
+
+    <li *ngIf="reportReruns">
       <a [routerLink]="['/reposiciones-informes']"  >
         <i class='bx bxs-pie-chart-alt-2'></i>
         <span class="links_name">Reposiciones informes</span>
       </a>
       <span class="tooltip">Reposiciones informes</span>
 		</li>
-    
-	<!-- 	<li>		
+
+	<!-- 	<li>
       <a>
         <i class='bx bxl-audible'></i>
         <span class="links_name">Lanzamientos</span>

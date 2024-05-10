@@ -16,13 +16,18 @@ export class NavbarComponent implements OnInit {
   requestAuditCloth:boolean = false;
   rerunAuditCloth:boolean = false;
   reportReruns:boolean = false;
+  ReviewRoll:boolean = false;
+  checkRoll:boolean = false;
+  summarizeRoll:boolean = false;
+
+
 
   constructor(private elementRef: ElementRef,private permissionService: PermissionsService) { }
 
-  ngOnInit(): void {    
-       
+  ngOnInit(): void {
+
     this.GetPermission();
-    
+
   }
 
   // Evento que nos ayuda a expandir y contraer el sidebar (cuando está en modo móvil)
@@ -30,9 +35,9 @@ export class NavbarComponent implements OnInit {
 
     let sidebar = this.elementRef.nativeElement.querySelector(".sidebar");
     let closeBtn = this.elementRef.nativeElement.querySelector("#btn");
-  
+
     sidebar.classList.toggle("open");
-  
+
     if (sidebar.classList.contains("open")) {
       closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
     } else {
@@ -41,14 +46,14 @@ export class NavbarComponent implements OnInit {
     this.isVisible = !this.isVisible;
   }
 
- 
-  GetPermission(){ 
-    
-    if (localStorage.getItem('EmailUser') != null || localStorage.getItem('EmailUser') != "null") 
+
+  GetPermission(){
+
+    if (localStorage.getItem('EmailUser') != null || localStorage.getItem('EmailUser') != "null")
     {
-      this.permissionService.getPermission(localStorage.getItem('EmailUser')!).subscribe((response) => 
+      this.permissionService.getPermission(localStorage.getItem('EmailUser')!).subscribe((response) =>
       {
-        localStorage.setItem('IdUser', response[0].idRowUser.toString())           
+        localStorage.setItem('IdUser', response[0].idRowUser.toString())
         response.forEach(e=>{
 
           if(e.form=='AuditoriaCalidad')
@@ -71,12 +76,26 @@ export class NavbarComponent implements OnInit {
           {
             this.reportReruns=true
           }
+          else if(e.form=='RevisionRollo')
+          {
+            this.ReviewRoll=true
+          }
+          else if(e.form=='CheckRollo')
+          {
+            this.checkRoll=true
+          }
+          else if(e.form=='ResumenRollo')
+          {
+            this.summarizeRoll=true
+          }
+
+
 
         })
 
       })
     }
-   
+
   }
 
 

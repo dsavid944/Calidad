@@ -164,7 +164,7 @@ export class CheckComponent implements OnInit
     const userId = 1;
     const dataToSave = this.userInputs.map((revision) => ({
       idRowRevision: revision.idRowRevision,
-      idRowUsuario: userId,
+      idRowUsuario: parseInt(localStorage.getItem('IdUser')),
       idRowEstado: revision.idRowEstado,
       peso: revision.peso,
       rto: revision.rto,

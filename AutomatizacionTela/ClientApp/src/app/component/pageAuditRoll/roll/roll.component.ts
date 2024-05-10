@@ -219,8 +219,9 @@ export class RollComponent {
 
   //procede a guardar
   onSaveChanges(data:any): void {
+
     let saveData:any
-    const userId = 2;
+
     if(data.mtsFicha==null || data.mtsProvider==null || data.widthProvider == null || data.mtsReal ==null || data.widthReal == null || data.mtsdeficient == null || data.idRowEstado == null || data.observation == null ){
       this.alert.ShowSwalBasicWarning(
         'Advertencia',
@@ -235,7 +236,7 @@ export class RollComponent {
         idRowProvider: data.idRowProvider,
         idRowCloth: data.idRowCloth,
         idRowColor: data.idRowColor,
-        idRowUsuario: userId,
+        idRowUsuario: parseInt(localStorage.getItem('IdUser')),
         idRowDefect: this.selectedDefect.map((e) => e.idRows),
         idRowEstado: data.idRowEstado,
         lot: data.lot,

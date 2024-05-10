@@ -9,8 +9,9 @@
           <div class="container">
             <div class="card mask-custom p-1">
               <div class="card-body">
-                <div class="row star-content-center">
-                  <div class="col-md-3 mb-0 mb-md-0">
+
+                <div class="row">
+                  <div class="col-sm-12 col-md-3 col-lg-4  mb-2">
                     <div id="basic" class="form-outline form-white">
                       <input
                         type="text"
@@ -23,7 +24,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-2 mb-3 mb-md-0">
+                  <div class="col-sm-12 col-md-4 col-lg-4 mb-3 mb-2">
                     <div id="location" class="form-outline form-white">
                       <input
                         type="text"
@@ -36,32 +37,37 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-1 mb-3 mb-md-0">
-                    <button
-                      type="button"
-                      class="btn btn-dark btn-floating"
-                      (click)="search()"
-                      aria-label="Search"
-                    >
-                      <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                    </button>
-                  </div>
-                  <!-- boton para seleccionar el porcentaje -->
-                  <div class="col-md-2 mb-3 mb-md-0">
-                    <div class="form-check form-switch">
-                      <input
-                        class="form-check-input star-content-center"
-                        type="checkbox"
-                        id="percentageSwitch"
-                        (change)="togglePercentage()"
-                        [checked]="selectedPercentage === 100"
-                      />
-                      <label class="form-check-label" for="percentageSwitch"
-                        >100%</label
-                      >
+                  <div class="col-sm-12 col-md-4 col-lg-4 ">
+                    <div class="d-flex flex-row ">
+                      <div class="px-2">
+                        <button
+                          type="button"
+                          class="btn btn-dark btn-floating"
+                          (click)="search()"
+                          aria-label="Search"
+                        >
+                          <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                        </button>
+                      </div>
+
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input star-content-center"
+                          type="checkbox"
+                          id="percentageSwitch"
+                          (change)="togglePercentage()"
+                          [checked]="selectedPercentage === 100"
+                        />
+                        <label class="form-check-label" for="percentageSwitch"
+                          >100%</label
+                        >
+                      </div>
                     </div>
                   </div>
+
+
                 </div>
+
               </div>
             </div>
           </div>
