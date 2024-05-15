@@ -140,7 +140,7 @@ namespace AutomatizacionTela.Controllers
         }
 
         [HttpPost("SaveUpdateCheck")]
-        public async Task<IActionResult> SaveUpdateCheck([FromBody] List<SaveCheck> rolls)
+        public async Task<IActionResult> SaveUpdateCheck([FromBody] SaveCheck rolls)
         {
             try
             {

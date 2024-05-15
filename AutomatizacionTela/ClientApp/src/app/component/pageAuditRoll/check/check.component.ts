@@ -22,6 +22,8 @@ export class CheckComponent implements OnInit
   estados: State[] = [];
   selectedRow: number | null = null;
   selectedItem: any = {};
+  dataAllCheck:any[] = [];
+  dataSelectedRoll:any[]=[];
 
   constructor(
     private rollService: RollService,
@@ -72,7 +74,7 @@ export class CheckComponent implements OnInit
       next: (dataFromDB) => {
         this.dataFromDB = dataFromDB;
         //this.updateUserInputs();
-        console.log(this.dataFromDB);
+        //console.log(this.dataFromDB);
       },
       error: (error) => {
         console.error('Error al buscar:', error);
@@ -88,11 +90,10 @@ export class CheckComponent implements OnInit
         console.log(response.map(stored => stored.idRowRevision));
         // Filtrar los rollos que aún no están almacenados
         const newRolls = this.dataFromDB.filter(roll => !storedRollIds.includes(roll.idRowRevision));
-        console.log(newRolls);
+        //console.log(newRolls);
         // Preparar los nuevos rollos para ser añadidos, inicializando los campos necesarios
         const newRollsPrepared = newRolls.map(roll => ({
           ...roll,
-          idRowDefecto: null,
           idRowEstado: null,
           peso: null,
           rto: null,
@@ -114,7 +115,15 @@ export class CheckComponent implements OnInit
         this.userInputs = [...storedRollsPrepared, ...newRollsPrepared];
         this.selectedItem = item;
         this.selectedRow = null;
-        console.log(this.userInputs);
+
+
+        let roll = this.userInputs;
+        let hash2={}
+        roll=roll.filter(e=>hash2[e.roll]?false:hash2[e.roll]=true);
+        this.dataAllCheck=roll
+
+        this.dataSelectedRoll=this.userInputs;
+        //console.log(this.dataAllCheck);
 
       },
       error: (error) => {
@@ -127,8 +136,16 @@ export class CheckComponent implements OnInit
   //se utiliza para editar en la tabla
   selectRowForEdit(rollNumber: number): void {
     this.selectedRow = this.selectedRow === rollNumber ? null : rollNumber;
+    console.log(this.selectedRow);
+
   }
 
+  selectedRollAudit(roll:number)
+  {
+    this.dataSelectedRoll =  this.userInputs.filter(e=>e.roll == roll)
+
+    this.selectedRow=roll;
+  }
   resetModalData() {
     // Limpia o reinicia las propiedades como necesites
     this.selectedItem = {};
@@ -137,54 +154,44 @@ export class CheckComponent implements OnInit
   }
 
   //procede a guardar
-  onSaveChanges(): void {
-    // Verifica que todos los campos estén completos.
-    const isEveryFieldComplete = this.userInputs.every(
-      (revision) =>
-        revision.peso != null &&
-        revision.rto != null &&
-        revision.ea != null &&
-        revision.el != null &&
-        revision.viro != null &&
-        revision.elongacionAncho != null &&
-        revision.elongacionLargo != null &&
-        revision.observacion != null &&
-        revision.idRowEstado != null
-    );
+  onSaveChanges(data:any): void {
 
-    if (!isEveryFieldComplete) {
+    let saveData:any
+    // Verifica que todos los campos estén completos.
+    if(data.peso==null || data.rto == null || data.ea ==null || data.el == null || data.viro == null || data.elongacionAncho == null || data.elongacionLargo == null || data.observacion == null || data.idRowEstado == null){
       this.alert.ShowSwalBasicWarning(
         'Advertencia',
         'Todos los campos deben ser completados.'
       );
       return;
-    }
-
+    }else
+    {
     // Preparar los datos para ser enviados
-    const userId = 1;
-    const dataToSave = this.userInputs.map((revision) => ({
-      idRowRevision: revision.idRowRevision,
-      idRowUsuario: parseInt(localStorage.getItem('IdUser')),
-      idRowEstado: revision.idRowEstado,
-      peso: revision.peso,
-      rto: revision.rto,
-      ea: revision.ea,
-      el: revision.el,
-      viro: revision.viro,
-      elongacionAncho: revision.elongacionAncho,
-      elongacionLargo: revision.elongacionLargo,
-      observacion: revision.observacion,
-    }));
-
+    saveData={
+        idRowRevision: data.idRowRevision,
+        idRowUsuario: parseInt(localStorage.getItem('IdUser')),
+        idRowEstado: data.idRowEstado,
+        peso: data.peso,
+        rto: data.rto,
+        ea: data.ea,
+        el: data.el,
+        viro: data.viro,
+        elongacionAncho: data.elongacionAncho,
+        elongacionLargo: data.elongacionLargo,
+        observacion: data.observacion,
+      }
+    }console.log(saveData)
 
     // Enviar los datos al backend a través del servicio
-    this.rollService.saveUpdateCheck(dataToSave).subscribe({
+    this.rollService.saveUpdateCheck(saveData).subscribe({
       next: (response) => {
         console.log('Datos guardados correctamente', response);
+        this.resetModalData();
         this.alert.ShowSwalBasicSuccess(
           'Operación Exitosa',
           'Datos guardados correctamente.'
         );
+        this.updateUserInputs(data)
       },
       error: (error) => {
         console.error('Error al guardar los datos', error);

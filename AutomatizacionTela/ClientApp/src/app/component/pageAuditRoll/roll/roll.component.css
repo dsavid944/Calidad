@@ -140,6 +140,8 @@
 
 :host ::ng-deep .p-multiselect-chip{
   width: 100% !important;
+  max-height: 40px;
+
 }
 
 :host ::ng-deep .p-inputNumber{
@@ -149,4 +151,27 @@
 .successRoll{
   background-color: #33ad3e !important;
   color: white !important;
+}
+
+.defect-list-container {
+  max-height: 40px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;  /* Habilita el desplazamiento vertical */
+  background-color: #f8f9fa; /* Color de fondo ligero para la lista */
+  border: 1px solid #ccc; /* Borde sutil para la lista */
+  border-radius: 5px; /* Bordes redondeados para suavizar la apariencia */
+  padding: 10px; /* Espaciado interno para separar el contenido del borde */
+}
+
+.defect-list-container ul {
+  padding: 0; /* Elimina el padding predeterminado de la lista */
+  list-style-type: none; /* Elimina los marcadores de lista */
+}
+
+.defect-list-container li {
+  padding: 1px; /* Espaciado interno para cada elemento de la lista */
+  border-bottom: 1px solid #eee; /* Borde sutil entre elementos */
+}
+
+.defect-list-container li:last-child {
+  border-bottom: none; /* Elimina el borde del último elemento */
 }

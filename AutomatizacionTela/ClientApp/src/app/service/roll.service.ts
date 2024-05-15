@@ -43,7 +43,7 @@ export class RollService {
     return this.http.get<IGetCheck[]>(`${environment.url}RollCntlr/SearchRollCheck`, { params });
   }
 
-  saveUpdateCheck(userInput: IRollCheck[]): Observable<any> {
+  saveUpdateCheck(userInput: any): Observable<any> {
     console.log("Datos formateados que se enviarán para guardar:", userInput);
      return this.http.post(`${environment.url}RollCntlr/SaveUpdateCheck`, userInput, {
     });

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  /* url: 'https://localhost:44313/api/' */
-  url: 'https://miclocal.com.co:9393/api/',
+  /*url: 'https://localhost:44313/api/'*/
+   url: 'https://miclocal.com.co:9393/api/',
 };
 
 /*

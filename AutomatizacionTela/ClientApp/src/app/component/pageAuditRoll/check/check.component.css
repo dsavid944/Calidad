@@ -16,9 +16,9 @@
   .form-check-input {
     width: 3rem; /* Aumenta el ancho del interruptor */
     height: 1.5rem; /* Aumenta la altura del interruptor */
-  
+
   }
-  
+
   /* Ajustar el tamaño y la posición del círculo (punto) dentro del interruptor */
   .form-check-input:checked + .form-check-label::before,
   .form-check-input:not(:checked) + .form-check-label::before {
@@ -27,7 +27,7 @@
     top: .125rem; /* Ajusta la posición superior para centrar el círculo dentro del interruptor */
     left: -2rem; /* Ajusta la posición izquierda si es necesario */
   }
-  
+
   /* Ajustar la posición del círculo cuando el interruptor esté activado */
   .form-check-input:checked + .form-check-label::before {
     left: -1rem; /* Ajusta según necesites para mover el círculo a la posición correcta cuando esté activado */
@@ -41,7 +41,7 @@
   .btn-modal:focus {
     outline: none; /* Quita el borde cuando el botón está enfocado */
   }
-  
+
   .btn-modal:active {
     transform: scale(0.98); /* Efecto de "presión" al hacer clic */
   }
@@ -63,43 +63,43 @@
   .btn-edit:focus {
     outline: none; /* Quita el borde cuando el botón está enfocado */
   }
-  
+
   .btn-edit:active {
     transform: scale(0.98); /* Efecto de "presión" al hacer clic */
   }
-  
+
   .center-both {
     text-align: center;
     vertical-align: middle;
   }
-  
+
   /*informacion modal*/
   .card {
     border: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: all 0.3s ease-in-out;
   }
-  
+
   .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
   }
-  
+
   .card-title {
     font-size: 1rem;
     font-weight: bold;
   }
-  
+
   .card-text {
     font-size: 1em;
     color: #333;
   }
-  
+
   .card-text i {
     margin-right: 5px;
   }
-  
-  
+
+
   .mask-custom {
     background: #e8e8e4;
     border-radius: 10px;
@@ -107,9 +107,9 @@
     border: 2px solid #ece4db;
     background-clip: padding-box;
     box-shadow: 10px 10px 10px #f8edeb;
-  
+
   }
-  
+
   .mask-body{
     background: hsla(0, 100%, 100%, 0.918);
     border-radius: 10px;
@@ -118,7 +118,13 @@
     background-clip: padding-box;
     box-shadow: 10px 10px 10px #e6e6e64f;
   }
-  
-  
-  
-  
+
+  .successRoll{
+    background-color: #33ad3e !important;
+    color: white !important;
+  }
+
+  :host ::ng-deep .p-dropdown{
+    width: 100% !important;
+    max-height: 40px;
+  }

@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   ReviewRoll:boolean = false;
   checkRoll:boolean = false;
   summarizeRoll:boolean = false;
-
+  opasity:boolean = true;
 
 
   constructor(private elementRef: ElementRef,private permissionService: PermissionsService) { }
@@ -40,8 +40,14 @@ export class NavbarComponent implements OnInit {
 
     if (sidebar.classList.contains("open")) {
       closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+
+      setTimeout(() => {
+        this.opasity=false;
+      }, 250);
+
     } else {
       closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      this.opasity=true;
     }
     this.isVisible = !this.isVisible;
   }

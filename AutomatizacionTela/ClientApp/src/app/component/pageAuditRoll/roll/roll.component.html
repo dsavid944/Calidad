@@ -4,14 +4,13 @@
       <div class="card-body text-center">
         <div class="row">
           <p class="h4 font-weight-bold mb-1 text-black text-start">
-            Consultar Estado de Telas
+            <b>Consultar Estado de Telas</b>
           </p>
           <div class="container">
             <div class="card mask-custom p-1">
               <div class="card-body">
-
                 <div class="row">
-                  <div class="col-sm-12 col-md-3 col-lg-4  mb-2">
+                  <div class="col-sm-12 col-md-3 col-lg-4 mb-2">
                     <div id="basic" class="form-outline form-white">
                       <input
                         type="text"
@@ -37,8 +36,8 @@
                       />
                     </div>
                   </div>
-                  <div class="col-sm-12 col-md-4 col-lg-4 ">
-                    <div class="d-flex flex-row ">
+                  <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="d-flex flex-row">
                       <div class="px-2">
                         <button
                           type="button"
@@ -64,10 +63,7 @@
                       </div>
                     </div>
                   </div>
-
-
                 </div>
-
               </div>
             </div>
           </div>
@@ -236,11 +232,6 @@
                     </ul>
                   </div>
                 </div>
-
-                <!--          <div class="alert alert-warning col-10" role="alert" *ngIf="selectedRow==null">
-                  Seleccione el rollo a auditar
-                </div> -->
-
                 <div
                   class="col-sm-12 col-md-12 col-lg-10 mt-2"
                   *ngIf="selectedRow != null"
@@ -253,7 +244,7 @@
                         *ngFor="let item of dataSelectedRoll"
                       >
                         <div class="row">
-                          <div class="col-sm-12 col-md-4 col-lg-3">
+                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label> Metros Ficha</label>
                             <input
                               class="form-control"
@@ -262,7 +253,7 @@
                               [disabled]="item.isStored"
                             />
                           </div>
-                          <div class="col-sm-12 col-md-4 col-lg-3">
+                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label> Metros Proveedor</label>
                             <input
                               class="form-control"
@@ -271,7 +262,7 @@
                               [disabled]="item.isStored"
                             />
                           </div>
-                          <div class="col-sm-12 col-md-4 col-lg-3">
+                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label>Ancho Útil Proveedor</label>
                             <input
                               class="form-control"
@@ -280,7 +271,7 @@
                               [disabled]="item.isStored"
                             />
                           </div>
-                          <div class="col-sm-12 col-md-4 col-lg-3">
+                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label>Metros Reales</label>
                             <input
                               class="form-control"
@@ -289,8 +280,7 @@
                               [disabled]="item.isStored"
                             />
                           </div>
-
-                          <div class="col-sm-12 col-md-4 col-lg-3">
+                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label> Ancho Útil Real</label>
                             <input
                               class="form-control"
@@ -299,8 +289,7 @@
                               [disabled]="item.isStored"
                             />
                           </div>
-
-                          <div class="col-sm-12 col-md-4 col-lg-3">
+                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label> Metros Defectuosos</label>
                             <input
                               class="form-control"
@@ -309,84 +298,85 @@
                               [disabled]="item.isStored"
                             />
                           </div>
+                          <div class="row">
+                            <div class="col-sm-12 col-md-4 col-lg-3">
+                              <label>Proveedor</label>
+                              <div>
+                                <p-dropdown
+                                  [options]="proveedores"
+                                  [disabled]="item.isStored"
+                                  [readonly]="selectedRow !== item.roll"
+                                  class="w-12 p-inputtext-sm text-sm"
+                                  styleClass="w-12 p-inputtext-sm text-sm "
+                                  (onChange)="selectedProviderDefect($event)"
+                                  [(ngModel)]="item.idDefectProvider"
+                                  optionLabel="proveedor"
+                                  optionValue="idRows"
+                                  inputId="float-label"
+                                >
+                                </p-dropdown>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-3">
+                              <label>Defecto</label>
+                              <div *ngIf="item.defect == null">
+                                <p-multiSelect
+                                  inputId="float-label"
+                                  display="chip"
+                                  [disabled]="item.isStored"
+                                  [readonly]="selectedRow !== item.roll"
+                                  class="w-12 p-inputtext-sm text-sm"
+                                  styleClass="w-12 p-inputtext-sm text-sm "
+                                  [options]="defectosFilterProveedores"
+                                  [(ngModel)]="selectedDefect"
+                                  optionLabel="descripcion"
+                                >
+                                </p-multiSelect>
+                              </div>
+                              <div *ngIf="item.defect != null" class="defect-list-container">
+                                <ul>
+                                  <li *ngFor="let defect of item.nameDefect">
+                                    {{ defect }}
+                                  </li>
+                                </ul>
+                              </div>
 
-                          <div class="col-sm-12 col-md-4 col-lg-3">
-                            <label>Proveedor</label>
-                            <div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-3">
+                              <label>Estado</label>
                               <p-dropdown
-                                [options]="proveedores"
+                                [options]="estados"
                                 [disabled]="item.isStored"
                                 [readonly]="selectedRow !== item.roll"
-                                class="w-12 p-inputtext-sm text-sm"
-                                styleClass="w-12 p-inputtext-sm text-sm "
-                                (onChange)="selectedProviderDefect($event)"
-                                [(ngModel)]="item.idDefectProvider"
-                                optionLabel="proveedor"
+                                [(ngModel)]="item.idRowEstado"
+                                optionLabel="descripcion"
                                 optionValue="idRows"
                                 inputId="float-label"
                               >
                               </p-dropdown>
                             </div>
-
-                          </div>
-
-                          <div class="col-sm-12 col-md-4 col-lg-3">
-                            <label>Estado</label>
-                            <p-dropdown
-                              [options]="estados"
-                              [disabled]="item.isStored"
-                              [readonly]="selectedRow !== item.roll"
-                              [(ngModel)]="item.idRowEstado"
-                              optionLabel="descripcion"
-                              optionValue="idRows"
-                              inputId="float-label"
-                            >
-                            </p-dropdown>
-                          </div>
-
-                          <div class="col-sm-12 col-md-4 col-lg-3">
-                            <label>Defecto</label>
-                            <div *ngIf="item.defect == null">
-                              <p-multiSelect
-                                inputId="float-label"
-                                display="chip"
+                            <div class="col-sm-12 col-md-12 col-lg-3">
+                              <label>Observación</label>
+                              <textarea
+                                class="form-control"
+                                [(ngModel)]="item.observation"
                                 [disabled]="item.isStored"
-                                [readonly]="selectedRow !== item.roll"
-                                class="w-12 p-inputtext-sm text-sm"
-                                styleClass="w-12 p-inputtext-sm text-sm "
-                                [options]="defectosFilterProveedores"
-                                [(ngModel)]="selectedDefect"
-                                optionLabel="descripcion"
+                                style="height: 100px"
                               >
-                              </p-multiSelect>
-                            </div>
-                            <div *ngIf="item.defect != null">
-                              <ul *ngFor="let defect of item.nameDefect">
-                                <li>{{ defect }}</li>
-                              </ul>
+                              </textarea>
                             </div>
                           </div>
-
-                          <div class="col-sm-12 col-md-12 col-lg-9">
-                            <label>Observación</label>
-                            <textarea
-                              class="form-control"
-                              [(ngModel)]="item.observation"
-                              [disabled]="item.isStored"
-                              style="height: 100px"
-                            >
-                            </textarea>
-                          </div>
-
-                          <div class="d-flex flex-row justify-content-evenly" *ngIf="!item.isStored">
-
+                          <div
+                            class="d-flex flex-row justify-content-evenly"
+                            *ngIf="!item.isStored"
+                          >
                             <button
-                                type="button"
-                                class="btn btn-primary mt-2"
-                                (click)="onSaveChanges(item)"
-
-                              >
-                                Guardar cambios
+                              type="button"
+                              class="btn btn-primary mt-2"
+                              (click)="onSaveChanges(item)"
+                            >
+                              Guardar cambios
                             </button>
                           </div>
                         </div>
@@ -394,11 +384,7 @@
                     </div>
                   </div>
                 </div>
-
-                <div></div>
               </div>
-
-
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@ namespace AutomatizacionTela.Model.ViewModel.AuditoriaRollo
         public decimal MtsReal { get; set; }
         public decimal WidthReal { get; set; }
         public string StateRev { get; set; }
-        public int IdRowUsuarioRoll { get; set; }
+        public string UsuarioRoll { get; set; }
         public decimal Weight { get; set; }
         public decimal Rto { get; set; }
         public decimal Ea { get; set; }
@@ -32,6 +32,6 @@ namespace AutomatizacionTela.Model.ViewModel.AuditoriaRollo
         public decimal WidthElongation { get; set; }
         public decimal LongElongation { get; set; }
         public string StateCheck { get; set; }
-        public int IdRowUsuarioCheck { get; set; }
+        public string UsuarioCheck { get; set; }
     }
 }

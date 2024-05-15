@@ -101,26 +101,23 @@ namespace AutomatizacionTela.Service
             return response;
         }
 
-        public async Task<bool> SaveUpdateCheckAsync(List<SaveCheck> rolls)
+        public async Task<bool> SaveUpdateCheckAsync(SaveCheck rolls)
         {
-
-            foreach (var roll in rolls)
-            {
                 var parameters = new DynamicParameters();
                 parameters.Add("@Option", "SaveCheck");
-                parameters.Add("@IdRowRevision", roll.IdRowRevision);
-                parameters.Add("@IdState", roll.IdRowEstado);
-                parameters.Add("@IdRowUser", roll.IdRowUsuario);
-                parameters.Add("@Weight", roll.Peso);
-                parameters.Add("@Rto", roll.Rto);
-                parameters.Add("@Ea", roll.Ea);
-                parameters.Add("@El", roll.El);
-                parameters.Add("@Viro", roll.Viro);
-                parameters.Add("@WidthElongation", roll.ElongacionAncho);
-                parameters.Add("@LongElongation", roll.ElongacionLargo);
-                parameters.Add("@ObservationCheck", roll.Observacion);
+                parameters.Add("@IdRowRevision", rolls.IdRowRevision);
+                parameters.Add("@IdState", rolls.IdRowEstado);
+                parameters.Add("@IdRowUser", rolls.IdRowUsuario);
+                parameters.Add("@Weight", rolls.Peso);
+                parameters.Add("@Rto", rolls.Rto);
+                parameters.Add("@Ea", rolls.Ea);
+                parameters.Add("@El", rolls.El);
+                parameters.Add("@Viro", rolls.Viro);
+                parameters.Add("@WidthElongation", rolls.ElongacionAncho);
+                parameters.Add("@LongElongation", rolls.ElongacionLargo);
+                parameters.Add("@ObservationCheck", rolls.Observacion);
                 _dapperDedalo2008.GetAll<SaveCheck>("AutoTelSP_Roll_Type", parameters, commandType: CommandType.StoredProcedure);
-            }
+
             return true;
         }
 

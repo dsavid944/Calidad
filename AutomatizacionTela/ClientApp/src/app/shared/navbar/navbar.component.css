@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+
 }
 .sidebar {
   position: fixed;
@@ -227,7 +227,7 @@
   position: relative;
   left: 78px;
   width: calc(100% - 78px);
-  transition: all 0.5s ease; 
+  transition: all 0.5s ease;
  /*  z-index: 2; */
 }
 .sidebar.open ~ .home-section {
@@ -248,14 +248,39 @@
 } */
 
 
-  .home-section .content {	
+
+  .home-section .content {
 	margin: 12px;
   }
 
-  
+
   @media (max-width: 420px) {
 	.sidebar li .tooltip {
 	  display: none;
 	}
   }
-  
+
+  .contentDropDawn{
+    display: flex;
+    list-style: none;
+    font-size: 15px;
+    color: white;
+
+  }
+
+  .headerDropDawn{
+    justify-content: center;
+    align-items: start;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .headerDropDawn i{
+    font-size: 18px;
+  }
+
+  .titleDropdown{
+    display: none;
+  }
+
+

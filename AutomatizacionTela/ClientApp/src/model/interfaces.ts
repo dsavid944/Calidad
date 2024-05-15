@@ -117,7 +117,7 @@ export interface IGetRoll{
     mtsReal: number;
     widthReal: number;
     stateRev: string;
-    idRowUsuarioRoll: number;
+    usuarioRoll: string;
     weight: number;
     rto: number;
     ea: number;
@@ -126,7 +126,7 @@ export interface IGetRoll{
     widthElongation: number;
     longElongation: number;
     stateCheck: string;
-    idRowUsuarioCheck: number;
+    usuarioCheck: string;
   }
 
 
