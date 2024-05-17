@@ -382,4 +382,8 @@ export interface IGetPermission {
   form: string;
 }
 
+export interface IGetPersonal{
+  idPersonal:number
+  namePersonal:string
 
+}

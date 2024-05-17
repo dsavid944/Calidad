@@ -1,8 +1,9 @@
+import { SignalRService } from './../../../service/signal-r.service';
 import { Component } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
-import { Defect, IGetRoll, IRollData, Provider, State } from 'src/model/interfaces';
+import { Defect, IGetPersonal, IGetRoll, IRollData, Provider, State } from 'src/model/interfaces';
 
 @Component({
   selector: 'app-roll',
@@ -10,12 +11,13 @@ import { Defect, IGetRoll, IRollData, Provider, State } from 'src/model/interfac
   styleUrls: ['./roll.component.css'],
 })
 export class RollComponent {
-
+  mtsdeficient: null;
   selectedDefect!: Defect[];
   selectedProvider!: Provider[];
   defectosProveedores: Defect[] = [];
   defectosFilterProveedores: Defect[] = [];
   proveedores: Provider[] = [];
+  dataPersonal:IGetPersonal[]=[];
 
   dataRoll: IGetRoll[] = [];
   dataRevision: IRollData[] = [];
@@ -26,9 +28,11 @@ export class RollComponent {
   selectedItem: any = {};
   selectedPercentage: number = 50;
   actualCheckedPercentage: number = 0;
+  idUserAuditor:number=0;
 
   dataSelectedRoll:any[]=[];
   dataAllRoll:any[] = [];
+
 
   constructor(
     private rollService: RollService,
@@ -37,10 +41,45 @@ export class RollComponent {
   ) {}
 
   ngOnInit(): void {
+
     this.loadDefects();
     this.loadProvider();
     this.loadStates();
+    this.getPersonal();
+
+    const openModalButton = document.getElementById('openModalButton');
+    if (openModalButton && (localStorage.getItem('IdUserAuditor')==null || localStorage.getItem('IdUserAuditor')=="0"))
+    {
+      openModalButton.click();
+    }
+
   }
+
+  postAuditorSelected()
+  {
+    if(this.idUserAuditor !=0)
+    {
+
+      this.rollService.postAuditorSelected(this.idUserAuditor).subscribe(response=>{
+
+        if(response>0)
+        {
+          localStorage.setItem('IdUserAuditor',response.toString() )
+          this.alert.ShowSwalBasicSuccess("Correcto","Auditor asignado")
+        }
+        else
+        {
+          this.alert.ShowSwalBasicError("Error","No se ha podido registrar el auditor")
+        }
+
+      },(error)=>{ this.alert.ShowSwalBasicError("Error","No se ha podido registrar el auditor")})
+    }
+    else
+    {
+      this.alert.ShowSwalBasicWarning("Advertencia","Debe seleccionar un auditor")
+    }
+  }
+
 
   //Leer la tabla de defectos
   loadDefects(): void {
@@ -55,7 +94,7 @@ export class RollComponent {
       },
     });
   }
-
+ //Leer la tabla de proveedores
   loadProvider(): void {
     this.defectService.getProviders().subscribe({
       next: (data) => {
@@ -68,6 +107,7 @@ export class RollComponent {
     });
   }
 
+   //Leer la tabla de estados
   loadStates(): void {
     this.defectService.getStates().subscribe({
       next: (data) => {
@@ -82,23 +122,31 @@ export class RollComponent {
 
   //Buscar informacion por rollo o lote
   search(): void {
-    if (!this.searchRoll && !this.searchLot) {
-      this.alert.ShowSwalBasicWarning(
-        'Advertencia',
-        'Debe proporcionar al menos un criterio de búsqueda.'
-      );
-      return;
+    if(localStorage.getItem('IdUserAuditor')==null)
+    {
+      location.reload()
     }
-    this.rollService.getRoll(this.searchRoll, this.searchLot).subscribe({
-      next: (dataRoll) => {
-        this.dataRoll = dataRoll.map((roll) => ({
-          ...roll,
-          checked: roll.state,
-          pending: roll.state ? 0 : roll.quantityRoll,
-        }));
-      },
-      error: (error) => console.error('Error al buscar el rollo:', error),
-    });
+    else
+    {
+
+      if (!this.searchRoll && !this.searchLot) {
+        this.alert.ShowSwalBasicWarning(
+          'Advertencia',
+          'Debe proporcionar al menos un criterio de búsqueda.'
+        );
+        return;
+      }
+      this.rollService.getRoll(this.searchRoll, this.searchLot).subscribe({
+        next: (dataRoll) => {
+          this.dataRoll = dataRoll.map((roll) => ({
+            ...roll,
+            checked: roll.state,
+            pending: roll.state ? 0 : roll.quantityRoll,
+          }));
+        },
+        error: (error) => console.error('Error al buscar el rollo:', error),
+      });
+    }
   }
 
   // Suma el porcentage de rollos seleccionados
@@ -218,26 +266,22 @@ export class RollComponent {
   }
 
   //procede a guardar
-  onSaveChanges(data:any): void {
+  onSaveChanges(data: any): void {
+    let saveData: any;
 
-    let saveData:any
-
-    if(data.mtsFicha==null || data.mtsProvider==null || data.widthProvider == null || data.mtsReal ==null || data.widthReal == null || data.mtsdeficient == null || data.idRowEstado == null || data.observation == null ){
-      this.alert.ShowSwalBasicWarning(
-        'Advertencia',
-        'Todos los campos deben ser completados.'
-      );
+    // Validación de campos obligatorios
+    if (data.mtsFicha == null || data.mtsProvider == null || data.widthProvider == null || data.mtsReal == null || data.widthReal == null || data.idRowEstado == null) {
+      this.alert.ShowSwalBasicWarning('Advertencia', 'Todos los campos deben ser completados.');
       return;
-    }else
-    {
+    } else {
       // Preparar los datos para ser enviados
-      saveData={
+      saveData = {
         roll: data.roll,
         idRowProvider: data.idRowProvider,
         idRowCloth: data.idRowCloth,
         idRowColor: data.idRowColor,
-        idRowUsuario: parseInt(localStorage.getItem('IdUser')),
-        idRowDefect: this.selectedDefect.map((e) => e.idRows),
+        idRowUsuario: parseInt(localStorage.getItem('IdUserAuditor')),
+        idRowDefect: this.selectedDefect.length > 0 ? this.selectedDefect.map((e) => e.idRows) : null,
         idRowEstado: data.idRowEstado,
         lot: data.lot,
         kiloRoll: data.kiloRoll,
@@ -249,22 +293,18 @@ export class RollComponent {
         widthProvider: data.widthProvider,
         mtsReal: data.mtsReal,
         widthReal: data.widthReal,
-        mtsdeficient: data.mtsdeficient,
-        observation: data.observation,
-      }
-
+        mtsdeficient: data.mtsdeficient ? data.mtsdeficient : null,
+        observation: data.observation ? data.observation : null,
+      };
     }
+
     // Enviar los datos al backend a través del servicio
-     this.rollService.saveUpdateRoll(saveData).subscribe({
+    this.rollService.saveUpdateRoll(saveData).subscribe({
       next: (response) => {
         console.log('Datos guardados correctamente', response);
         this.resetModalData();
-        this.alert.ShowSwalBasicSuccess(
-          'Operación Exitosa',
-          'Datos guardados correctamente.'
-        );
-
-        this.prepareDataForModal(data)
+        this.alert.ShowSwalBasicSuccess('Operación Exitosa', 'Datos guardados correctamente.');
+        this.prepareDataForModal(data);
       },
       error: (error) => {
         console.error('Error al guardar los datos', error);
@@ -272,6 +312,7 @@ export class RollComponent {
       },
     });
   }
+
 
   selectedProviderDefect(provider:any)
   {
@@ -291,6 +332,14 @@ export class RollComponent {
     const transformedData = this.dataSelectedRoll.filter(e=>e.roll==roll).map(item => item.idRowDefect.split('|'));
 
     return transformedData;
+  }
+
+  getPersonal()
+  {
+    this.rollService.getPersonal().subscribe(response=>{
+      this.dataPersonal=response
+
+    },(error)=>{})
   }
 
 }

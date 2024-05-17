@@ -2,6 +2,7 @@ using AutomatizacionTela.Context;
 using AutomatizacionTela.Models.Interfaces;
 using AutomatizacionTela.Service.DapperService;
 using AutomatizacionTela.Service.Interface;
+using AutomatizacionTela.Service.SingnalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -29,13 +30,13 @@ namespace AutomatizacionTela
                 options.AddPolicy("AllowOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder.WithOrigins("http://localhost:4200").AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowCredentials();
                     });
             });
-
             services.AddControllersWithViews();
+            services.AddSignalR();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -101,6 +102,7 @@ namespace AutomatizacionTela
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<NotificationHub>("/notificationHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IRollData, IGetRoll, IRollCheck, IGetCheck, IUIRollCheck, GetSummary } from 'src/model/interfaces';
+import { IRollData, IGetRoll, IRollCheck, IGetCheck, IUIRollCheck, GetSummary, IGetPersonal } from 'src/model/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +58,21 @@ export class RollService {
   getSummary()
   {
     return this.http.get<GetSummary[]>(`${environment.url}RollCntlr/GetSummary`);
+  }
+
+  getPersonal()
+  {
+    return this.http.get<IGetPersonal[]>(`${environment.url}RollCntlr/GetPersonal`);
+  }
+
+  postAuditorSelected(idUserAudit:number)
+  {
+    return this.http.post<number>(`${environment.url}RollCntlr/PostAuditorSelected/${idUserAudit}`,null);
+  }
+
+  postEndTurn()
+  {
+    return this.http.post<number>(`${environment.url}RollCntlr/PostEndTurn`,null);
   }
 }
 

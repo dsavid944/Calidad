@@ -94,7 +94,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of dataRoll; let i = index">
-                  <td>{{ item.dateCreate | date : "mediumDate" }}</td>
+                  <td>{{ item.dateCreate | date : "dd/MM/yyyy" }}</td>
                   <td>{{ item.nameProvider }}</td>
                   <td>{{ item.roll }}</td>
                   <td>{{ item.lot }}</td>
@@ -212,13 +212,13 @@
               <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-2">
                   <div class="card mt-2">
-                    <h5 class="text-center fw-bolder">Rollos seleccionados</h5>
+                    <h5 class="text-center fw-bolder">Rollos seleccionados </h5>
                     <ul
                       class="list-group list-group-flush d-flex flex-row align-items-center"
                       *ngFor="let item of dataAllRoll"
                     >
                       <li
-                        [ngClass]="{ successRoll: item.isStored }"
+                        [ngClass]="{ successRoll: item.isStored, selectedRoll: item.roll==selectedRow  }"
                         class="list-group-item w-100 text-center"
                       >
                         {{ item.roll }}
@@ -238,7 +238,7 @@
                 >
                   <div class="card">
                     <div class="card-body">
-                      <h3 class="text-center fw-bolder">Detalles del rollo</h3>
+                      <h3 class="text-center fw-bolder">Detalles del rollo ({{selectedRow}})</h3>
                       <div
                         class="container"
                         *ngFor="let item of dataSelectedRoll"
@@ -263,20 +263,20 @@
                             />
                           </div>
                           <div class="col-sm-12 col-md-4 col-lg-4">
-                            <label>Ancho Útil Proveedor</label>
-                            <input
-                              class="form-control"
-                              type="number"
-                              [(ngModel)]="item.widthProvider"
-                              [disabled]="item.isStored"
-                            />
-                          </div>
-                          <div class="col-sm-12 col-md-4 col-lg-4">
                             <label>Metros Reales</label>
                             <input
                               class="form-control"
                               type="number"
                               [(ngModel)]="item.mtsReal"
+                              [disabled]="item.isStored"
+                            />
+                          </div>
+                          <div class="col-sm-12 col-md-4 col-lg-4">
+                            <label>Ancho Útil Proveedor</label>
+                            <input
+                              class="form-control"
+                              type="number"
+                              [(ngModel)]="item.widthProvider"
                               [disabled]="item.isStored"
                             />
                           </div>
@@ -301,13 +301,11 @@
                           <div class="row">
                             <div class="col-sm-12 col-md-4 col-lg-3">
                               <label>Proveedor</label>
-                              <div>
+                              <div  [ngClass]="{disabledDefect:item.isStored || !item.mtsdeficient}">
                                 <p-dropdown
                                   [options]="proveedores"
-                                  [disabled]="item.isStored"
+                                  [disabled]="item.isStored || !item.mtsdeficient"
                                   [readonly]="selectedRow !== item.roll"
-                                  class="w-12 p-inputtext-sm text-sm"
-                                  styleClass="w-12 p-inputtext-sm text-sm "
                                   (onChange)="selectedProviderDefect($event)"
                                   [(ngModel)]="item.idDefectProvider"
                                   optionLabel="proveedor"
@@ -319,14 +317,12 @@
                             </div>
                             <div class="col-sm-12 col-md-4 col-lg-3">
                               <label>Defecto</label>
-                              <div *ngIf="item.defect == null">
+                              <div *ngIf="item.defect == null"  [ngClass]="{disabledDefect:item.isStored || !item.mtsdeficient}">
                                 <p-multiSelect
                                   inputId="float-label"
                                   display="chip"
-                                  [disabled]="item.isStored"
+                                  [disabled]="item.isStored || !item.mtsdeficient"
                                   [readonly]="selectedRow !== item.roll"
-                                  class="w-12 p-inputtext-sm text-sm"
-                                  styleClass="w-12 p-inputtext-sm text-sm "
                                   [options]="defectosFilterProveedores"
                                   [(ngModel)]="selectedDefect"
                                   optionLabel="descripcion"
@@ -392,3 +388,36 @@
     </div>
   </div>
 </div>
+
+
+<!-- Button trigger modal -->
+<button style="display: none;" id="openModalButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro auditor</h1>
+
+      </div>
+      <div class="modal-body">
+        <div>
+          <label>Ancho Útil Real</label>
+          <select  class="form-control" [(ngModel)]="idUserAuditor" >
+            <option value="0" selected disabled>Seleccione un auditor</option>
+            <option  value="{{item.idPersonal}}" *ngFor="let item of dataPersonal">{{item.namePersonal}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="idUserAuditor!=0">
+
+        <button (click)="postAuditorSelected()" type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-general-chronometer></app-general-chronometer>

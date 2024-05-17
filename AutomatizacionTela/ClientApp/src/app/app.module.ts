@@ -45,6 +45,8 @@ import { ReposicionesInformesComponent } from './component/reposiciones-informes
 import { HomeComponent } from './component/home/home.component';
 import { TreeTableModule } from 'primeng/treetable';
 import { SummaryComponent } from './component/pageAuditRoll/summary/summary.component';
+import { GeneralChronometerComponent } from './shared/general-chronometer/general-chronometer.component';
+
 
 
 @NgModule({
@@ -60,6 +62,8 @@ import { SummaryComponent } from './component/pageAuditRoll/summary/summary.comp
     ReposicionesInformesComponent,
     HomeComponent,
     SummaryComponent,
+    GeneralChronometerComponent,
+
   ],
   imports: [
     BrowserModule,

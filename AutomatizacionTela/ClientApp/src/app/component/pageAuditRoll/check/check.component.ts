@@ -158,7 +158,7 @@ export class CheckComponent implements OnInit
 
     let saveData:any
     // Verifica que todos los campos estén completos.
-    if(data.peso==null || data.rto == null || data.ea ==null || data.el == null || data.viro == null || data.elongacionAncho == null || data.elongacionLargo == null || data.observacion == null || data.idRowEstado == null){
+    if(data.peso==null || data.rto == null || data.ea ==null || data.el == null || data.viro == null || data.elongacionAncho == null || data.elongacionLargo == null || data.idRowEstado == null){
       this.alert.ShowSwalBasicWarning(
         'Advertencia',
         'Todos los campos deben ser completados.'
@@ -178,7 +178,7 @@ export class CheckComponent implements OnInit
         viro: data.viro,
         elongacionAncho: data.elongacionAncho,
         elongacionLargo: data.elongacionLargo,
-        observacion: data.observacion,
+        observacion: data.observacion ? data.observacion : null
       }
     }console.log(saveData)
 

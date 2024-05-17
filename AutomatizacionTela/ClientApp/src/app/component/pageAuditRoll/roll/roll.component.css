@@ -136,11 +136,12 @@
 
 :host ::ng-deep .p-dropdown{
   width: 100% !important;
+  max-height: 45px;
 }
 
 :host ::ng-deep .p-multiselect-chip{
   width: 100% !important;
-  max-height: 40px;
+  max-height: 45px;
 
 }
 
@@ -154,7 +155,7 @@
 }
 
 .defect-list-container {
-  max-height: 40px; /* Ajusta la altura máxima según tus necesidades */
+  max-height: 100px; /* Ajusta la altura máxima según tus necesidades */
   overflow-y: auto;  /* Habilita el desplazamiento vertical */
   background-color: #f8f9fa; /* Color de fondo ligero para la lista */
   border: 1px solid #ccc; /* Borde sutil para la lista */
@@ -174,4 +175,14 @@
 
 .defect-list-container li:last-child {
   border-bottom: none; /* Elimina el borde del último elemento */
+}
+
+.disabledDefect{
+  background-color:#E9ECEF;
+  color: #333;
+}
+
+.selectedRoll{
+  background-color: #2C4087;
+  color: white;
 }

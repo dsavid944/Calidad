@@ -24,7 +24,7 @@ namespace AutomatizacionTela.Model.SetModel
         public decimal WidthProvider { get; set; }
         public decimal MtsReal { get; set; }
         public decimal WidthReal { get; set; }
-        public decimal Mtsdeficient { get; set; }
+        public decimal? Mtsdeficient { get; set; }
         public string Observation { get; set; }
     }
 }

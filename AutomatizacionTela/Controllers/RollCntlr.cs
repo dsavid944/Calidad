@@ -7,7 +7,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.SignalR;
+using AutomatizacionTela.Service.SingnalR;
 
 namespace AutomatizacionTela.Controllers
 {
@@ -17,11 +18,12 @@ namespace AutomatizacionTela.Controllers
     {
         private readonly IDapperDedalo2008 _dapperDedalo2008;
         private readonly RollService _rollService;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public RollCntlr(IDapperDedalo2008 dapperDedalo2008)
+        public RollCntlr(IDapperDedalo2008 dapperDedalo2008, IHubContext<NotificationHub> hubContext)
         {
             _dapperDedalo2008 = dapperDedalo2008;
-            _rollService = new RollService(dapperDedalo2008);
+            _rollService = new RollService(dapperDedalo2008, hubContext);
         }
 
         
@@ -178,6 +180,48 @@ namespace AutomatizacionTela.Controllers
             try
             {
                 var response = _rollService.GetAllSummary();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
+            }
+        }
+
+        [HttpGet("[Action]")]
+        public ActionResult GetPersonal()
+        {
+            try
+            {
+                var response = _rollService.GetPersonal();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
+            }
+        }
+
+        [HttpPost("[Action]/{IdUserAudit}")]
+        public ActionResult PostAuditorSelected(int IdUserAudit)
+        {
+            try
+            {
+                var response = _rollService.PostAuditorSelected(IdUserAudit);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar su solicitud: " + ex.Message);
+            }
+        }
+
+        [HttpPost("[Action]")]
+        public ActionResult PostEndTurn()
+        {
+            try
+            {
+                var response = _rollService.PostEndTurn();
                 return Ok(response);
             }
             catch (Exception ex)
