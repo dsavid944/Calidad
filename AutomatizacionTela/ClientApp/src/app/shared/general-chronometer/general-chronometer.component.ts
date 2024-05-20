@@ -50,7 +50,7 @@ export class GeneralChronometerComponent implements OnInit{
       var currentSecond = now.getSeconds();
 
       // Check if the current hour is 7, 8, or 9
-      if (currentHour === 10 && currentMinute === 39 && currentSecond === 0  ||
+      if (currentHour === 6 && currentMinute === 0 && currentSecond === 0  ||
           currentHour === 14 && currentMinute === 0 && currentSecond === 0 ||
           currentHour === 22 && currentMinute === 0 && currentSecond === 0)
       {
