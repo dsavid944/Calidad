@@ -1,5 +1,5 @@
 import { SignalRService } from './../../../service/signal-r.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DefectService } from 'src/app/service/defect.service';
 import { RollService } from 'src/app/service/roll.service';
 import { SwalService } from 'src/app/service/swal.service';
@@ -10,7 +10,7 @@ import { Defect, IGetPersonal, IGetRoll, IRollData, Provider, State } from 'src/
   templateUrl: './roll.component.html',
   styleUrls: ['./roll.component.css'],
 })
-export class RollComponent {
+export class RollComponent implements OnInit {
   mtsdeficient: null;
   selectedDefect!: Defect[];
   selectedProvider!: Provider[];
@@ -18,6 +18,7 @@ export class RollComponent {
   defectosFilterProveedores: Defect[] = [];
   proveedores: Provider[] = [];
   dataPersonal:IGetPersonal[]=[];
+  selectedPersonal: string | undefined;
 
   dataRoll: IGetRoll[] = [];
   dataRevision: IRollData[] = [];
@@ -33,7 +34,6 @@ export class RollComponent {
   dataSelectedRoll:any[]=[];
   dataAllRoll:any[] = [];
 
-
   constructor(
     private rollService: RollService,
     private defectService: DefectService,
@@ -41,7 +41,6 @@ export class RollComponent {
   ) {}
 
   ngOnInit(): void {
-
     this.loadDefects();
     this.loadProvider();
     this.loadStates();
@@ -52,41 +51,38 @@ export class RollComponent {
     {
       openModalButton.click();
     }
-
   }
 
-  postAuditorSelected()
-  {
-    if(this.idUserAuditor !=0)
-    {
-
-      this.rollService.postAuditorSelected(this.idUserAuditor).subscribe(response=>{
-
-        if(response>0)
-        {
-          localStorage.setItem('IdUserAuditor',response.toString() )
-          this.alert.ShowSwalBasicSuccess("Correcto","Auditor asignado")
+  postAuditorSelected() {
+    if(this.idUserAuditor != 0) {
+      this.rollService.postAuditorSelected(this.idUserAuditor).subscribe(response => {
+        if(response > 0) {
+          localStorage.setItem('IdUserAuditor', response.toString());
+          this.alert.ShowSwalBasicSuccess("Correcto", "Auditor asignado");
+        } else {
+          this.alert.ShowSwalBasicError("Error", "No se ha podido registrar el auditor");
+          location.reload();
         }
-        else
-        {
-          this.alert.ShowSwalBasicError("Error","No se ha podido registrar el auditor")
-        }
-
-      },(error)=>{ this.alert.ShowSwalBasicError("Error","No se ha podido registrar el auditor")})
-    }
-    else
-    {
-      this.alert.ShowSwalBasicWarning("Advertencia","Debe seleccionar un auditor")
+      }, (error) => {
+        this.alert.ShowSwalBasicError("Error", "No se ha podido registrar el auditor");
+        location.reload();
+      });
+    } else {
+      this.alert.ShowSwalBasicWarning("Advertencia", "Debe seleccionar un auditor");
     }
   }
 
+  logout() {
+    localStorage.removeItem('IdUserAuditor');
+    location.reload();
+  }
 
-  //Leer la tabla de defectos
+  // Leer la tabla de defectos
   loadDefects(): void {
     this.defectService.getDefects().subscribe({
       next: (data) => {
         this.defectosProveedores = data;
-        this.defectosFilterProveedores=data;
+        this.defectosFilterProveedores = data;
       },
       error: (error) => {
         console.error('Error al recuperar defectos:', error);
@@ -94,7 +90,8 @@ export class RollComponent {
       },
     });
   }
- //Leer la tabla de proveedores
+
+  // Leer la tabla de proveedores
   loadProvider(): void {
     this.defectService.getProviders().subscribe({
       next: (data) => {
@@ -107,7 +104,7 @@ export class RollComponent {
     });
   }
 
-   //Leer la tabla de estados
+  // Leer la tabla de estados
   loadStates(): void {
     this.defectService.getStates().subscribe({
       next: (data) => {
@@ -120,15 +117,11 @@ export class RollComponent {
     });
   }
 
-  //Buscar informacion por rollo o lote
+  // Buscar informacion por rollo o lote
   search(): void {
-    if(localStorage.getItem('IdUserAuditor')==null)
-    {
-      location.reload()
-    }
-    else
-    {
-
+    if(localStorage.getItem('IdUserAuditor')==null) {
+      location.reload();
+    } else {
       if (!this.searchRoll && !this.searchLot) {
         this.alert.ShowSwalBasicWarning(
           'Advertencia',
@@ -162,25 +155,13 @@ export class RollComponent {
   }
 
   ToggleRoll(index: number): boolean {
-    // Calcula el número total de rollos que pueden ser marcados como revisados
-    const allowedCheckedRolls = Math.ceil(
-      (this.selectedPercentage / 100) * this.dataRoll.length
-    );
+    const allowedCheckedRolls = Math.ceil((this.selectedPercentage / 100) * this.dataRoll.length);
+    const checkedRollsCount = this.dataRoll.filter((roll) => roll.checked || roll.state).length;
+    const currentRollReviewed = this.dataRoll[index].checked || this.dataRoll[index].state;
 
-    // Cuenta todos los rollos marcados como revisados (tanto en la base de datos como manualmente por el usuario)
-    const checkedRollsCount = this.dataRoll.filter(
-      (roll) => roll.checked || roll.state
-    ).length;
-
-    // Obtiene el estado actual de revisión del rollo en el índice dado
-    const currentRollReviewed =
-      this.dataRoll[index].checked || this.dataRoll[index].state;
-
-    // Si el rollo actual ya está revisado, siempre se permite cambiar su estado (se puede desmarcar)
     if (currentRollReviewed) {
       return true;
     }
-    // De lo contrario, solo permite cambiar el estado si hacerlo no excede el número permitido de rollos revisados
     return checkedRollsCount < allowedCheckedRolls;
   }
 
@@ -190,13 +171,10 @@ export class RollComponent {
     roll.checked = !roll.checked;
     this.calculateCheckedPercentage();
     this.ToggleRoll(rollNumber);
-    console.log(this.ToggleRoll(rollNumber));
 
-    // Si se cambia a revisado y no estaba previamente guardado, reducir pending
     if (roll.checked) {
       roll.pending = Math.max(0, roll.pending - 1);
     } else {
-      // Si se desmarca como revisado, sumar a pending si no está en estado guardado
       if (roll.pending === 0) roll.pending = roll.quantityRoll;
       else roll.pending += 1;
     }
@@ -207,11 +185,8 @@ export class RollComponent {
       .getDatailDocument(item.idRowCloth, item.idRowColor, item.lot)
       .subscribe({
         next: (response) => {
-          // Filtrar rollos que están marcados pero no están en la respuesta de la base de datos
           const pendingRolls = this.dataRoll
-            .filter(
-              (dr) => dr.checked && !response.some((r) => r.roll === dr.roll)
-            )
+            .filter((dr) => dr.checked && !response.some((r) => r.roll === dr.roll))
             .map((roll) => ({
               ...roll,
               mtsFicha: null,
@@ -225,27 +200,25 @@ export class RollComponent {
               idRowEstado: null,
               observation: null,
               isStored: false,
-              nameDefect:null// Rollos que no están guardados aún
+              nameDefect: null
             }));
 
-          // Agregar a isStored a los rollos ya almacenados
           const storedRolls = response.map((roll) => ({
             ...roll,
             isStored: true,
-            nameDefect:roll.defect!=null? roll.defect.split('|'):null
+            nameDefect: roll.defect != null ? roll.defect.split('|') : null
           }));
 
-          // Combinar y actualizar dataRevision
           this.dataRevision = [...storedRolls, ...pendingRolls];
           this.selectedItem = item;
           this.selectedRow = null;
 
           let roll = this.dataRevision;
-          let hash2={}
-          roll=roll.filter(e=>hash2[e.roll]?false:hash2[e.roll]=true);
+          let hash2 = {}
+          roll = roll.filter(e => hash2[e.roll] ? false : hash2[e.roll] = true);
 
-          this.dataAllRoll=roll;
-          this.dataSelectedRoll=this.dataRevision;
+          this.dataAllRoll = roll;
+          this.dataSelectedRoll = this.dataRevision;
         },
         error: (error) => {
           console.error('Error al obtener detalles del documento:', error);
@@ -254,27 +227,22 @@ export class RollComponent {
       });
   }
 
-  //se utiliza para editar en el modal
   selectRowForEdit(rollNumber: number): void {
     this.selectedRow = this.selectedRow === rollNumber ? null : rollNumber;
   }
 
   resetModalData() {
-    // Limpia o reinicia las propiedades como necesites
     this.selectedItem = {};
     this.dataRevision = [];
   }
 
-  //procede a guardar
   onSaveChanges(data: any): void {
     let saveData: any;
 
-    // Validación de campos obligatorios
     if (data.mtsFicha == null || data.mtsProvider == null || data.widthProvider == null || data.mtsReal == null || data.widthReal == null || data.idRowEstado == null) {
       this.alert.ShowSwalBasicWarning('Advertencia', 'Todos los campos deben ser completados.');
       return;
     } else {
-      // Preparar los datos para ser enviados
       saveData = {
         roll: data.roll,
         idRowProvider: data.idRowProvider,
@@ -298,7 +266,6 @@ export class RollComponent {
       };
     }
 
-    // Enviar los datos al backend a través del servicio
     this.rollService.saveUpdateRoll(saveData).subscribe({
       next: (response) => {
         console.log('Datos guardados correctamente', response);
@@ -313,35 +280,30 @@ export class RollComponent {
     });
   }
 
-
-  selectedProviderDefect(provider:any)
-  {
-    this.defectosFilterProveedores = this.defectosProveedores.filter(e=>e.idRowProveedor ==  provider.value)
+  selectedProviderDefect(provider: any) {
+    this.defectosFilterProveedores = this.defectosProveedores.filter(e => e.idRowProveedor == provider.value)
   }
 
-  selectedRollAudit(roll:number)
-  {
-    this.selectedDefect=[];
-    this.dataSelectedRoll =  this.dataRevision.filter(e=>e.roll == roll)
-
-    this.selectedRow=roll;
+  selectedRollAudit(roll: number) {
+    this.selectedDefect = [];
+    this.dataSelectedRoll = this.dataRevision.filter(e => e.roll == roll);
+    this.selectedRow = roll;
   }
 
-  getDefect(roll:number){
-
-    const transformedData = this.dataSelectedRoll.filter(e=>e.roll==roll).map(item => item.idRowDefect.split('|'));
-
+  getDefect(roll: number) {
+    const transformedData = this.dataSelectedRoll.filter(e => e.roll == roll).map(item => item.idRowDefect.split('|'));
     return transformedData;
   }
 
-  getPersonal()
-  {
-    this.rollService.getPersonal().subscribe(response=>{
-      this.dataPersonal=response
-
-    },(error)=>{})
+  getPersonal() {
+    this.rollService.getPersonal().subscribe(response => {
+      this.dataPersonal = response;
+    }, (error) => {});
+  }
+  getAuditorName(id: number): string {
+    const auditor = this.dataPersonal.find(a => a.idPersonal === id);
+    return auditor ? auditor.namePersonal : '';
   }
 
+
 }
-
-

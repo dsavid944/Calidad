@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RollComponent } from './component/pageAuditRoll/roll/roll.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppComponent } from './app.component';
 import { CheckComponent } from './component/pageAuditRoll/check/check.component';
@@ -71,7 +71,6 @@ import { GeneralChronometerComponent } from './shared/general-chronometer/genera
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    BrowserModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
     ButtonModule,
@@ -97,6 +96,8 @@ import { GeneralChronometerComponent } from './shared/general-chronometer/genera
     NgApexchartsModule,
     ChipModule,
     TreeTableModule,
+    CommonModule,
+    NgSelectModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
