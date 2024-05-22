@@ -164,7 +164,7 @@
       tabindex="-1"
       aria-labelledby="ModalLabel"
       aria-hidden="true"
-      (hidden.bs.modal)="resetModalData()"
+
     >
       <div class="modal-dialog modal-fullscreen p-4">
         <div class="modal-content">
@@ -226,7 +226,7 @@
                     >
                       <li
                         [ngClass]="{
-                          successRoll: item.isStored,
+                          successRoll:  item.pending==0,
                           selectedRoll: item.roll == selectedRow
                         }"
                         class="list-group-item w-100 text-center"
@@ -262,7 +262,7 @@
                               class="form-control"
                               type="number"
                               [(ngModel)]="item.mtsFicha"
-                              [disabled]="item.isStored"
+                              [disabled]="true"
                             />
                           </div>
                           <div class="col-sm-12 col-md-4 col-lg-4">
@@ -270,7 +270,8 @@
                             <input
                               class="form-control"
                               type="number"
-                              [(ngModel)]="item.mtsProvider"
+                              [value]="item.mtsProvider != 0? item.mtsProvider :''"
+                              (input)="item.mtsProvider= $any($event.target).value"
                               [disabled]="item.isStored"
                             />
                           </div>
@@ -279,7 +280,8 @@
                             <input
                               class="form-control"
                               type="number"
-                              [(ngModel)]="item.mtsReal"
+                              [value]="item.mtsReal != 0? item.mtsReal :''"
+                              (input)="item.mtsReal= $any($event.target).value"
                               [disabled]="item.isStored"
                             />
                           </div>
@@ -288,7 +290,8 @@
                             <input
                               class="form-control"
                               type="number"
-                              [(ngModel)]="item.widthProvider"
+                              [value]="item.widthProvider != 0? item.widthProvider :''"
+                              (input)="item.widthProvider= $any($event.target).value"
                               [disabled]="item.isStored"
                             />
                           </div>
@@ -297,7 +300,8 @@
                             <input
                               class="form-control"
                               type="number"
-                              [(ngModel)]="item.widthReal"
+                              [value]="item.widthReal != 0? item.widthReal :''"
+                              (input)="item.widthReal= $any($event.target).value"
                               [disabled]="item.isStored"
                             />
                           </div>
@@ -306,7 +310,8 @@
                             <input
                               class="form-control"
                               type="number"
-                              [(ngModel)]="item.mtsdeficient"
+                              [value]="item.mtsdeficient != 0? item.mtsdeficient :''"
+                              (input)="item.mtsdeficient= $any($event.target).value"
                               [disabled]="item.isStored"
                             />
                           </div>
@@ -321,9 +326,7 @@
                               >
                                 <p-dropdown
                                   [options]="proveedores"
-                                  [disabled]="
-                                    item.isStored || !item.mtsdeficient
-                                  "
+                                  [disabled]="item.isStored || !item.mtsdeficient"
                                   [readonly]="selectedRow !== item.roll"
                                   (onChange)="selectedProviderDefect($event)"
                                   [(ngModel)]="item.idDefectProvider"

@@ -33,6 +33,7 @@ export class RollComponent implements OnInit {
 
   dataSelectedRoll:any[]=[];
   dataAllRoll:any[] = [];
+  dataAllRollBefore:any[] = [];
 
   constructor(
     private rollService: RollService,
@@ -119,6 +120,10 @@ export class RollComponent implements OnInit {
 
   // Buscar informacion por rollo o lote
   search(): void {
+    this.dataAllRollBefore=[];
+    this.dataAllRollBefore=this.dataRoll;
+
+
     if(localStorage.getItem('IdUserAuditor')==null) {
       location.reload();
     } else {
@@ -136,10 +141,18 @@ export class RollComponent implements OnInit {
             checked: roll.state,
             pending: roll.state ? 0 : roll.quantityRoll,
           }));
+
+
+          if(this.dataAllRollBefore.length>0)
+          {
+            this.datacheckedRoll();
+          }
+
         },
         error: (error) => console.error('Error al buscar el rollo:', error),
       });
     }
+
   }
 
   // Suma el porcentage de rollos seleccionados
@@ -180,45 +193,28 @@ export class RollComponent implements OnInit {
     }
   }
 
-  prepareDataForModal(item: any) {
+  async prepareDataForModal(item: any) {
+
+
     this.rollService
       .getDatailDocument(item.idRowCloth, item.idRowColor, item.lot)
       .subscribe({
         next: (response) => {
-          const pendingRolls = this.dataRoll
-            .filter((dr) => dr.checked && !response.some((r) => r.roll === dr.roll))
-            .map((roll) => ({
-              ...roll,
-              mtsFicha: null,
-              mtsProvider: null,
-              widthProvider: null,
-              mtsReal: null,
-              widthReal: null,
-              mtsdeficient: null,
-              defect: null,
-              idDefectProvider: null,
-              idRowEstado: null,
-              observation: null,
-              isStored: false,
-              nameDefect: null
-            }));
 
           const storedRolls = response.map((roll) => ({
             ...roll,
-            isStored: true,
+            isStored: roll.idRowCloth!=0 ? true :false,
             nameDefect: roll.defect != null ? roll.defect.split('|') : null
           }));
 
-          this.dataRevision = [...storedRolls, ...pendingRolls];
+          this.dataRevision = [...storedRolls];
           this.selectedItem = item;
           this.selectedRow = null;
 
-          let roll = this.dataRevision;
-          let hash2 = {}
-          roll = roll.filter(e => hash2[e.roll] ? false : hash2[e.roll] = true);
+          this.datacheckedRoll();
 
-          this.dataAllRoll = roll;
           this.dataSelectedRoll = this.dataRevision;
+
         },
         error: (error) => {
           console.error('Error al obtener detalles del documento:', error);
@@ -227,64 +223,100 @@ export class RollComponent implements OnInit {
       });
   }
 
+  datacheckedRoll()
+  {
+    this.dataRoll.forEach(ele=>{
+      if(this.dataAllRollBefore.filter(e=>e.roll == ele.roll).length>0){
+        ele.checked = true;
+        this.dataSelectedRoll.forEach(ele1=>{
+          if(ele1.roll == ele.roll)
+          {
+            ele1.isStored =true;
+          }
+        })
+      }
+    })
+
+    let roll = this.dataRoll.filter(e=>e.checked);
+    let hash2 = {};
+    roll = roll.filter(e => hash2[e.roll] ? false : hash2[e.roll] = true);
+    this.dataAllRoll = roll;
+  }
+
   selectRowForEdit(rollNumber: number): void {
     this.selectedRow = this.selectedRow === rollNumber ? null : rollNumber;
   }
 
   resetModalData() {
-    this.selectedItem = {};
-    this.dataRevision = [];
+    /* this.selectedItem = {};
+    this.dataRevision = []; */
   }
 
   onSaveChanges(data: any): void {
     let saveData: any;
+    debugger
 
-    if (data.mtsFicha == null || data.mtsProvider == null || data.widthProvider == null || data.mtsReal == null || data.widthReal == null || data.idRowEstado == null) {
+    if (data.mtsFicha == null || data.mtsProvider == null || data.widthProvider == null || data.mtsReal == null || data.widthReal == null || data.idRowEstado == null)
+    {
       this.alert.ShowSwalBasicWarning('Advertencia', 'Todos los campos deben ser completados.');
       return;
     } else {
-      saveData = {
-        roll: data.roll,
-        idRowProvider: data.idRowProvider,
-        idRowCloth: data.idRowCloth,
-        idRowColor: data.idRowColor,
-        idRowUsuario: parseInt(localStorage.getItem('IdUserAuditor')),
-        idRowDefect: this.selectedDefect.length > 0 ? this.selectedDefect.map((e) => e.idRows) : null,
-        idRowEstado: data.idRowEstado,
-        lot: data.lot,
-        kiloRoll: data.kiloRoll,
-        request: data.request,
-        reference: data.reference,
-        remision: data.remision,
-        mtsFicha: data.mtsFicha,
-        mtsProvider: data.mtsProvider,
-        widthProvider: data.widthProvider,
-        mtsReal: data.mtsReal,
-        widthReal: data.widthReal,
-        mtsdeficient: data.mtsdeficient ? data.mtsdeficient : null,
-        observation: data.observation ? data.observation : null,
-      };
+      debugger
+      if(parseInt(data.mtsdeficient) > 0 && this.selectedDefect.length== 0)
+      {
+        this.alert.ShowSwalBasicWarning('Advertencia', 'Todos los campos deben ser completados.');
+      }
+      else
+      {
+        saveData = {
+          roll: data.roll,
+          idRowProvider: this.dataRoll.find(e=>e.roll == data.roll).idRowProvider,
+          idRowCloth: this.dataRoll.find(e=>e.roll == data.roll).idRowCloth,
+          idRowColor: this.dataRoll.find(e=>e.roll == data.roll).idRowColor,
+          idRowUsuario: parseInt(localStorage.getItem('IdUserAuditor')),
+          idRowDefect: this.selectedDefect.length > 0 ? this.selectedDefect.map((e) => e.idRows) : null,
+          idRowEstado: data.idRowEstado,
+          lot: this.dataRoll.find(e=>e.roll == data.roll).lot,
+          kiloRoll: this.dataRoll.find(e=>e.roll == data.roll).kiloRoll,
+          request: this.dataRoll.find(e=>e.roll == data.roll).request,
+          reference: this.dataRoll.find(e=>e.roll == data.roll).reference,
+          remision: this.dataRoll.find(e=>e.roll == data.roll).remision,
+          mtsFicha: data.mtsFicha,
+          mtsProvider: data.mtsProvider,
+          widthProvider: data.widthProvider,
+          mtsReal: data.mtsReal,
+          widthReal: data.widthReal,
+          mtsdeficient: data.mtsdeficient ? data.mtsdeficient : null,
+          observation: data.observation ? data.observation : null,
+        };
+
+        this.rollService.saveUpdateRoll(saveData).subscribe({
+          next: (response) => {
+            console.log('Datos guardados correctamente', response);
+
+            this.alert.ShowSwalBasicSuccess('Operación Exitosa', 'Datos guardados correctamente.');
+            this.prepareDataForModal(this.dataRoll[0]);
+          },
+          error: (error) => {
+            console.error('Error al guardar los datos', error);
+            this.alert.ShowSwalBasicWarning('Error', 'Error al guardar los datos.');
+          },
+        });
+
+      }
     }
 
-    this.rollService.saveUpdateRoll(saveData).subscribe({
-      next: (response) => {
-        console.log('Datos guardados correctamente', response);
-        this.resetModalData();
-        this.alert.ShowSwalBasicSuccess('Operación Exitosa', 'Datos guardados correctamente.');
-        this.prepareDataForModal(data);
-      },
-      error: (error) => {
-        console.error('Error al guardar los datos', error);
-        this.alert.ShowSwalBasicWarning('Error', 'Error al guardar los datos.');
-      },
-    });
+
+
+
   }
 
   selectedProviderDefect(provider: any) {
     this.defectosFilterProveedores = this.defectosProveedores.filter(e => e.idRowProveedor == provider.value)
   }
 
-  selectedRollAudit(roll: number) {
+  selectedRollAudit(roll: number)
+  {
     this.selectedDefect = [];
     this.dataSelectedRoll = this.dataRevision.filter(e => e.roll == roll);
     this.selectedRow = roll;
